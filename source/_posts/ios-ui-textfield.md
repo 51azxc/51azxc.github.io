@@ -282,3 +282,26 @@ textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"�
 ```objc
 [textField setValue:[UIColor blackColor] forKeyPath:@"_placeholderLabel.textColor"]
 ```
+
+----
+
+### 默认选中字符
+
+> [Can I select a specific block of text in a UITextField?](http://stackoverflow.com/questions/3277538/can-i-select-a-specific-block-of-text-in-a-uitextfield)
+
+当需要`TextField`默认选中所有字符的时候，可以调用其`selectAll`方法，如果需要选择部分字符，则需使用`setSelectedTextRange`方法:
+```objc
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if ([textField.text containsString:@"."]) {
+        //如果为文件名时需要选中文件名部分，无需选中后缀
+        NSRange range = [self.name rangeOfString:@"." options:NSBackwardsSearch];
+        UITextPosition *beginPosition = [textField positionFromPosition:textField.beginningOfDocument offset:0];
+        UITextPosition *endPosition = [textField positionFromPosition:textField.beginningOfDocument offset:range.location];
+        UITextRange *newRange = [textField textRangeFromPosition:beginPosition toPosition:endPosition];
+        //定义选中区间
+        [textField setSelectedTextRange:newRange];
+    } else {
+        [self.nameTextField selectAll:self];
+    }
+}
+```
