@@ -202,10 +202,11 @@ public class JedisTest {
 	public void testSubscribe() throws Exception {
 		//发布/订阅模型
 		
+		ExecutorService service = Executors.newFixedThreadPool(2);
 		CountDownLatch publicLatch = new CountDownLatch(1);
 		CountDownLatch subscribeLatch = new CountDownLatch(1);
 		
-		new Thread(new Runnable() {
+		service.execute(new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -220,7 +221,7 @@ public class JedisTest {
 					e.printStackTrace();
 				}
 			}
-		}, "public thread").start();
+		});
 		
 		final JedisPubSub jedisPubSub = new JedisPubSub() {
 			@Override
@@ -240,17 +241,19 @@ public class JedisTest {
 				}
 			}
 		};
-		new Thread(new Runnable() {
+		
+		service.execute(new Runnable() {
 			@Override
 			public void run() {
 				Jedis subJedis = new Jedis("127.0.0.1");
 				subJedis.subscribe(jedisPubSub, "test");
 				subJedis.close();
 			}
-		}, "subscribe thread").start();
+		});
 		
 		publicLatch.countDown();
 		subscribeLatch.await();
+		service.shutdown();
 	}
 }
 

@@ -104,6 +104,9 @@ categories: ["iOS","Objective-C"]
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"choose: %@",[dataList objectAtIndex:[indexPath row]]);
+    //获取当前cell在view中的位置
+    CGRect cellRect = [self.tableview convertRect: [self.tableView rectForRowAtIndexPath: indexPath] toView: self.view];
+    NSLog(@"cell rect: %@", [NSValue valueForRect: cellRect]);
 }
 
 - (void)didReceiveMemoryWarning {

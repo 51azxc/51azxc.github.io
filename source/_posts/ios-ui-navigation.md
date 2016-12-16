@@ -94,3 +94,19 @@ for (UIViewController *controller in self.navigationController.viewControllers) 
     ...
 }
 ```
+
+----
+
+### presentViewController背景半透明
+
+> [用presentViewController一个背景颜色半透明的模态视图](http://www.cnblogs.com/oyhj/p/5120212.html)
+
+当使用`presentViewController`方法弹出下一个`UIViewController`的时候，如果需要这个视图背景半透明，需要设置如下:
+```
+UIViewController *viewControllers = [UIViewController new];
+self.definesPresentationContext = YES;
+viewController.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+viewController.backgroudColor = [UIColor colorWithWhite: 0.1 alpha: 0.5];
+//如果源视图不是NavigationController子视图，直接用self即可
+[self.navigationController presentViewController:viewController animated:NO completion:nil];
+```
