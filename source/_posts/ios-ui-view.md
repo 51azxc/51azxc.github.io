@@ -60,6 +60,13 @@ for (UIView *v in viewsToRemove) {
 }
 ```
 
+如果需要删除还存在于视图中的子视图需要判断一下:
+```objc
+if ([view isDescendantOfView:superview]) {
+    [view removeFromSuperview];
+}
+````
+
 ----
 
 ### 更改视图大小
@@ -83,5 +90,4 @@ NSLog(@"Edge inset rect: %@", [NSValue valueWithCGRect:edgeInsetRect]);
 2015-12-23 18:06:21.499 GestureTest1[9353:146428] Inset rect x: 110, y: 90, w: 80, h: 120
 2015-12-23 18:06:21.500 GestureTest1[9353:146428] Offset rect: NSRect: {{120, 80}, {100, 100}}
 2015-12-23 18:06:21.500 GestureTest1[9353:146428] Edge inset rect: NSRect: {{90, 90}, {150, 140}}
-
 ```
