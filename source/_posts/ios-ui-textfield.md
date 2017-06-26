@@ -278,10 +278,6 @@ UIKeyboardDidHideNotification    //键盘隐藏之后发送
 ```objc
 textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"密码" attributes:@{NSForegroundColorAttributeName: [UIColor blackColor]}];
 ```
-或者使用kvc
-```objc
-[textField setValue:[UIColor blackColor] forKeyPath:@"_placeholderLabel.textColor"]
-```
 
 ----
 
