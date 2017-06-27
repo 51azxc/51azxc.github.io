@@ -5,7 +5,7 @@ tags: ["Call Recording", "LinPhone"]
 categories: ["iOS","Objective-C"]
 ---
 
-最近使用`Linphone`要实现一个通话录音的功能，`Linphone`倒是给了相关的方法，不过组合在一起还不知道怎么用。好在有安卓方面成功的代码：
+最近使用[`Linphone`][1]要实现一个通话录音的功能，`Linphone`倒是给了相关的方法，不过组合在一起还不知道怎么用。好在有安卓方面成功的代码：
 ```java
 LinphoneCall call = linphoneCore.getCurrentCall();
 LinphoneCallParams params = call.getCurrentParamsCopy();
@@ -37,11 +37,8 @@ if (record_file) {
 ```
 结果却是这里的路径总是为`NULL`，看样子这样的写法是不成功了。
 
-点开设置录音文件的方法注释发现了那么一行注释：
-```
-/* This function must be used before the call parameters are assigned to the call. */
-```
-这么看来得在电话拨出之前就得设置好路径啊
+查了相关资料，看了那些方法的注释，才发现要在通话开始之前就要设置好录音文件的路径。
+如果是在打电话的过程中，则需要在拨打之前进行设置：
 ```objc
 LinphoneAddress *address = linphone_address_new(linphone_core_get_identity(LC));
 LinphoneCallParams *params = linphone_core_create_call_params(LC, NULL);
@@ -59,3 +56,5 @@ if (state == LinphoneCallIncomingReceived) {
 }
 ```
 接下来在通话的过程中使用`linphone_call_start_recording`开始录音，使用`linphone_call_stop_recording`方法结束录音。然后调用`linphone_call_params_get_record_file`就可以获取到对应的录音文件路径了。
+
+[1]:http://www.linphone.org
