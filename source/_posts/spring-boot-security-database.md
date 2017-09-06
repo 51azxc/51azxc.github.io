@@ -9,7 +9,7 @@ categories: ["java", "spring"]
 > [springboot+mybatis＋SpringSecurity 实现用户角色数据库管理](http://blog.csdn.net/u012373815/article/details/54632176)
 > [Spring Boot + Spring MVC + Spring Security + MySQL](https://medium.com/@gustavo.ponce.ch/spring-boot-spring-mvc-spring-security-mysql-a5d8545d837d)
 
-在`Spring Boot`中加入`Spring Security`功能的话，官方给出了一个很好的例子。不过例子中给出的验证用户是放在内存中的，好像有点不走寻常路。这次试试寻常一点的方法，将用户放到数据库中。
+在`Spring Boot`中加入`Spring Security`功能的话，官方给出了一个很好的例子。例子中给出的验证用户是放在内存中的，不过我想试试常规一点的方法，将用户存储到数据库中。
 
 ### 前期配置
 
@@ -79,7 +79,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
 }
 ```
-创建服务层需要实现`security`的内置接口`UserDetailsService`: 
+创建服务层需要实现`security`的内置接口`UserDetailsService`，通过重写`loadUserByUsername`方法查找对应的用户: 
 ```java
 @Transactional
 @Service
@@ -123,7 +123,7 @@ public class UserService implements UserDetailsService {
 
 ### 配置WebSecuriy
 
-先定义一个`WebMVC`的配置文件，用来映射`login.html`等页面到控制器中，这样就可以省去写对应控制器：
+先定义一个`WebMVC`的配置文件，用来映射`login.html`等页面到控制器中，这样就可以省去写对应的控制器：
 ```java
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
@@ -141,11 +141,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
-	@Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     BCryptPasswordEncoder bcryptEncoder() {
@@ -166,7 +161,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // use for h2
+        // 为H2数据库控制台大开方便之门
         http.csrf().disable()
             .headers().frameOptions().disable()
             .and()
@@ -200,7 +195,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 * 通过`authorizeRequests`方法指定哪些URL需要被保护,`antMatchers`方法则表示需要匹配的URL。
 * `permitAll`方法表示任何人都可以访问，而`authenticated`方法则表示需要认证才能访问。
 * 通过`formLogin`方法指定用户需要登陆的操作。`loginPage`指向登陆页面，`defaultSuccessUrl`指定成功登陆后跳转的页面。
-* `configureGlobal`方法则是通过在内存中访问用户的方法，当然这里暂时用不到它。
+* `configureGlobal`方法则是配置一个存于内存中的授权用户，当然这里暂时用不到它。
 
 ### HTML页面
 
