@@ -19,7 +19,7 @@ categories: ["kubernetes"]
 	--vm-driver=none \
 	--registry-mirror="https://registry.docker-cn.com"
 ```
-这里对比官网的命令就多加了最后两个选项。`--vm-driver`表示使用本地**Docker**环境，`--registry-mirror`指定镜像加速地址。不然等下下载istio的镜像就可能不成功了。
+这里对比官网的命令就多加了最后两个选项。`--vm-driver`表示使用本地**Docker**环境，`--registry-mirror`指定镜像加速地址。不然等下下载istio的核心服务镜像就可能不成功了。
 
 然后根据官网的命令下载：
 ```bash
@@ -615,3 +615,9 @@ istio还有其他各种强大的流量管理功能比如熔断等等, 不知道�
 ### 总结
 
 istio运行下来觉得毕竟还没有到正式版，`api`改动还挺大，而且运行过程中经常服务访问不到，流量规则有时候没有效果，可能是运行环境的问题，还是等到正式版出来再看看效果。
+
+最后如果需要删除istio的组件的话进入到istio的文件夹下运行命令：
+```
+kubectl delete -f install/kubernetes/istio.yaml
+```
+当然也可以运行`sudo minikube delete`命令来执行毁天灭地的一击。
