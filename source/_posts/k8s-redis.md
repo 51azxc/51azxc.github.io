@@ -1,13 +1,13 @@
 ---
-title: Kubernetes初体验：部署Redis
+title: Kubernetes初体验：部署无状态服务Redis
 date: 2018-04-13 17:18:02
 tags: ["kubernetes"]
 categories: ["kubernetes"]
 ---
 
-最近看微服务相关的文章得知下一代微服务的王牌貌似是`istio`，而它现阶段又是构建于`Kubernetes`上的，那就想着来简单体验一下`Kubernetes`。
+最近看微服务相关的文章得知下一代微服务的王牌项目貌似是[istio](https://istio.io/)，而它现阶段又是构建于[Kubernetes](https://kubernetes.io/)上的，那就想着来简单体验一下Kubernetes。
 
-`Kubernetes`又称`k8s`(跟i18n一样)，根据官网的介绍，是“一个开源系统，用于自动化容器化应用程序的部署，扩展和管理”。这里主要使用官网提供的`minikube`及`kubectl`工具在**Ubuntu16.04**上部署一个`Kubernetes`集群，然后实现官网给出的例子[Reliable, Scalable Redis on Kubernetes](https://github.com/kubernetes/kubernetes/tree/master/examples/storage/redis)
+**Kubernetes**又称**k8s**(跟i18n一样)，根据官网的介绍，"**Kubernetes is an open-source system for automating deployment, scaling, and management of containerized applications.**"。这里主要使用官网提供的minikube及kubectl工具在**Ubuntu16.04**上部署一个Kubernetes集群，然后实现官网给出的例子[Reliable, Scalable Redis on Kubernetes](https://github.com/kubernetes/kubernetes/tree/master/examples/storage/redis)
 
 ### 安装Kubernetes工具
 
@@ -25,7 +25,7 @@ curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.25.2/minik
 ```
 需要**MacOS/Windows**版的可以找一下[latest release](https://github.com/kubernetes/minikube/releases)
 
-`minikube`在**Linux**平台上支持`--vm-driver=none`选项，这个选项可以运行Kubernetes组件在主机的Docker上而不是VM中。这是**MacOS/Windows**系统平台目前不具备的。
+`minikube`在**Linux**平台上支持`--vm-driver=none`选项，这个选项可以运行Kubernetes组件在主机的Docker上而不是VM中。
 
 #### 启动
 接下来就是启动`minikube`了：
@@ -63,7 +63,9 @@ Loading cached images from config file.
 ```
 它给出的命令可以运行一下，影响的结果就是以后如果要执行`kubectl`的相关命令就无需在前边加`sudo`了。
 
-#### 发布应用
+> 如果**minikube**是运行在**VM**中的话可以在开始的时候添加一个选项`--registry-mirror="https://registry.docker-cn.com daemon"`用来设置**Docker**的镜像加速地址,这里使用的是[Docker中国镜像加速](https://www.docker-cn.com/registry-mirror)。
+
+#### 发布一个应用
 
 接下来通过[run命令](http://docs.kubernetes.org.cn/468.html)来生成一个[Deployment](http://docs.kubernetes.org.cn/317.html)
 ```
@@ -80,11 +82,13 @@ nginx-b5f754bc5-gnkls   0/1       ContainerCreating   0          1m
 ```bash
 sudo minikube logs
 ```
-日志很长，不过其中如果可以看到`failed pulling image "gcr.io/google_containers/pause-amd64:3.0"`这类的信息那就是需要从官网拉取这依赖镜像失败所致。*由于`Kubernetes`的公司是一家在我这连主页都打不开的公司*，自然想要拉取镜像是得用点非常手段了。在这里可以通过[阿里云开发者平台](https://dev.aliyun.com/search.html)来获取对应的镜像，然后通过打标签为`gcr.io`来伪装成官方镜像:
+日志很长，不过其中如果可以看到`failed pulling image "gcr.io/google_containers/pause-amd64:3.0"`这类的信息那就是需要从官网拉取这依赖镜像失败所致。*由于`Kubernetes`的公司是一家在我这连主页都打不开的公司*，自然想要拉取镜像是得用点非常手段了。在这里可以通过[阿里云开发者平台](https://dev.aliyun.com/search.html)来获取对应的镜像，然后打标签为`gcr.io`:
 ```bash
 sudo docker pull registry.cn-hangzhou.aliyuncs.com/google-containers/pause-amd64:3.0 && sudo docker tag registry.cn-hangzhou.aliyuncs.com/google-containers/pause-amd64:3.0 gcr.io/google_containers/pause-amd64:3.0
 ```
-这也是为啥需要在`Linux`平台下以`--vm-driver=none`的选项来启动`minikube`的原因之一了。
+
+> 如果是运行在**VirtualBox**中，可以通过`minikube ssh`命令进入到**minikue**内部运行上边的命令
+
 接下来删除原有的`Deployment`再重新执行上边的命令等一会儿查看一下`Pod`状态:
 ```bash
 kubectl delete deployment nginx
@@ -100,7 +104,7 @@ nginx-b5f754bc5-gnkls   1/1       Running   0          16m
 ```bash
 kubectl expose deployment nginx --name=nginx --type=NodePort
 ```
-然后通过命令查看可以发现系统给他分配了一个随机IP：
+然后通过命令查看服务：
 ```bash
 kubectl get services
 
@@ -112,13 +116,15 @@ nginx        NodePort    10.105.80.209   <none>        80:31156/TCP   5s
 ```bash
 curl $(sudo minikube ip):31156
 ```
-如果能打印出nginx的首页则证明服务成功运行。
+如果能显示出nginx的首页源码则证明服务成功运行。
 
 ----
 
 ### 部署redis
 
 这里主要是使用了官网提供的例子[Reliable, Scalable Redis on Kubernetes](https://github.com/kubernetes/kubernetes/tree/master/examples/storage/redis)。官网给出的例子用的是[Replication Controller](http://docs.kubernetes.org.cn/437.html),而现在使用的则是[Deployment](http://docs.kubernetes.org.cn/317.html)。
+
+> 如果是运行在**VirtualBox**中，默认给**minikube**分配了一个共享文件夹为`C:\Users`，在**minikube**内部的文件路径为`/c/Users`。如果是在主机上下载了这些文件，可以放到共享文件夹中。[官网参考](https://kubernetes.io/docs/getting-started-guides/minikube/)
 
 #### 创建镜像
 
@@ -141,10 +147,10 @@ ENTRYPOINT [ "bash", "-c" ]
 ```
 `Dockerfile`文件主要用来创建**Docker**镜像的，部分标签含义如下：
 
-* `FROM`标签表示创建的镜像，这里用的是`alpine`，一个容量很小的`Linux`发行版。
-* `RUN`标签用于执行的命令。这里是在`alpine`里安装`redis`。
-* `CMD`标签用来指定容器启动时执行的命令，这里是需要运行`run.sh`脚本。
-* `ENTRYPOINT`标签用来配置容器启动后执行的命令。
+ *  `FROM`标签表示创建的镜像，这里用的是`alpine`，一个容量很小的`Linux`发行版。
+ *  `RUN`标签用于执行的命令。这里是在`alpine`里安装`redis`。
+ *  `CMD`标签用来指定容器启动时执行的命令，这里是需要运行`run.sh`脚本。
+ *  `ENTRYPOINT`标签用来配置容器启动后执行的命令。
  
 这里跟官方例子不同的地方最主要的是加了这句:
 ```
@@ -176,7 +182,7 @@ sudo docker build -t alpine .
 REPOSITORY  TAG     IMAGE ID     CREATED      SIZE
 alpine      latest  0b73a4ce0ac4 19 hours ago 11.76 MB
 ```
-对比`ubuntu`之类的镜像可以说是十分迷你了。
+对比**Ubuntu**之类的镜像可以说是十分迷你了。
 
 #### 生成Kubernetes资源
 
@@ -233,7 +239,7 @@ kubectl expose deployment redis-master --name=redis-master --port=6379 --target-
 ```
 通过[run命令](http://docs.kubernetes.org.cn/468.html)生成一个名为`redis-sentinel`的`Deployment`，部分参数含义:
 
-* `image`：指定镜像（alpine）
+* `image`：指定镜像（**alpine**）
 * `image-pull-policy`：镜像拉取策略，**IfNotPresent**表示优先从本地获取
 * `env`：设置容器中的环境变量，`SENTINEL=true`则是让`alpine`的`run.sh`进入`launchsentinel`方法将**redis**的角色变为`sentinel`
 * `expose`：将生成的`Deployment`自动生成一个服务
@@ -258,6 +264,8 @@ redis-sentinel-5655765c58-n455l   1/1       Running   0          2h        172.1
 redis-sentinel-5655765c58-scrgw   1/1       Running   0          2h        172.17.0.7
 redis-sentinel-5655765c58-zdqxx   1/1       Running   0          2h        172.17.0.6
 ```
+
+**Kubernetes**的服务发现支持两种方式：环境变量与DNS，这里使用的是环境变量的方式。
 随机查看一个**redis-sentinel**容器的环境变量:
 ```bash
 kubectl exec -it redis-sentinel-5655765c58-n455l env|grep REDIS
@@ -304,6 +312,8 @@ function launchsentinel() {
 ```
 
 这里首先是通过连接`REDIS_SENTINEL_SERVICE_HOST`的**redis-sentinel**服务来获取对应的**IP**，由于一开始服务并没有运行，所以这里会连接超时。失败了之后就指定`REDIS_MASTER_SERVICE_HOST`为**主Redis**服务器，接着通过`sentinel monitor mymaster ${master} 6379 2`配置**redis sentinel**去监听主服务器，判断这个主服务器失效至少需要2个**sentinel**同意。
+
+> 这里如果是使用DNS的方式来访问服务可以通过`<service name>.<namespace>.svc.cluster.local`类似的地址来访问。
 
 接下来通过`logs`命令来查看**sentinel**有没有成功运行起来，这里需要等待一会儿:
 ```bash
@@ -410,7 +420,7 @@ sudo minikube dashboard
 ```
 kubectl get pods --namespace=kube-system
 ```
-发现那些什么`dashboard`、`storage-provisioner`的状态都是`CrashLoopBackOff`(已经见到它好几次了)，通过`kubectl describe pod `，`kubectl logs `，`sudo minkube logs`这样的命令也没看出什么原因来，然后还是在[网上](https://github.com/kubernetes/minikube/issues/288)找到了解决我这个问题的方法:
+发现那些什么`dashboard`、`storage-provisioner`的状态都是`CrashLoopBackOff`(已经见到它好几次了)，通过日志才发现估计是`secret`的问题，删除让系统自动生成就好了[github issue](https://github.com/kubernetes/minikube/issues/288):
 ```
 kubectl delete secrets --namespace=kube-system --all
 kubectl delete pods --namespace=kube-system --all
@@ -427,5 +437,3 @@ storage-provisioner                     1/1       Running   0          5h
 ```
 
 看到他们都已经成功运行了，再运行一下`sudo minikube dashboard`命令，终于算是成功打开浏览器并且访问到**Kubernetes**的控制面板了。
-
-整个过程跑下来，其实最大的阻碍大概就是因为拉取官方镜像总是失败的吧。好在可以在**Linux**下使用`--vm-driver=none`的选项运行**minikube**，并且利用**Docker tag**的方法解决。
