@@ -5,7 +5,7 @@ tags: ["istio","kubernetes"]
 categories: ["kubernetes"]
 ---
 
-之前玩了下Kubernetes，想着不如趁热打铁把istio也耍耍，于是就继续玩一下istio了。
+之前玩了下Kubernetes，想着不如趁热打铁把istio也耍耍，于是就继续玩一下[istio](https://istio.io/)了。
 
 ### 安装
 
@@ -17,9 +17,9 @@ categories: ["kubernetes"]
 	--extra-config=apiserver.Admission.PluginNames=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota \
 	--kubernetes-version=v1.9.0 \
 	--vm-driver=none \
-	--registry-mirror="https://registry.docker-cn.com daemon"
+	--registry-mirror="https://registry.docker-cn.com"
 ```
-这里对比官网的命令就多加了最后两个选项。
+这里对比官网的命令就多加了最后两个选项。`--vm-driver`表示使用本地**Docker**环境，`--registry-mirror`指定镜像加速地址。不然等下下载istio的镜像就可能不成功了。
 
 然后根据官网的命令下载：
 ```bash
@@ -93,7 +93,12 @@ istio-pilot-67d6ddbdf6-6b74h     2/2       Running   0          2h
 ### 部署应用
 
 #### 编写测试用例
+
 在成功安装好了istio的核心组件之后，就可以开始部署应用了。官网有个十分完整的案例[Bookinfo](https://istio.io/docs/guides/bookinfo.html),不过这里我就想着一起复习一下[spring boot 2 webflux](https://docs.spring.io/spring/docs/5.0.0.BUILD-SNAPSHOT/spring-framework-reference/html/web-reactive.html)就自己写了一个挺简单的例子。
+
+主要有两个服务:`service1`及`service2`(*取名是个大学问，我实在是不会取名*)。客户端调用`service2`的服务，然后`service2`来调用`service1`的服务，最终将结果返回给客户端。
+
+首先先创建`service1`的`spring boot`项目:
 首先是一个简单的用户类:
 ```java
 public class User {
@@ -104,9 +109,187 @@ public class User {
 	// getter and setter ...
 }
 ```
+接下来编写一个`Repository`类，实现最基本的*CRUD*：
+```java
+@Repository
+public class UserRepository {
+	private Map<Integer, User> map = new ConcurrentHashMap<>();
+	private final static AtomicInteger ids = new AtomicInteger(0);
+	
+	public Mono<User> getUserById(Integer id) {
+		return Mono.justOrEmpty(map.get(id)).switchIfEmpty(Mono.empty());
+	}
+	public Flux<User> getUsers() {
+		return Flux.fromIterable(map.values());
+	}
+	public Mono<Integer> createUser(final Mono<User> user) {
+		return user.doOnNext(u -> {
+			Integer id = ids.incrementAndGet();
+			u.setId(id);
+			map.put(id, u);
+		}).flatMap(u -> Mono.just(u.getId()));
+	}
+	public Mono<User> updateUser(final Mono<User> user) {
+		return user.doOnNext(u -> map.put(u.getId(), u));
+	}
+	public Mono<User> removeUser(final Integer id) {
+		return Mono.justOrEmpty(map.remove(id)).switchIfEmpty(Mono.empty());
+	}
+}
+```
+`Mono`表示`0..1`,`Flux`表示`0..n`。`Reactive Streams`已是`Rx`的标准了。这大概是`Spring boot`会采用它的原因之一吧。
+接下来是`Service`：
+```java
+@Service
+public class UserHandler {
+
+	@Autowired
+	private UserRepository repo;
+	@Value("${SERVICE_VERSION:v1}")
+	private String version;
+	
+	public Mono<ServerResponse> listUsers(ServerRequest request) {
+		Flux<User> users = repo.getUsers();
+		return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(users, User.class);
+	}
+	
+	public Mono<ServerResponse> getUserById(ServerRequest request) {
+		Integer userId = Integer.valueOf(request.pathVariable("id"));
+		Mono<ServerResponse> notFound = ServerResponse.notFound().build();
+		Mono<User> user = repo.getUserById(userId);
+		return user.flatMap(u -> ServerResponse.ok()
+					.contentType(MediaType.APPLICATION_JSON)
+					.body(BodyInserters.fromObject(u)))
+				.switchIfEmpty(notFound);
+	}
+	
+	public Mono<ServerResponse> addUser(ServerRequest request) {
+		Mono<User> user = request.bodyToMono(User.class).doOnNext(u->u.setVersion(version));
+		return repo.createUser(user)
+				.flatMap(id -> ServerResponse.ok()
+						.contentType(MediaType.APPLICATION_JSON)
+						.body(BodyInserters.fromObject(id)))
+				.switchIfEmpty(ServerResponse.badRequest().build());
+	}
+	
+	public Mono<ServerResponse> updateUser(ServerRequest request) {
+		Integer userId = Integer.valueOf(request.pathVariable("id"));
+		Mono<User> user = request.bodyToMono(User.class).doOnNext(u->{
+			u.setId(userId);
+			u.setVersion(version);
+		});
+		return repo.updateUser(user)
+				.flatMap(u -> ServerResponse.ok()
+						.contentType(MediaType.APPLICATION_JSON)
+						.body(BodyInserters.fromObject(u)))
+				.switchIfEmpty(ServerResponse.badRequest().build());
+	}
+	
+	public Mono<ServerResponse> deleteUser(ServerRequest request) {
+		Integer userId = Integer.valueOf(request.pathVariable("id"));
+		return repo.removeUser(userId).flatMap(user -> ServerResponse.ok()
+						.contentType(MediaType.APPLICATION_JSON)
+						.body(BodyInserters.fromObject(user)))
+				.switchIfEmpty(ServerResponse.badRequest().build());
+	}
+}
+```
+这里的`version`通过寻找系统变量`SERVICE_VERSION`来注入，默认值是`v1`。这个变量在后边创建的`Docker`镜像中加入。
+早先接触`RxJava`的时候就觉得这种链式写法十分爽，调试起来就十分酸爽。
+然后是`Routes`文件用来配置路由:
+```java
+import static org.springframework.web.reactive.function.server.RequestPredicates.*;
+import static org.springframework.web.reactive.function.server.RouterFunctions.route;
+
+@Configuration
+public class Routes {
+
+	@Autowired
+	private UserHandler userHandler;
+	
+	@Bean
+	public RouterFunction<ServerResponse> routerFunction() {
+		return route(GET("/api/users").and(accept(APPLICATION_JSON)), userHandler::listUsers)
+		  .and(route(GET("/api/users/{id}").and(accept(APPLICATION_JSON)), userHandler::getUserById))
+		  .and(route(POST("/api/users").and(contentType(APPLICATION_JSON)), userHandler::addUser))
+		  .and(route(PUT("/api/users/{id}").and(contentType(APPLICATION_JSON)), userHandler::updateUser))
+		  .and(route(DELETE("/api/users/{id}").and(accept(APPLICATION_JSON)), userHandler::deleteUser));
+	}
+}
+```
+这种声明式路由最早在`RoR`中见过，可能比较好管理吧。
+最后在`applicatioin.properties`文件中设置`server.port=8088`指定端口。
+
+然后继续写一个`service2`项目来调用上边的服务`service1`，这里用到了`webflux`的客户端`WebClient`，最主要的类就是一个`Controller`:
+```java
+@RestController
+@RequestMapping("/api/users")
+public class UserController {
+
+	@Autowired
+	private WebClient webClient;
+	
+	@GetMapping
+	public Flux<User> list() {
+		return webClient.get().uri("/api/users").accept(MediaType.APPLICATION_JSON).retrieve().bodyToFlux(User.class);
+	}
+	
+	@GetMapping("{id}")
+	public Mono<String> getUser(@PathVariable final Integer id) {
+		return webClient.get().uri("/api/users/{id}",id).accept(MediaType.APPLICATION_JSON)
+				.retrieve().onStatus(HttpStatus::is4xxClientError, res -> Mono.error(new Throwable(res.statusCode().getReasonPhrase())))
+				.bodyToMono(User.class)
+				.flatMap(user->Mono.justOrEmpty("Hello, " + user.getUsername() + " " + user.getVersion()))
+				.onErrorReturn("error");
+	}
+	
+	@PostMapping
+	public Mono<Integer> addUser(@RequestBody final User user) {
+		return webClient.post().uri("/api/users").contentType(MediaType.APPLICATION_JSON)
+				.body(BodyInserters.fromObject(user)).retrieve()
+				.bodyToMono(Integer.class);
+	}
+	
+	@PutMapping("{id}")
+	public Mono<User> updateUser(@PathVariable final Integer id, @RequestBody final User user) {
+		return webClient.put().uri("/api/users/{id}",id).contentType(MediaType.APPLICATION_JSON)
+				.body(BodyInserters.fromObject(user)).retrieve()
+				.bodyToMono(User.class);
+	}
+	
+	@DeleteMapping("{id}")
+	public Mono<String> deleteUser(@PathVariable final Integer id) {
+		return webClient.delete().uri("/api/users/{id}",id).accept(MediaType.APPLICATION_JSON)
+				.retrieve().bodyToMono(User.class)
+				.doOnError(error->Mono.error(error))
+				.flatMap(user->Mono.justOrEmpty("Bye, " + user.getUsername() + " " + user.getVersion()))
+				.onErrorReturn("error");
+	}
+}
+```
+这里需要拷贝一下`service1`的`User.java`,然后指定一个配置类注入`WebClient`：
+```java
+@Configuration
+public class AppConfig {
+	
+	@Value("${service1.url}")
+	private String service1Url;
+	
+	@Bean WebClient webClient() {
+		return WebClient.create(service1Url);
+	}
+}
+```
+最后需要在`application.properties`文件中配置端口及调用服务的`url`：
+```
+server.port=8880
+service1.url=http://service1:8088
+```
+接下来就是通过`Maven`将各自的项目打包，然后放到不同的文件夹下，准备生成`Docker`镜像了。
 
 
 #### 创建Docker镜像
+
 将打包好的`jar`放入不同的文件夹下，然后分别生成对应的`Dockerfile`文件:
 ```
 FROM java:8-jdk-alpine
@@ -134,10 +317,11 @@ ENTRYPOINT [ "java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "service
 ```
 然后生成镜像:
 ```bash
-sudo docker build service2:v1 .
+sudo docker build -t service2:v1 .
 ```
 
 #### 生成Kubernetes服务
+
 接着生成相关的`Service`及`Deployment`:
 ```yaml
 apiVersion: v1

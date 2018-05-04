@@ -63,7 +63,7 @@ Loading cached images from config file.
 ```
 它给出的命令可以运行一下，影响的结果就是以后如果要执行`kubectl`的相关命令就无需在前边加`sudo`了。
 
-> 如果**minikube**是运行在**VM**中的话可以在开始的时候添加一个选项`--registry-mirror="https://registry.docker-cn.com daemon"`用来设置**Docker**的镜像加速地址,这里使用的是[Docker中国镜像加速](https://www.docker-cn.com/registry-mirror)。
+> 如果**minikube**是运行在**VM**中的话可以在开始的时候添加一个选项`--registry-mirror="https://registry.docker-cn.com"`用来设置**Docker**的镜像加速地址,这里使用的是[Docker中国镜像加速](https://www.docker-cn.com/registry-mirror)。
 
 #### 发布一个应用
 
