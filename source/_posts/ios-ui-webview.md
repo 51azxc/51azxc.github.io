@@ -231,6 +231,8 @@ head.appendChild(metaElement);
 > [UIWebView和WKWebView的使用及js交互](http://liuyanwei.jumppo.com/2015/10/17/ios-webView.html)
 > [Allow unverified ssl certificates in WKWebView](http://stackoverflow.com/questions/27100540/allow-unverified-ssl-certificates-in-wkwebview)
 
+#### 基本使用
+
 **iOS8**之后，苹果推出了`WKWebView`来代替`UIWebView`组件。如要使用`WKWebView`,需要引入`#import <WeKit/WebKit.h>`.
 
 ```objc
@@ -320,3 +322,57 @@ head.appendChild(metaElement);
 
 @end
 ```
+
+
+#### WKWebView中的Javascript交互
+
+在**WKWebView**中，Javascript与OC的交互就变的十分简单了。只需要通过`WKScriptMessageHandler`代理中的`userContentController:didReceiveScriptMessage: `即可在网页中让Javascript发送消息给OC。
+
+首先试着写一段js脚本
+```javascript
+var c=document.createElement('input');
+c.type='checkbox'; 2.name='accept'; c2.id='accept';  c.checked=true;
+var label = document.createElement('label');
+label.htmlFor = 'accept';
+label.appendChild(document.createTextNode('accept'));
+document.getElementsByTagName('body')[0].appendChild(c);
+document.getElementsByTagName('body')[0].appendChild(label);
+
+var script = document.createElement('script');
+script.innerHTML = \"
+document.getElementById('accept').onclick = function toggle() {
+    var obj = document.getElementById('accept');
+    window.webkit.messageHandlers.accept.postMessage({'accept':obj.checked});
+};
+\";
+document.getElementsByTagName('body')[0].appendChild(script);
+```
+这段js很简单，就是添加了一个`checkbox`元素，然后在点击事件中通过`postMessage`方法就可以在OC获取到js中传过来的对象。
+
+接下来则是配置`WKUSErContentController`:
+```objc
+WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
+configuration.userContentController = [WKUserContentController new];
+//在文档末尾追加javascript
+WKUserScript *script = [[WKUserScript alloc] initWithSource:scriptString injectionTime:WKUserScriptInjectionTimeAtDocumentEnd forMainFrameOnly:YES];
+[configuration.userContentController addUserScript:script];
+//添加需要用作连接的对象
+[configuration.userContentController addScriptMessageHandler:self name:@"accept"];
+        
+WKPreferences *preferences = [[WKPreferences alloc] init];
+preferences.javaScriptEnabled = YES;
+configuration.preferences = preferences;
+
+self.webView =  [[WKWebView alloc] initWithFrame:self.view.frame configuration:configuration];
+```
+在这里通过`addScriptMEssageHandler`方法定义了一个js通知oc的对象accept，就是js中的`messageHandlers`后边声明的对象。
+
+最后ViewController实现`WKScriptMessageHandler`代理，通过下列方法即可获得传输过来的数据：
+```objc
+# pragma mark - WKScriptMessageHandler
+- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
+    NSLog(@"message name: %@, body: %@", message.name, message.body);
+    //...
+}
+```
+这里通过`message.name`可以获得传输对象的名称，就是上边定义的`accept`，而`message.body`则是获取到从js中传过来的数据
