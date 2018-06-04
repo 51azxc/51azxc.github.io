@@ -5,7 +5,7 @@ tags: ["istio","kubernetes"]
 categories: ["kubernetes"]
 ---
 
-之前玩了下Kubernetes，想着不如趁热打铁把istio也耍耍，于是就继续玩一下[istio](https://istio.io/)了。
+之前试了下Kubernetes，现在试试基于它的[istio](https://istio.io/)。
 
 ### 安装
 
@@ -96,7 +96,7 @@ istio-pilot-67d6ddbdf6-6b74h     2/2       Running   0          2h
 
 在成功安装好了istio的核心组件之后，就可以开始部署应用了。官网有个十分完整的案例[Bookinfo](https://istio.io/docs/guides/bookinfo.html),不过这里我就想着一起复习一下[spring boot 2 webflux](https://docs.spring.io/spring/docs/5.0.0.BUILD-SNAPSHOT/spring-framework-reference/html/web-reactive.html)就自己写了一个挺简单的例子。
 
-主要有两个服务:`service1`及`service2`(*取名是个大学问，我实在是不会取名*)。客户端调用`service2`的服务，然后`service2`来调用`service1`的服务，最终将结果返回给客户端。
+主要有两个服务:`service1`及`service2`。客户端调用`service2`的服务，然后`service2`来调用`service1`的服务，最终将结果返回给客户端。
 
 首先先创建`service1`的`spring boot`项目:
 首先是一个简单的用户类:
@@ -620,4 +620,3 @@ istio运行下来觉得毕竟还没有到正式版，`api`改动还挺大，而�
 ```
 kubectl delete -f install/kubernetes/istio.yaml
 ```
-当然也可以运行`sudo minikube delete`命令来执行毁天灭地的一击。
