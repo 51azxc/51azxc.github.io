@@ -1,7 +1,7 @@
 ---
 title: 译:使用Tensorflow建立一个卷积神经网络
 date: 2018-05-29 15:43:44
-tags: ["tensorflow","python","mnist"]
+tags: ["tensorflow","python"]
 categories: ["python","tensorflow"]
 ---
 
@@ -9,13 +9,15 @@ categories: ["python","tensorflow"]
 
 Tensorflow的[`layers`模块](https://www.tensorflow.org/api_docs/python/tf/layers)提供了一些高等API用于更加容易的构建神经网络。它提供了方便创建密集（全连接）层/卷积层，添加激励函数，及使用正则化解决过拟合等一系列方法。在这个教程中，你将学习到如何使用`layers`创建一个用于识别MNIST手写数字集合的卷积神经网络。
 
-![mnist](https://www.tensorflow.org/images/mnist_0-9.png)
+<!-- more -->
+
+![mnist](https://tensorflow.google.cn/images/mnist_0-9.png)
 
 **[MNIST数据集](http://yann.lecun.com/exdb/mnist/)包含了60,000个训练用例及10,000个测试用例，它们由内容为0-9个手写数字，大小为28*28像素的单色图片组成。**
 
 ----
 
-#### 准备开始
+### 准备开始
 让我们首先开始创建一个Tensorflow程序的`cnn_mnist.py`文件，加入如下代码：
 ```python
 from __future__ import absolute_import
@@ -37,7 +39,7 @@ if __name__ == "__main__":
 
 当完成这部分教程之后，你将会添加构建、训练、评估卷积神经网络的代码于上文件之中。完整的代码可以在[这里](https://www.github.com/tensorflow/tensorflow/blob/r1.8/tensorflow/examples/tutorials/layers/cnn_mnist.py)查看。
 
-#### 卷积神经网络简单介绍
+### 卷积神经网络简单介绍
 
 卷积神经网络(CNNs)是目前用于图片分类任务中最先进的模型架构。卷积神经网络通过过滤图片的原始数据以提取出一系列更高级别的特征，并加以学习用于构建分类模型。他包含了三个部分：
 
@@ -51,7 +53,7 @@ if __name__ == "__main__":
 
 ----
 
-#### 构建分类MNIST数据的卷积神经网络
+### 构建分类MNIST数据的卷积神经网络
 
 让我们按以下架构开始构建：
 1. **卷积层 #1**：以5x5为单位面积大小提取深度为32的特征集合，并且添加ReLU激活函数。
@@ -137,7 +139,7 @@ def cnn_model_fn(features, labels, mode):
 
 以下章节将深入解析上述代码部分，包括如何使用[`tf.layers`](https://www.tensorflow.org/api_docs/python/tf/layers?hl=zh-cn)创建卷积神经网络的每一层，以及如何计算损失率，配置训练方法及生成预测值。如果你已经有了CNN与[Tensorflow `Estimator`]()相关使用经验，并且可以直观的明白上述代码，你可以直接跳过这部分，跳至阅读[训练及评估CNN MNIST分类器](https://www.tensorflow.org/tutorials/layers#training_and_evaluating_the_cnn_mnist_classifier)。
 
-##### 输入层(Input Layer)
+#### 输入层(Input Layer)
 
 在`layers`模块中的为二维图像创建卷积及池化层的方法预期的张量输入值默认形状(shape)为`[batch_size, image_height, image_width, channels]`。如果需要改变结构可以使用`data_format`参数。这些参数定于如下：
 
@@ -154,7 +156,7 @@ input_layer = tf.reshape(features["x"], [-1, 28, 28, 1])
 这里使用了-1作为`batch_size`，意为根据输入值`features["x"]`动态计算，而其他的属性都指定了固定值。这样我们就可以根据对应情况进行调整`batch_size`。例如，我们提供5个批次的样例给我们的模型，那这样`features["x"]`就会包含了3,920个值(像素)，因此输入层的的形状`[5, 28, 28, 1]`。同理，如果我们需要输入100个样例，那就需要将值为78,400的`features["x"]`转换成`[100, 28, 28, 1]`。
 
 
-##### 卷积层(Convolutional Layer) #1
+#### 卷积层(Convolutional Layer) #1
 
 我们使用`layers`模块中的`conv2d`方法创建第一个卷积层：
 ```python
@@ -177,7 +179,7 @@ conv1 = tf.layers.conv2d(
 
 最终输入层`input_layer`经过`conv2d()`函数而生成的输出值形状(shape)为`[batch_size, 28, 28, 32]`:长宽与输入层的一致，而深度则为32。
 
-##### 池化层(Pooling Layer) #1
+#### 池化层(Pooling Layer) #1
 
 接下来，我门需要将第一个池化层接入到上边创建的卷积层后边。我们使用`layer`模块里的`max_pooling2d()`方法构建一个步长为2，单位面积边长为2及执行最大池化算法的池化层：
 ```python
@@ -193,7 +195,7 @@ pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 2], strides=2)
 
 因为池化层的功能最终将输出张量的形状减小了一半，因此第一个卷积模块输出的张量(tensor)形状(shape)为`[batch_size, 14, 14, 32]`。
 
-##### 卷积层(Convolutional Layer) #2 & 池化(Pooling Layer) #2
+#### 卷积层(Convolutional Layer) #2 & 池化(Pooling Layer) #2
 
 第二个卷积模块的构造与上边一样，都是使用了相同的函数来构建，只是这里的`conv2d()`指定了`filter`的数量为64，比上边多增了一倍:
 ```python
@@ -211,7 +213,7 @@ pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[2, 2], strides=2)
 
 `max_pooling2d()`继续将`conv2`的形状长宽进一步压缩一倍，因此`pool2`的形状(shape)为`[batch_size, 7, 7, 64]`。
 
-##### 密集层(Dense Layer)
+#### 密集层(Dense Layer)
 
 接下来，我们需要添加一个密集层(包含1024个神经元和ReLU激活函数)到CNN，对由经上述两个卷积模块提取的特征集合进行分类。在连接之前，需要通过`reshape`函数拍平(flatten)特征集合(pool2)，变成`[batch_size, features]`这样的二维形状(shape)：
 ```python
@@ -234,7 +236,7 @@ dropout = tf.layers.dropout(
 `training`参数表示当前模型是否运行在训练模式中；`dropout`只会在`training`为`True`的情况下执行。
 最终经过了这一神经元层只会输出的张量形状(shape)为`[batch_size, 1024]`。
 
-##### 逻辑层(Logits Layer)
+#### 逻辑层(Logits Layer)
 
 在我们的神经网络中最后一层为逻辑层,将会返回预测的原始数据。我们创建一个包含10个神经元(分别表示0-9)和默认使用线性激活的密集层：
 ```python
@@ -242,7 +244,7 @@ logits = tf.layers.dense(inputs=dropout, units=10)
 ```
 最终我们的CNN输出的张量形状(shape)为`[batch_size, 10]`。
 
-##### 生成预测值
+#### 生成预测值
 
 我们的模型最后一层返回的是预测的原始值。我们需要将这些值转换成两种不同的数据格式：
 
@@ -273,7 +275,7 @@ if mode == tf.estimator.ModeKeys.PREDICT:
   return tf.estimator.EstimatorSpec(mode=mode, predictions=predictions)
 ```
 
-##### 计算损失率
+#### 计算损失率
 
 对于培训与评估之间，我们需要定义一个[损失函数](https://en.wikipedia.org/wiki/Loss_function)来衡量预测值与目标值之间的匹配程度。对于类似MNIST这样的多分类问题，通常用[交叉熵](https://en.wikipedia.org/wiki/Cross_entropy)来衡量损失率。下面的代码用于计算模型运行于`TRAIN`与`EVAL`之间的交叉熵:
 ```python
@@ -307,7 +309,7 @@ loss = tf.losses.softmax_cross_entropy(
     onehot_labels=onehot_labels, logits=logits)
 ```
 
-##### 配置训练方法
+#### 配置训练方法
 
 在上一节中，我们定义损失率为CNN最后一层输出的`softmax`值与`labels`之间的交叉熵。接下来我们需要配置我们的模型在训练中不断的优化损失率。我们使用学习率为0.001，优化算法为[随机梯度下降](https://en.wikipedia.org/wiki/Stochastic_gradient_descent)的优化器优化:
 ```python
@@ -321,7 +323,7 @@ if mode == tf.estimator.ModeKeys.TRAIN:
 
 > 想要更多的了解Estimator模型函数配置培训操作，请参阅["Creating Estimators in tf.estimator."](https://www.tensorflow.org/get_started/custom_estimators)教程中的[Defining the training op for the model](https://www.tensorflow.org/get_started/custom_estimators#defining_the_training_op_for_the_model)部分。
 
-##### 添加评估指标
+#### 添加评估指标
 
 我们在`EVAL`模式中定义一个字典(dict)用来给我们的模型训练添加准确率指标:
 ```python
@@ -334,11 +336,11 @@ return tf.estimator.EstimatorSpec(
 
 ----
 
-#### 训练及评估CNN MNIST分类器
+### 训练及评估CNN MNIST分类器
 
 我们已经编写了MNIST的CNN模型函数，现在我们要准备开始训练及评估它了。
 
-##### 载入训练和测试数据
+#### 载入训练和测试数据
 
 首先我们在`main()`方法中载入训练和测试数据:
 ```python
@@ -355,7 +357,7 @@ def main(unused_argv):
 
 > 如果无法加载MNIST数据，可以通过上述的[MNIST官网](http://yann.lecun.com/exdb/mnist/)先下载数据，放入到指定文件夹中(如`MNIST_data`)，然后通过`mnist = tf.contrib.learn.datasets.mnist.load_mnist(train_dir = "MNIST_data/")`这样的方式载入数据。
 
-##### 创建Estimator
+#### 创建Estimator
 
 接下来，我们需要为模型创建一个`Estimator`(执行高层模型的训练、评估及推理的Tensorflow类):
 ```python
@@ -368,7 +370,7 @@ mnist_classifier = tf.estimator.Estimator(
 
 > 如果想要更深入的了解Tensorflow **Estimator** API,可以参考["Creating Estimators in tf.estimator."](https://www.tensorflow.org/get_started/custom_estimators)教程
 
-##### 设置日志钩子
+#### 设置日志钩子
 
 由于CNN需要花费一段时间进行训练，我们可以设置一些日志用来追踪训练进度。我们可以使用Tensroflow中的[`tf.train.SessionRunHook`](https://www.tensorflow.org/api_docs/python/tf/train/SessionRunHook)来创建一个[`tf.train.LoggingTensorHook`](https://www.tensorflow.org/api_docs/python/tf/train/LoggingTensorHook)。它将记录我们CNN中softmax层的概率值。继续添加以下代码到`main()`：
 ```python
@@ -383,7 +385,7 @@ logging_hook = tf.train.LoggingTensorHook(
 
 接下来，我们创建`LoggingTensorHook`，`tensors`参数传入`tensors_to_log`。我们设置`every_n_iter = 50`，它表示每隔50次训练之后记录概率值。
 
-##### 训练模型
+#### 训练模型
 
 现在我们准备训练我们的模型，我们需要创建一个`train_input_fn`然后调用`mnist_classifier`的`train()`方法。添加以下内容到`main()`:
 ```python
@@ -402,7 +404,7 @@ mnist_classifier.train(
 
 在调用`numpy_input_fn`这个方法中，我们以字典的形式将训练数据传入到`x`中，将训练结果标签传入到`y`中。指定来`batch_size`为`100`(意味着每次将会训练100个样例)。`num_epochs=None`表示这个模型将一直训练下去。`shuffle=True`参数表示会冲刷训练数据。在调用`train`方法中，我们设置来`step=20000`(表示这个模型将会训练20,000次)，然后传入了`logging_hook`给`hooks`，让它会在训练过程中被触发。
 
-##### 评估模型
+#### 评估模型
 
 一旦训练完成，我们希望通过MNIST test数据集来评估我们的模型生成的概率值的准确度。我们调用`evaluate`方法，而评估指标在`cnn_model_fn`中已定义(`eval_metric_ops`)。继续添加下列代码到`main()`方法中:
 ```python
@@ -417,7 +419,7 @@ print(eval_results)
 ```
 我们设置了`num_epochs=1`，表示这次操作只迭代一次所有的数据。同时设置`shuffle=False`表示这次评估将顺行遍历数据。
 
-##### 运行模型
+#### 运行模型
 
 我们编写了创建CNN模型的函数，`Estimator`，已经训练/评估的相关逻辑代码，现在是该看看结果如何了；运行`cnn_mnist.py`。
 
@@ -441,3 +443,12 @@ INFO:tensorflow:Saving evaluation summary for step 20000: accuracy = 0.9733, los
 ```
 
 在这里，我们的测试数据集已经达到了97.3％的准确率。
+
+----
+
+### 更多资源
+
+如果想要更多的了解Tensorflow中的Estimators及CNNs，可以阅读以下资源：
+
+* [Creating Estimators in tf.estimator](https://www.tensorflow.org/get_started/custom_estimators)提供一个关于TensorFlow Estimator API的入门介绍。里边包含了配置一个Estimator,编写生成模型函数，计算损失率，及定义训练操作。
+* [Convolutional Neural Networks](https://www.tensorflow.org/tutorials/deep_cnn)如何使用Tensorflow*低层次*API而不是Estimator来构建一个MNIST CNN分类模型。

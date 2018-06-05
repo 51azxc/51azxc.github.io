@@ -32,6 +32,8 @@ begin
 end;
 ```
 
+<!-- more -->
+
 ----
 
 #### Oracle临时表

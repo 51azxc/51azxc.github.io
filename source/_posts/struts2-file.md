@@ -14,6 +14,7 @@ ResourceBundle config = ResourceBundle.getBundle("com.amaker.test.MessageResourc
 ```
 要按照路径，把你的配置文件加入ClassPath中就可以了
 
+<!-- more -->
 
 ----------
 

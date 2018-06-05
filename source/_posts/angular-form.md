@@ -20,6 +20,7 @@ categories: ["javascript", "angular"]
 | `$dirty` | ng-dirty | 表单已经有输入字符，清除为空也算， `boolean`类型 |
 | `$touched` | ng-touched | 表单的任何输入框处罚了`onblur`事件，即获取焦点后又失去了焦点。`boolean`类型 |
 
+<!-- more -->
 
 接下来开始构建一个表单:
 ```html

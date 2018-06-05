@@ -14,6 +14,9 @@ categories: ["php", "laravel"]
 php artisan make:middleware LoginMiddleware
 ```
 在项目文件夹下的`app/Http/Middleware`中可以看到新建的中间件，在这个中间件中，指定如果登陆了的用户才能通过验证，反之则跳转到登陆页面,如果进入了不该进入的页面，则跳转到主页面：
+
+<!-- more -->
+
 ```php
 <?php
 

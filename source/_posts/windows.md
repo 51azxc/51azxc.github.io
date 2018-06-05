@@ -18,6 +18,8 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\Logo
 然后准备一张与当前分辨率一致的图片，命名为`backgroundDefault.jpg`,图片大小最好保持在*250KB*以下。
 按`Win+L`查看效果。
 
+<!-- more -->
+
 ----
 
 ### Windows 7 重建图标缓存

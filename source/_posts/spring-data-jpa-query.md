@@ -10,8 +10,11 @@ categories: ["java", "spring"]
 > [How to query data via Spring data JPA by sort and pageable both out of box？](http://stackoverflow.com/questions/10527124/how-to-query-data-via-spring-data-jpa-by-sort-and-pageable-both-out-of-box)
 > [JPA : How to convert a native query result set to POJO class collection](http://stackoverflow.com/questions/13012584/jpa-how-to-convert-a-native-query-result-set-to-pojo-class-collection)
 
- `Spring Data Jpa`预定义的接口提供了一系列的便利方法，如果这些方法仍不能满足需求，可以自定义查询接口。
- 自定义查询接口要用`@NoRepositoryBean`注解修饰,然后编写一个类实现它
+`Spring Data Jpa`预定义的接口提供了一系列的便利方法，如果这些方法仍不能满足需求，可以自定义查询接口。
+
+<!-- more -->
+
+自定义查询接口要用`@NoRepositoryBean`注解修饰,然后编写一个类实现它
 ```java
 @NoRepositoryBean
 public interface QueryDao extends JpaRepository<UserBean, Integer> {

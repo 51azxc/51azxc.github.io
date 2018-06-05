@@ -10,6 +10,8 @@ categories: ["java", "spring"]
 
 在`Servlet3`中，可以实现无`Web.xml`配置，需要一个类来实现`WebApplicationInitializer`接口
 
+<!-- more -->
+
 ```java
 public class WebInitializer implements WebApplicationInitializer {
 

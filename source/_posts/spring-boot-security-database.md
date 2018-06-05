@@ -11,6 +11,8 @@ categories: ["java", "spring"]
 
 在`Spring Boot`中加入`Spring Security`功能的话，官方给出了一个很好的例子。例子中给出的验证用户是放在内存中的，不过我想试试常规一点的方法，将用户存储到数据库中。
 
+<!-- more -->
+
 ### 前期配置
 
 首先到[Spring Initializr](http://start.spring.io/)中配置一个基本的项目模板，依赖中选择`Security`、`JPA`、`H2`、`Thymeleaf`等依赖，如果需要体验一下热部署的功能，也可以选择`DevTools`。下载好模板项目导入到IDE工作空间中，引入依赖。

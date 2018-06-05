@@ -13,6 +13,8 @@ select * from v$instance
 select * from product_component_version
 ```
 
+<!-- more -->
+
 ----
 
 #### insert···select···union语句

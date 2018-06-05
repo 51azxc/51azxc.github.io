@@ -9,6 +9,8 @@ categories: ["java", "spring"]
 > [spring-data-jpa 使用](http://mybar.iteye.com/blog/1863390)
 > [深入浅出学Spring Data JPA](http://sishuok.com/forum/blogPost/list/7000.html)
 
+<!-- more -->
+
 配置文件:
 ```
 db.driver=com.mysql.jdbc.Driver

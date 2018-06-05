@@ -9,6 +9,9 @@ categories:  ["java", "spring"]
 > [Spring使用Annotation时需要注意的地方](http://www.blogjava.net/fengzhisha0914/articles/343648.html)
 
 使用Annotation注解形式时,在Spring的配置文件中需要加入新的xsd文件引用:
+
+<!-- more -->
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!--错误形式

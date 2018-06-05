@@ -12,6 +12,8 @@ categories: "nodejs"
 
 `javascript`中处理异步一般都是使用回调函数`callback`来解决的。但是这种写法很容易写出金字塔形的代码，可读性差。而是用`promise`链式的代码无疑更容易维护。
 
+<!-- more -->
+
 首先看一下**ES6**中的`promise`：
 ```js
 function promiseTest() {

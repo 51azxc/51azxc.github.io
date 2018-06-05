@@ -7,6 +7,8 @@ categories: ["kubernetes"]
 
 之前试了下Kubernetes，现在试试基于它的[istio](https://istio.io/)。
 
+<!-- more -->
+
 ### 安装
 
 目前使用的`istio`版本为`0.7.1`,对环境的要求为`Kubernetes >= 1.7.3,minikube >= 0.25`,我之前装的Kubernetes及minikube刚好符合这个要求，那就先启动minikube吧:

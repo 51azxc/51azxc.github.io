@@ -10,6 +10,8 @@ categories: ["javascript", "angular"]
 
 使用`Angular`来实现登陆跳转等功能的话，其实只要在`ui-router`的`state`中或者`ngRoute`中的`when`方法中添加对应的登陆判断变量，然后在根据相应的路由跳转事件中进行判断即可。
 
+<!-- more -->
+
 首先在路由设置中添加对应的变量`requireLogin`来断定是否登陆:
 ```js
 $stateProvider

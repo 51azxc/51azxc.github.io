@@ -15,7 +15,9 @@ catgories: ["java","tomcat"]
   原因是因为在`java.util.concurrent.ThreadPoolExecutor`类中的`runWorker(Worker w)`方法上有未捕获的异常信息
 3、解决方案
   去掉java->debug->suspend execution on uncaught exceptions 选项钱的对勾就行了
-  
+
+<!-- more -->
+
 ----
 
 ### Tomcat JNDI连接池

@@ -15,7 +15,7 @@ categories: ["iOS","Objective-C"]
 
 ##### `@property`是什么
 标识为`@property`的变量可以自动生成`setter`与`getter`方法。
- __声明__: 声明格式为`@property (attributes) type propertyName`
+__声明__: 声明格式为`@property (attributes) type propertyName`
 __实现__: 在.m文件中的implements下，格式为`@synthsize name`即可。而在xcode4.4以后的版本，系统会自动合成, 等价于自己写了代码“ @synthesize  name = _name;” 。 也就是说如果没有特殊需求，只需要在头文件中声明而无需实现，就可以直接使用了
 __成员变量访问权限__: 头文件中声明的成员变量，默认是`protected`，.m文件中声明的成员变量，默认是`private`的。合成属性时，`@synthesize  propertyName = _name`；如果变量`_name`没有声明，系统会自动生成该成员变量且为`private`权限。如`果_name`已声明，它们会自动合成
 

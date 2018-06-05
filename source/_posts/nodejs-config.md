@@ -24,6 +24,8 @@ cache = D:\nodejs\npm_cache
 ```
 其中`prefix`为npm包的安装路径,`cache`则为下载包的缓存路径。
 
+<!-- more -->
+
 ----
 
 ### npm卸载包

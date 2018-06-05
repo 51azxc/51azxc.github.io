@@ -7,7 +7,9 @@ categories: ["kubernetes"]
 
 最近看微服务相关的文章得知下一代微服务的王牌项目貌似是[istio](https://istio.io/)，而它现阶段又是构建于[Kubernetes](https://kubernetes.io/)上的，那就想着来简单体验一下Kubernetes。
 
-**Kubernetes**又称**k8s**(跟i18n一样)，根据官网的介绍，"**Kubernetes is an open-source system for automating deployment, scaling, and management of containerized applications.**"。这里主要使用官网提供的minikube及kubectl工具在**Ubuntu16.04**上部署一个Kubernetes集群，然后实现官网给出的例子[Reliable, Scalable Redis on Kubernetes](https://github.com/kubernetes/kubernetes/tree/master/examples/storage/redis)
+<!-- more -->
+
+**Kubernetes**又称**k8s**，根据官网的介绍，"**Kubernetes is an open-source system for automating deployment, scaling, and management of containerized applications.**"。这里主要使用官网提供的minikube及kubectl工具在**Ubuntu16.04**上部署一个Kubernetes集群，然后实现官网给出的例子[Reliable, Scalable Redis on Kubernetes](https://github.com/kubernetes/kubernetes/tree/master/examples/storage/redis)
 
 ### 安装Kubernetes工具
 

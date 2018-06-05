@@ -1,4 +1,4 @@
-title: angular-problem
+title: angular使用过程中碰到的一些小问题解封方法
 date: 2016-08-01 16:27:58
 tags: ["ui-router", "http"]
 categories: ["javascript", "angular"]
@@ -18,6 +18,8 @@ $http.get('/api/users/add', {
 	params: { user:user }
 })
 ```
+
+<!-- more -->
 
 ----
 

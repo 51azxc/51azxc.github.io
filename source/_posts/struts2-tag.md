@@ -18,6 +18,9 @@ List<String> days = ["Mon","Tue","Wed","Thu","Fri"];
   <s:property />
 </s:iterator>
 ```
+
+<!-- more -->
+
 在`iterator`中，`top`可以表示当前元素，也可以携程`[0].top`.[0]代表整个栈对象
 ```xml
 <s:iterator value="days">
