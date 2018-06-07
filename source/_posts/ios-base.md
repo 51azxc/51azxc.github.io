@@ -1,4 +1,4 @@
-title: "Objective-C 相关知识"
+title: "Objective-C 基础知识"
 date: 2015-04-22 17:21:51
 tags: "ivar"
 categories: ["iOS","Objective-C"]

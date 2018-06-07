@@ -1,4 +1,4 @@
-title: "Jetty相关"
+title: "Jetty相关知识"
 date: 2015-04-23 14:25:51
 tags: ["jetty", "mvc"]
 categories: ["java","jetty"]
@@ -11,10 +11,8 @@ categories: ["java","jetty"]
 #### 使用代码运行jetty
 运行一个war包
 ```java
-public class OneWebApp
-{
-    public static void main(String[] args) throws Exception
-    {
+public class OneWebApp {
+    public static void main(String[] args) throws Exception {
         String jetty_home = System.getProperty("jetty.home","..");
  
         Server server = new Server(8080);
@@ -31,10 +29,8 @@ public class OneWebApp
 ```
 运行一个web项目
 ```java
-public class OneWebAppUnassembled
-{
-    public static void main(String[] args) throws Exception
-    {
+public class OneWebAppUnassembled {
+    public static void main(String[] args) throws Exception {
         Server server = new Server(8080);
  
         WebAppContext context = new WebAppContext();
@@ -53,30 +49,30 @@ public class OneWebAppUnassembled
 运行spring mvc项目
 ```java
 public static void main(String[] args) throws Exception {
-		Server server = new Server(8090);
-		WebAppContext context = new WebAppContext();
-		//添加log4j监听器
-		context.setInitParameter("log4jConfigLocation", "classpath:log4j.properties");
-		context.addEventListener(new Log4jConfigListener());
-		//设置访问路径
-		context.setContextPath("/test1");
-		//设置页面资源文件夹
-		context.setResourceBase("../test1/src/main/webapp");
-		EnumSet<DispatcherType> es = EnumSet.of(DispatcherType.ASYNC,DispatcherType.ERROR,DispatcherType.REQUEST,DispatcherType.FORWARD);
-		//添加Filter
-		context.addFilter(new FilterHolder(WebAppFilter.class), "/*", es);
-		AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
-		//加载spring注解配置类
-		ctx.register(WebMvcConfig.class);
-		DispatcherServlet ds = new DispatcherServlet(ctx);
-		context.addServlet(new ServletHolder(ds), "/");
-		//添加servlet
-		context.addServlet(HelloServlet.class, "/helloServlet");
-		
-		server.setHandler(context);
-		
-		server.start();
-		server.join();
+    Server server = new Server(8090);
+    WebAppContext context = new WebAppContext();
+    //添加log4j监听器
+    context.setInitParameter("log4jConfigLocation", "classpath:log4j.properties");
+    context.addEventListener(new Log4jConfigListener());
+    //设置访问路径
+    context.setContextPath("/test1");
+    //设置页面资源文件夹
+    context.setResourceBase("../test1/src/main/webapp");
+    EnumSet<DispatcherType> es = EnumSet.of(DispatcherType.ASYNC,DispatcherType.ERROR,DispatcherType.REQUEST,DispatcherType.FORWARD);
+    //添加Filter
+    context.addFilter(new FilterHolder(WebAppFilter.class), "/*", es);
+    AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
+    //加载spring注解配置类
+    ctx.register(WebMvcConfig.class);
+    DispatcherServlet ds = new DispatcherServlet(ctx);
+    context.addServlet(new ServletHolder(ds), "/");
+    //添加servlet
+    context.addServlet(HelloServlet.class, "/helloServlet");
+    
+    server.setHandler(context);
+    
+    server.start();
+    server.join();
 }
 ```
 

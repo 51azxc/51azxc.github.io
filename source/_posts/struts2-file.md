@@ -1,8 +1,12 @@
 title: "Struts2 文件上传下载"
 date: 2015-05-09 22:19:52
-tags: ["upload","download"]
+tags: ["file"]
 categories: ["java", "struts2"]
 ---
+
+使用Struts2实现文件上传与下载的功能。
+
+<!-- more -->
 
 > [struts2文件上传下载](http://blog.csdn.net/javaliuzhiyue/article/details/9357681)
 > [Struts2利用stream直接输出Excel](http://chunpeng.iteye.com/blog/265222)

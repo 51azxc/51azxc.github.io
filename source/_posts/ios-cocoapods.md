@@ -1,17 +1,15 @@
-title: 使用Cocoapods来进行项目依赖管理
+title: "使用Cocoapods来进行项目依赖管理"
 date: 2015-10-26 17:06:33
 tags: "Cocoapods"
 categories: "iOS"
 ---
-
-### 安装，使用Cocoapods
 
 > [CocoaPods详解之----使用篇](http://blog.csdn.net/wzzvictory/article/details/18737437)
 > [用CocoaPods做iOS程序的依赖管理](http://blog.devtang.com/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/)
 > [CocoaPods 安装 使用](http://www.jianshu.com/p/071d30a3af02)
 > [CocoaPods报错：The dependency `AFNetworking ` is not used in any concrete target](http://blog.csdn.net/sjl_leaf/article/details/50506057)
 
-#### 安装
+### 安装
 在安装之前，先做一些准备工作。首先需要替换掉`Ruby`的默认源:
 ```bash
 gem sources --remove https://rubygems.org/
@@ -27,7 +25,7 @@ sudo gem update -n /usr/local/bin --system
 sudo gem install -n /usr/local/bin cocoapods
 ```
 
-#### 使用
+### 使用
 可以使用`search`命令搜寻需要的第三方库:
 ```bash
 pod search 第三方库名称
@@ -51,7 +49,7 @@ pod install
 
 ----
 
-#### 卸载Cocoapods
+### 卸载Cocoapods
 
 > [如何从电脑中卸载cocoapods](http://blog.csdn.net/qq_18670721/article/details/50432892)
 
