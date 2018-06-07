@@ -1,4 +1,4 @@
-title: "MongoDB增删查改"
+title: "MongoDB简单使用"
 date: 2015-05-07 16:51:03
 tags: "nosql"
 categories: ["database", "mongodb"]

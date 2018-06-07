@@ -55,7 +55,7 @@ ssh-keygen -C “YouEmailAddress” -t rsa
 使用CMD或者Git-Bash跳转到本地仓库的目录下输入`git init`命令初始化一个仓库。
 然后输入命令`git add .`意为将本目录下所有的文件添加到仓库。
 接着输入`git commit -m "first commit"`将提交代码，`-m`后面跟的是提交的注释。
-输入命令`git remote add origin " git@github.com:YourName/YourRepositroy.git"`为添加源到gitHub。
+输入命令`git remote add origin "git@github.com:YourName/YourRepositroy.git"`为添加源到gitHub。
 最后上传代码的命令为`git push -u origin master`.
 
 下载代码则为`git pull`。

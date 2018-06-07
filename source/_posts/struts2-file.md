@@ -1,65 +1,15 @@
-title: "Struts2 部分问题"
+title: "Struts2 文件上传下载"
 date: 2015-05-09 22:19:52
-tags: ["i18n","upload","download"]
+tags: ["upload","download"]
 categories: ["java", "struts2"]
 ---
-
-### `java.util.MissingResourceException Can't find bundle for base name`
-
-> [解决方法：java.util.MissingResourceException Can't find bundle for base name](http://blog.chinaunix.net/uid-25820084-id-3494142.html)
-
-这个问题的原因是`MessageResource_zh_CN.properties`，这个配置文件没有放在classpath中，
-```
-ResourceBundle config = ResourceBundle.getBundle("com.amaker.test.MessageResource");
-```
-要按照路径，把你的配置文件加入ClassPath中就可以了
-
-<!-- more -->
-
-----------
-
-### `java.lang.IllegalStateException`
-
-> [Web开发中常见的java.lang.IllegalStateException错误](http://blog.sina.com.cn/s/blog_6151984a0100owod.html)
-
-JSP文件或struts action(纯servlet应用中没发现此问题)中采用了,如下代码:
-```java
-public void print2Screen(HttpServletResponse resp,String encodeString,String[] htmlCommands) throws IOException{
-    resp.setCharacterEncoding(encodeString);
-    ServletOutputStream httpOutput= resp.getOutputStream();
-    for(String temp:htmlCommands)
-        httpOutput.write(temp.getBytes());
-}
-```
-**深层原理**:
-1. Servlet规范说明，不能既调用 `response.getOutputStream()`，又调用`response.getWriter()`，无论先调用哪一个，在调用第二个时候应会抛出 `IllegalStateException`.
-2. servlet代码中有`out.write("")`，这个和JSP中缺省调用的`response.getOutputStream()`产生冲突.因为在jsp中，`out`变量是通过`response.getWriter`得到的，在程序中既用了 `response.getOutputStream`，又用了`out`变量，故出现以上错误。
-
-**解决方法**
-
-* 在JSP文件中,加入下面两句
-```jsp
-<%
-out.clear();
-out = pageContext.pushBody();
-%>
-```
-此法的缺陷:
-很多开发项目并不是JSP前端,如freemarker,velocity等
-造成问题的`response.getOutputStream()`并未被写在JSP里,而是写在servlet/action里
-
-* 在action中,不要return 回具体的result文件,而是`return null`
-
-----------
-
-### struts2文件上传下载
 
 > [struts2文件上传下载](http://blog.csdn.net/javaliuzhiyue/article/details/9357681)
 > [Struts2利用stream直接输出Excel](http://chunpeng.iteye.com/blog/265222)
 > [struts2输出并下载excel文件](http://blog.csdn.net/weinianjie1/article/details/5941042)
 > [Struts2 +jquery+ajaxfileupload 实现无刷新上传文件](http://blog.csdn.net/make19830723/article/details/7055956)
 
-#### 文件上传
+### 文件上传
 在 jsp或者html 页面的文件上传表单里使用 file 标签. 如果需要一次上传多个文件, 就必须使用多个 file标签, 但它们的名字必须是相同的。表单中要设置`method`为`post`,`enctype`设置为`multipart/form-data`
 ```html
 <form action="upload.action" method="post" enctype="multipart/form-data">
@@ -190,7 +140,9 @@ public class UploadAction extends ActionSupport{
 }
 ```
 
-#### 文件下载
+----
+
+### 文件下载
 struts2提供了**stream**结果类型，该结果类型就是专门用于支持文件下载功能的
 指定stream结果类型 需要指定一个 `inpuName`参数，该参数指定一个输入流，提供被下载文件的入口
 在struts-default.xml文件中，结果集定义了一种**stream**类型
@@ -255,46 +207,4 @@ public class DownloadAction extends ActionSupport {
 前端页面
 ```html
 <a href="${pageContext.request.contextPath }/download.action?filename=abc.jpg">abc</a>
-```
-
-
-----------
-
-### Struts2国际化
-
-> [国际化之struts2实现研究](http://blog.csdn.net/zollty/article/details/8710718)
-> [Struts2 的国际化实现](http://www.cnblogs.com/lihuiyy/archive/2013/03/14/2958782.html)
-
-在src目录下添加两个资源文件,格式`baseName_language_country.properties`例如
-`message_zh_CN.properties`
-```
-login.title=请登录
-login.username=用户名
-login.password=密码
-login.welcome=欢迎，{0}
-```
-`message_en_US.properties`
-```
-login.title=Please login
-login.username=Username
-login.password=Password
-login.welcome=Welcome，{0}
-```
-在jsp中使用
-```html
-<s:text name="login.title"></s:text>
-<s:textfield name="username" key="login.username"></s:textfield>
-<s:textfield name="password" key="login.password"></s:textfield>
-```
-在action中使用
-```java
-getText("login.username");
-//使用占位符
-getText("login.welcome", "user");
-```
-
-在jsp中实行中英文切换
-```html
-<a href="login.action?request_locale=zh_CN">中文</a>
-<a href="login.action?request_locale=en_US">English</a>
 ```

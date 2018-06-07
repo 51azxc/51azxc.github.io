@@ -11,7 +11,7 @@ Tensorflow的[`layers`模块](https://www.tensorflow.org/api_docs/python/tf/laye
 
 <!-- more -->
 
-![mnist](https://tensorflow.google.cn/images/mnist_0-9.png)
+![0123456789](https://tensorflow.google.cn/images/mnist_0-9.png)
 
 **[MNIST数据集](http://yann.lecun.com/exdb/mnist/)包含了60,000个训练用例及10,000个测试用例，它们由内容为0-9个手写数字，大小为28*28像素的单色图片组成。**
 

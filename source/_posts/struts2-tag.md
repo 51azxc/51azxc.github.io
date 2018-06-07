@@ -4,8 +4,7 @@ tags: ["collection", "form"]
 categories: ["java", "struts2"]
 ---
 
-### Struts2 部分标签
-#### `iterator`标签
+### `iterator`标签
 
 > [struts2中iterator标签的相关使用](http://blog.csdn.net/oxcow/article/details/4516283)
 > [struts2 的标签遍历：`list<map<String,String>>`](http://www.iteye.com/problems/23667)
@@ -73,7 +72,8 @@ List<String> days = ["Mon","Tue","Wed","Thu","Fri"];
 
 ----------
 
-#### `select`标签
+### `select`标签
+
 > [struts2中s:select标签的使用](http://blog.csdn.net/moliqin/article/details/3753570)
 
 `headerKey headerValue` 为设置缺省值
@@ -120,7 +120,8 @@ request.setAttribute("aa","2");
 
 ----------
 
-#### Struts2 s:checkboxlist 国际化 
+### Struts2 s:checkboxlist 国际化
+
 > [Struts2 s:checkboxlist 国际化](http://blog.csdn.net/crazy_kis/article/details/4765937)
 
 使用`getText(key)`方法即可,key为国际化资源文件中的key值
@@ -133,7 +134,7 @@ request.setAttribute("aa","2");
 
 ----------
 
-#### `checkbox`标签
+### `checkbox`标签
 
 > [Struts2标签之Checkbox详解](http://www.blogjava.net/SpartaYew/archive/2011/05/19/350594.html)
 

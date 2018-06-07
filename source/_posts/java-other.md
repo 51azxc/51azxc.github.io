@@ -4,47 +4,9 @@ tags: ["tomcat", "jdbc", "servlet", "filter", "jsp"]
 categories: "java"
 ---
 
-### Java传递Class类型参数
+收集平时碰到的一些小问题的解决方法。
 
-> [Java传递Class类型参数的方法](http://hi.baidu.com/gaogaf/item/ed68eef58ee1052d753c4c48)
-
-* 直接使用`Class<?>`类型
-```java
-public void test(Class<?> calzz){
-  clazz.hello();
-}
-test(Test.class);
-```
-
-* 利用`Class.forName`方法获取
-```java
-public void test(String className){
-  Class.forName(className).hello();
-}
-test(Test.class.getName());
-```
-
-----
-
-### Java文件写入换行符
-
-> [Java中写入文件时换行符是用“\r\n＂还是＂\n”？](http://www.linuxidc.com/Linux/2011-03/33411.htm)
-
-使用`System.getProperty("line.separator")`来获取当前操作系统的换行符。
-
-----
-
-### split取空值
-
-> [java中split方法的使用，解决取空值问题](http://blog.sina.com.cn/s/blog_690794fd0100twaf.html)
-
-```java
-String str = "|1|2|3|4|";
-System.out.println(str.split("\\|",-1).length);
-//length: 6
-```
-
-----
+<!-- more -->
 
 ### java.lang.ClassCastException: oracle.sql.BLOB
 

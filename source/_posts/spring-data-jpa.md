@@ -9,25 +9,15 @@ categories: ["java", "spring"]
 > [spring-data-jpa 使用](http://mybar.iteye.com/blog/1863390)
 > [深入浅出学Spring Data JPA](http://sishuok.com/forum/blogPost/list/7000.html)
 
+Spring JPA Data 基础教程。
+
 <!-- more -->
 
-配置文件:
-```
-db.driver=com.mysql.jdbc.Driver
-db.user=root
-db.pwd=test
-db.url=jdbc:mysql://120.25.248.154:3306/test
-
-hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
-hibernate.show_sql=true
-hibernate.format_sql=true
-hibernate.hbm2ddl.auto=update
-```
 配置类:
 ```java
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories("com.framework.dao")  //
+@EnableJpaRepositories("com.framework.dao")
 @PropertySource("classpath:jdbc.properties")
 public class DataConfig {
     //数据库连接配置
@@ -151,7 +141,7 @@ public class UserBean {
 	//setter...
 }
 ```
-`DAO`层
+`DAO`层(com.framework.dao)
 使用了`SpringDataJpa`之后`DAO`层只要定义接口即可，无需再定义一个类实现它的方法，默认开头为`findBy`的方法都是查找数据的方法，后面还可以跟其他的关键字，比如`LessThan`,`Like`,`OrderBy`等等，与SQL关键字的功能一样。
 ```java
 public interface UserDao extends JpaRepository<UserBean,Integer>{
@@ -171,7 +161,7 @@ public interface UserDao extends JpaRepository<UserBean,Integer>{
 ```
 `JpaRepository`是继承于`PagingAndSortingRepository`,此接口提供了**分页查询**和**排序**功能，而它又继承于`CrudRepository`，此接口则提供了最基本的**增删查改**功能。接口后面跟的泛型参数为数据模型类与主键的类型。
 
-服务层
+服务层(com.framework.service)
 ```java
 @Service
 @Transactional(propagation=Propagation.REQUIRED)
@@ -203,7 +193,7 @@ public class UserService {
 ```
 在服务层，增/改操作皆为`save`，传入的类有`ID`则为修改，无则为添加
 
-控制层
+控制层(com.framework.controller)
 ```java
 @RestController
 @RequestMapping("/user")

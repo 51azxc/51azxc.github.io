@@ -1,4 +1,4 @@
-title: "hibernate其他知识点补遗"
+title: "hibernate零散知识点整理"
 date: 2015-05-13 15:21:59
 tags: ["orm", "c3p0"]
 categories: ["java", "hibernate"]
