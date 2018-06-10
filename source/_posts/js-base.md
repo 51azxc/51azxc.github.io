@@ -1,8 +1,12 @@
-title: "javascript 填坑"
+title: "JavaScript 相关知识点整理"
 date: 2015-05-11 14:17:37
-tags: ["callback", "regular expression", "form", "date", "json", "closure"]
-categories: "javascript"
+tags: ["JavaScript", "callback", "form", "date", "json"]
+categories: ["JavaScript"]
 ---
+
+JavaScript是一门魔性语音，因此收集了不少使用过程中碰到的问题解决方法及相关知识点。
+
+<!-- more -->
 
 ### 获取URL中的信息
 

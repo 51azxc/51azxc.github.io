@@ -1,10 +1,8 @@
-title: "Spring AOP测试"
+title: "Spring AOP相关知识点收集"
 date: 2015-05-16 15:35:12
-tags: "aop"
-categories: ["java", "spring"]
+tags: ["Spring", "aop"]
+categories: ["Java", "Spring"]
 ---
-
-### Spring AOP测试
 
 > [Spring 之AOP AspectJ切入点语法详解）](http://jinnianshilongnian.iteye.com/blog/1415606)
 > [使用Spring进行面向切面编程](http://blog.csdn.net/yuqinying112/article/details/7336461)
@@ -12,8 +10,8 @@ categories: ["java", "spring"]
 > [使用Spring的注解方式实现AOP](http://blog.csdn.net/a352193394/article/details/7345860)
 > [Spring AOP 完成日志记录](http://hotstrong.iteye.com/blog/1330046)
 
-#### 语法
-##### Spring AOP支持的AspectJ切入点指示符
+### 语法
+#### Spring AOP支持的AspectJ切入点指示符
 切入点指示符用来指示切入点表达式目的，在Spring AOP中目前只有执行方法这一个连接点，Spring AOP支持的AspectJ切入点指示符如下：
 
 * `execution`：用于匹配方法执行的连接点；
@@ -30,7 +28,7 @@ categories: ["java", "spring"]
 
 ----------
 
-##### 类型匹配语法
+#### 类型匹配语法
 `*`：匹配任何数量字符；
 `..`：匹配任何数量字符的重复，如在类型模式中匹配任何数量子包；而在方法参数模式中匹配任何数量参数。
 `+`：匹配指定类型的子类型；仅能作为后缀放在类型模式后边。
@@ -67,14 +65,14 @@ java.lang.Number+ //匹配java.lang包下的任何Number的自类型；
 
 ----------
 
-##### 组合切入点表达式
+#### 组合切入点表达式
 AspectJ使用 且（&&）、或（||）、非（！）来组合切入点表达式。
 在Schema风格下，由于在XML中使用“&&”需要使用转义字符`&amp;&amp;`来代替之，所以很不方便，因此Spring ASP 提供了and、or、not来代替&&、||、！。
 
 ----------
 
-##### 切入点使用示例
-###### execution
+#### 切入点使用示例
+##### execution
 *使用“execution(方法表达式)”匹配方法执行-*
 
 | 模式 | 描述 |
@@ -85,7 +83,7 @@ AspectJ使用 且（&&）、或（||）、非（！）来组合切入点表达�
 | `@java.lang.Deprecated * *(..)` | 任何持有@java.lang.Deprecated注解的方法 |
 
 
-###### within
+##### within
 *使用“within(类型表达式)”匹配指定类型内的方法执行；*
 
 | 模式 | 描述 |
@@ -94,7 +92,7 @@ AspectJ使用 且（&&）、或（||）、非（！）来组合切入点表达�
 | within(cn.javass..IPointcutService+) | cn.javass包或所有子包下IPointcutService类型及子类型的任何方法 |
 | within(@cn.javass..Secure *) | 持有cn.javass..Secure注解的任何类型的任何方法.必须是在目标对象上声明这个注解，在接口上声明的对它不起作用 | 
 
-###### this
+##### this
 *使用“this(类型全限定名)”匹配当前AOP代理对象类型的执行方法；注意是AOP代理对象的类型匹配，这样就可能包括引入接口方法也可以匹配；注意this中使用的表达式必须是类型全限定名，不支持通配符*
 
 | 模式 | 描述 |
@@ -102,7 +100,7 @@ AspectJ使用 且（&&）、或（||）、非（！）来组合切入点表达�
 | this(cn.spring.service.IPointcutService) | 当前AOP对象实现了 IPointcutService接口的任何方法 |
 | this(cn.spring.service.IIntroductionService) | 当前AOP对象实现了 IIntroductionService接口的任何方法也可能是引入接口 |
 
-###### target
+##### target
 *使用“target(类型全限定名)”匹配当前目标对象类型的执行方法；注意是目标对象的类型匹配，这样就不包括引入接口也类型匹配；注意target中使用的表达式必须是类型全限定名，不支持通配符*
 
 | 模式 | 描述 |
@@ -110,42 +108,42 @@ AspectJ使用 且（&&）、或（||）、非（！）来组合切入点表达�
 | target(cn.spring.service.IPointcutService) |  	当前目标对象（非AOP对象）实现了 IPointcutService接口的任何方法 |
 | target(cn.spring.service.IIntroductionService) | 当前AOP对象实现了 IIntroductionService接口的任何方法也可能是引入接口 |
 
-###### args
+##### args
 *使用“args(参数类型列表)”匹配当前执行的方法传入的参数为指定类型的执行方法；注意是匹配传入的参数类型，不是匹配方法签名的参数类型；参数类型列表中的参数必须是类型全限定名，通配符不支持；args属于动态切入点，这种切入点开销非常大，非特殊情况最好不要使用*
 
 | 模式 | 描述 |
 | --- | --- |
 | args (java.io.Serializable,..) |  	任何一个以接受“传入参数类型为 java.io.Serializable” 开头，且其后可跟任意个任意类型的参数的方法执行，args指定的参数类型是在运行时动态匹配的 |
 
-###### @within
+##### @within
 *使用“@within(注解类型)”匹配所以持有指定注解类型内的方法；注解类型也必须是全限定类型名*
 
 | 模式 | 描述 |
 | --- | --- |
 | @within cn.spring.Secure) | 任何目标对象对应的类型持有Secure注解的类方法；必须是在目标对象上声明这个注解，在接口上声明的对它不起作用 |
 
-###### @target
+##### @target
 *使用“@target(注解类型)”匹配当前目标对象类型的执行方法，其中目标对象持有指定的注解；注解类型也必须是全限定类型名*
 
 | 模式 | 描述 |
 | --- | --- |
 | @target(cn.spring.Secure) | 任何目标对象持有Secure注解的类方法；必须是在目标对象上声明这个注解，在接口上声明的对它不起作用 |
 
-###### @args
+##### @args
 *使用“@args(注解列表)”匹配当前执行的方法传入的参数持有指定注解的执行；注解类型也必须是全限定类型名*
 
 | 模式 | 描述 |
 | --- | --- |
 | @args (cn.spring.Secure) | 任何一个只接受一个参数的方法，且方法运行时传入的参数持有注解 cn.spring.Secure；动态切入点，类似于arg指示符； |
 
-###### @annotation
+##### @annotation
 *使用“@annotation(注解类型)”匹配当前执行方法持有指定注解的方法；注解类型也必须是全限定类型名*
 
 | 模式 | 描述 |
 | --- | --- |
 | @annotation(cn.spring.Secure ) | 当前执行方法上持有注解 cn.spring.Secure将被匹配 |
 
-###### bean
+##### bean
 *使用“bean(Bean id或名字通配符)”匹配特定名称的Bean对象的执行方法；Spring ASP扩展的，在AspectJ中无相应概念*
 
 | 模式 | 描述 |
@@ -155,7 +153,7 @@ AspectJ使用 且（&&）、或（||）、非（！）来组合切入点表达�
 
 ----------
 
-##### 通知参数
+#### 通知参数
 
 * 使用JoinPoint获取：Spring AOP提供使用org.aspectj.lang.JoinPoint类型获取连接点数据，任何通知方法的第一个参数都可以是JoinPoint(环绕通知是ProceedingJoinPoint，JoinPoint子类)，当然第一个参数位置也可以是JoinPoint.StaticPart类型，这个只返回连接点的静态部分。
 
@@ -197,7 +195,7 @@ public interface StaticPart {
 
 ----------
 
-#### 实例
+### 实例
 
 build.gradle
 ```gradle

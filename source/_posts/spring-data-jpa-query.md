@@ -1,18 +1,18 @@
-title: spring data jpa 自定义查询
+title: "Spring Data JPA自定义查询"
 date: 2016-07-31 22:12:16
-tags: ['spring data jpa']
-categories: ["java", "spring"]
+tags: ["Spring", "Spring Data JPA"]
+categories: ["Java", "Spring"]
 ---
 
 `Spring Data Jpa`预定义的接口提供了一系列的便利方法，如果这些方法仍不能满足需求，可以自定义查询接口。
+
+<!-- more -->
 
 > [spring data jpa 自定义全局DAO](http://hejiantx.blog.163.com/blog/static/61867342013691040295/)
 > [JPA本地查询(Native Query)的总结1](http://okcomputer2009.iteye.com/blog/397465)
 > [JPA查询实体部分字段](http://xiaofan-0204.iteye.com/blog/1207958)
 > [How to query data via Spring data JPA by sort and pageable both out of box？](http://stackoverflow.com/questions/10527124/how-to-query-data-via-spring-data-jpa-by-sort-and-pageable-both-out-of-box)
 > [JPA : How to convert a native query result set to POJO class collection](http://stackoverflow.com/questions/13012584/jpa-how-to-convert-a-native-query-result-set-to-pojo-class-collection)
-
-<!-- more -->
 
 自定义查询接口要用`@NoRepositoryBean`注解修饰,然后编写一个类实现它
 ```java

@@ -1,8 +1,8 @@
 ---
-title: 译:使用Tensorflow建立一个卷积神经网络
+title: "译:使用Tensorflow建立一个卷积神经网络"
 date: 2018-05-29 15:43:44
-tags: ["tensorflow","python"]
-categories: ["python","tensorflow"]
+tags: ["TensorFlow", "CNN"]
+categories: ["Python","TensorFlow"]
 ---
 
 > [A Guide to TF Layers: Building a Convolutional Neural Network](https://www.tensorflow.org/tutorials/layers)

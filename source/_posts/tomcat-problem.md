@@ -1,8 +1,12 @@
-title: "tomcat部分问题"
+title: "Tomcat零散知识点收集"
 date: 2015-04-20 23:53:39
-tags: "tomcat"
-catgories: ["java","tomcat"]
+tags: "Tomcat"
+catgories: ["Java","Tomcat"]
 ---
+
+收集一些平时使用Tomcat碰到的问题。
+
+<!-- more -->
 
 ### Tomcat出现processWorkerExit问题
 
@@ -15,8 +19,6 @@ catgories: ["java","tomcat"]
   原因是因为在`java.util.concurrent.ThreadPoolExecutor`类中的`runWorker(Worker w)`方法上有未捕获的异常信息
 3、解决方案
   去掉java->debug->suspend execution on uncaught exceptions 选项钱的对勾就行了
-
-<!-- more -->
 
 ----
 

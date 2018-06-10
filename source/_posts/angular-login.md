@@ -1,16 +1,16 @@
-title: angular登陆认证小例子
+title: "Angular登陆认证小例子"
 date: 2016-08-04 11:30:56
-tags: 
-categories: ["javascript", "angular"]
+tags: ["Angular"]
+categories: ["JavaScript", "Angular"]
 ---
-
-> [Handling User Authentication With Angular and Flask](https://realpython.com/blog/python/handling-user-authentication-with-angular-and-flask/)
-> [AngularJS User Registration and Login Example & Tutorial](http://jasonwatmore.com/post/2015/03/10/AngularJS-User-Registration-and-Login-Example.aspx)
-> [Authentication made simple in Single Page AngularJS Applications](http://brewhouse.io/blog/2014/12/09/authentication-made-simple-in-single-page-angularjs-applications.html)
 
 使用`Angular`来实现登陆跳转等功能的话，其实只要在`ui-router`的`state`中或者`ngRoute`中的`when`方法中添加对应的登陆判断变量，然后在根据相应的路由跳转事件中进行判断即可。
 
 <!-- more -->
+
+> [Handling User Authentication With Angular and Flask](https://realpython.com/blog/python/handling-user-authentication-with-angular-and-flask/)
+> [AngularJS User Registration and Login Example & Tutorial](http://jasonwatmore.com/post/2015/03/10/AngularJS-User-Registration-and-Login-Example.aspx)
+> [Authentication made simple in Single Page AngularJS Applications](http://brewhouse.io/blog/2014/12/09/authentication-made-simple-in-single-page-angularjs-applications.html)
 
 首先在路由设置中添加对应的变量`requireLogin`来断定是否登陆:
 ```js

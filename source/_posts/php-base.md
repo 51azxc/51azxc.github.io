@@ -1,7 +1,7 @@
-title: "php基本知识补遗"
+title: "php基本知识整理"
 date: 2016-01-11 17:51:03
-tags: ["curl", "closure"]
-categories: "php"
+tags:
+categories: "PHP"
 ---
 
 ### 发送HTTP请求
@@ -14,8 +14,6 @@ categories: "php"
 > [PHP中CURL方法curl_setopt()函数的参数](http://www.cnblogs.com/txw1958/archive/2013/01/19/2867584.html)
 
 **PHP**中发送*HTTP*请求可以使用`curl`或者`file_get_contents()`方法，`curl`使用前需要在`php.ini`中将`extension=php_curl.dll`前面的分号去掉
-
-<!-- more -->
 
 ```php
 <?php

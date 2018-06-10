@@ -1,7 +1,7 @@
-title: "hibernate注解"
+title: "hibernate注解相关知识点"
 date: 2015-05-13 13:52:06
-tags: ["orm", "annotation"]
-categories: ["java", "hibernate"]
+tags: ["Hibernate", "Annotation"]
+categories: ["Java", "Hibernate"]
 ---
 
 ### 注解标注的位置

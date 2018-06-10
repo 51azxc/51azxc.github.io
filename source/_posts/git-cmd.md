@@ -1,8 +1,12 @@
-title: "Git 相关"
+title: "Git 相关知识点收集"
 date: 2015-04-22 21:52:41
 tags: "git"
 categories: "其他"
 ---
+
+这里收集了一些关于Git的相关命令及一些Git组件的问题解决办法。
+
+<!-- more -->
 
 ### Gitblit
 

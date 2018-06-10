@@ -1,11 +1,16 @@
-title: "jQuery UI 部分控件"
+title: "jQuery UI控件知识点整理"
 date: 2015-04-23 16:16:11
-tags: "jQueryUI"
+tags: ["jQueryUI", "jQuery"]
 categories: ["javascript", "jQuery"]
 ---
 
-#### jQuery UI Dialog
-##### 修改按钮位置
+收集平时使用jQuery UI控件碰到的一些问题与知识点。
+
+<!-- more -->
+
+### jQuery UI Dialog
+
+#### 修改按钮位置
 
 > [Jquery dialog button - positions](http://stackoverflow.com/questions/17278132/jquery-dialog-button-positions)
 
@@ -23,7 +28,7 @@ categories: ["javascript", "jQuery"]
 
 ----
 
-##### 在dialog中载入其他页面
+#### 在dialog中载入其他页面
 
 > [how to load a page with jquery ui dialog](http://stackoverflow.com/questions/1608249/how-to-load-a-page-with-jquery-ui-dialog)
 
@@ -40,7 +45,7 @@ dialog1.load('path/to/otherPage').dialog('open');
 
 ----
 
-##### jquery ui Dialog: cannot call methods on dialog prior to initialization
+#### jquery ui Dialog: cannot call methods on dialog prior to initialization
 
 > [jquery ui Dialog: cannot call methods on dialog prior to initialization](http://stackoverflow.com/questions/13520139/jquery-ui-dialog-cannot-call-methods-on-dialog-prior-to-initialization)
 
@@ -52,7 +57,7 @@ That's because the dialog is not stored in $('#divDialog'), but on a new div tha
 
 ----
 
-##### 设置按钮不可用
+#### 设置按钮不可用
 
 > [如何设置Jquery UI dialog 中的button为disable变灰或者更改button样式](http://blog.csdn.net/li_gf/article/details/7594628)
 
@@ -64,7 +69,7 @@ $('.ui-dialog-buttonpane').find('button:contains("Yes")').attr("disabled", "disa
 
 ----
 
-##### 去掉关闭符号
+#### 去掉关闭符号
 
 > [怎么去掉jquery dialog右下角的“叉”号](http://www.myexception.cn/web/906430.html)
 > [Jquery UI dialog 关闭按钮化除](http://www.myexception.cn/web/600923.html)
@@ -90,8 +95,8 @@ $( "#login" ).dialog({
 
 ----
 
-#### jQuery Datepicker
-##### 基本用法
+### jQuery Datepicker
+#### 基本用法
 
 > [JQuery datepicker 用法](http://www.cnblogs.com/lf6112/archive/2011/05/19/2051126.html)
 
@@ -407,7 +412,7 @@ onSelect : function(dateText, inst)
 
 ----
 
-##### 中文显示
+#### 中文显示
 
 > [jQuery UI Datepicker中文显示](http://blog.csdn.net/hejinxu/article/details/6085818)
 
@@ -461,7 +466,7 @@ $(function(){
 
 ----
 
-##### 改变datepicker大小
+#### 改变datepicker大小
 
 > [jquery datepicker日期插件改变大小](http://hi.baidu.com/wsy555/item/b48f8b2529573dc1a4275a17)
 
@@ -471,8 +476,9 @@ $("#ui-datepicker-div").css('font-size','0.9em')
 
 ----
 
-#### Sortable
-##### jQuery UI sortable table handle
+### Sortable
+
+#### jQuery UI sortable table handle
 > 来自[jQuery UI sortable table handle](http://stackoverflow.com/questions/4471520/jquery-ui-sortable-table-handle)
 
 点击`table`的第一格实现拖拉排序功能
@@ -484,7 +490,7 @@ $("table tbody").sortable({
 
 ----
 
-##### jqueryUI Sortable: handling .disableSelection() on form inputs
+#### jqueryUI Sortable: handling .disableSelection() on form inputs
 
 > [jqueryUI Sortable: handling .disableSelection() on form inputs](http://stackoverflow.com/questions/4027158/jqueryui-sortable-handling-disableselection-on-form-inputs)
 
@@ -509,7 +515,7 @@ $("#list").find("input")
 
 ----
 
-#### 设置横向菜单
+### 设置横向菜单
 
 > [如何设置Jquery UI Menu 菜单为横向展示](http://www.cnblogs.com/dupeng0811/p/how-to-make-jquery-ui-nav-menu-horizontal.html)
 
@@ -534,7 +540,7 @@ $("#list").find("input")
 
 ----
 
-#### jQuery UI Tabs获取选中的Tab
+### jQuery UI Tabs获取选中的Tab
 
 > [jQuery EasyUI API 中文文档 - 标签页/选项卡（Tabs）](http://www.cnblogs.com/Philoo/archive/2011/09/30/jeasyui_api_tabs.html)
 

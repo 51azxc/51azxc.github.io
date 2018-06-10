@@ -1,7 +1,7 @@
 title: "Jetty相关知识"
 date: 2015-04-23 14:25:51
-tags: ["jetty", "mvc"]
-categories: ["java","jetty"]
+tags: ["Jetty"]
+categories: ["Java","Jetty"]
 ---
 
 > [Jetty/Tutorial/Embedding Jetty](https://wiki.eclipse.org/Jetty/Tutorial/Embedding_Jetty)

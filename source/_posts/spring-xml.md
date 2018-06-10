@@ -1,7 +1,7 @@
-title: "spring xml配置"
+title: "Spring xml配置"
 date: 2015-05-15 11:29:03
-tags: "xml"
-categories:  ["java", "spring"]
+tags: ["Spring", "xml"]
+categories:  ["Java", "Spring"]
 ---
 
 ### Spring使用Annotation时需要注意的地方

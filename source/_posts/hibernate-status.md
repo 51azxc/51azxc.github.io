@@ -1,7 +1,7 @@
 title: "Hibernate中的实体状态"
 date: 2015-04-21 21:13:30
-tags: "orm"
-categories: ["java", "hibernate"]
+tags: ["Hibernate"]
+categories: ["Java", "Hibernate"]
 ---
 
 ### Hibernate中的实体状态

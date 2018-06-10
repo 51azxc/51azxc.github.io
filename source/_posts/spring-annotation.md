@@ -1,7 +1,7 @@
-title: "spring注解"
+title: "spring注解相关知识点"
 date: 2015-05-15 16:58:10
-tags: ["mvc","transaction", "annotation"]
-categories: ["java", "spring"]
+tags: ["Spring", "mvc", "Annotation"]
+categories: ["Java", "Spring"]
 ---
 
 ### spring 基本注解

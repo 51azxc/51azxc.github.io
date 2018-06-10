@@ -1,7 +1,7 @@
-title: Spring MVC 部分问题
+title: "Spring MVC部分知识点整理"
 date: 2016-07-25 18:09:13
-tags: ["mvc", "gson", "Exception", "test"]
-categories: ["java", "spring"]
+tags: ["Spring", "mvc", "gson", "Exception", "test"]
+categories: ["Java", "Spring"]
 ---
 
 ### SpringMVC基于Servlet3无XML配置
@@ -9,8 +9,6 @@ categories: ["java", "spring"]
 > [一种maven改造快速支持servlet3.1web工程的方法](http://shmilyaw-hotmail-com.iteye.com/blog/2221134)
 
 在`Servlet3`中，可以实现无`Web.xml`配置，需要一个类来实现`WebApplicationInitializer`接口
-
-<!-- more -->
 
 ```java
 public class WebInitializer implements WebApplicationInitializer {

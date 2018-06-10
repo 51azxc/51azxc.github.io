@@ -1,7 +1,7 @@
 title: "Flask页面相关知识"
 date: 2016-01-11 11:50:28
-tags: "jinja2"
-categories: ["python", "flask"]
+tags: ["Flask"]
+categories: ["Python"]
 ---
 
 ### 更改jinja2模板的默认修饰符

@@ -1,8 +1,12 @@
-title: angular表单部分
+title: "Angular表单部分知识点"
 date: 2016-08-03 18:07:14
-tags: ["form"]
-categories: ["javascript", "angular"]
+tags: ["Angular", "form"]
+categories: ["Javascript", "Angular"]
 ---
+
+收集一些使用Angular处理表单的知识点。
+
+<!-- more -->
 
 > [AngularJS Form Validation](https://scotch.io/tutorials/angularjs-form-validation)
 > [Form validation with AngularJS](http://www.ng-newsletter.com/posts/form-validation-with-angularjs.html)

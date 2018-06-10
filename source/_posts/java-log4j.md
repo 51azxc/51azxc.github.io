@@ -1,7 +1,7 @@
 title: "log4j配置"
 date: 2015-04-27 18:01:19
-tags: "log"
-categories: "java"
+tags: ["log","Java"]
+categories: "Java"
 ---
 
 > [Log4j使用指南](http://www.cnblogs.com/licheng/archive/2008/08/23/1274566.html)

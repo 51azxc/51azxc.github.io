@@ -1,10 +1,16 @@
-title: "jquery表单控件"
+title: "jQuery 部分插件整理"
 date: 2015-05-12 09:47:39
-tags: "form"
+tags: ["jQuery", "form", "table"]
 categories: ["javascript", "jQuery"]
 ---
 
-### jquery 提交中文问题
+收集一些jQuery插件使用过程中碰到的问题解决方法。
+
+<!-- more -->
+
+### jQuery Form表单部分
+
+#### jquery 提交中文问题
 > 来自[jquery解决提交中文问题两种方法](http://hi.baidu.com/computercode/item/84fb7b12efa0ab0be75c3602)
 
 * 方法一
@@ -27,7 +33,7 @@ try{
 
 ----------
 
-### jquery 判断radio是否选中
+#### jquery 判断radio是否选中
 
 > [JQuery判断radio是否选中，获取选中值](http://www.cnblogs.com/xcj1989/archive/2011/06/29/jquery_radio.html)
 
@@ -40,7 +46,7 @@ if(val==null){
 
 ----------
 
-### jquery对checkbox的操作
+#### jquery对checkbox的操作
 
 > [JQuery对CheckBox的一些相关操作](http://for-dream.iteye.com/blog/1570434)
 > [设置checkbox复选框为readonly只读的两种方式](http://www.jbxue.com/article/12668.html)
@@ -79,7 +85,7 @@ if($("#checkbox_id").prop("checked"))
 
 ----------
 
-### jquery对select操作
+#### jquery对select操作
 
 > [JQuery设置select控件只读](http://nvry.iteye.com/blog/1556157)
 > [jquery获得select option的值 和对select option的操作](http://www.cnblogs.com/QQJnet/archive/2011/12/11/2284174.html)
@@ -128,7 +134,7 @@ $(function(){
 
 ----------
 
-### jquery.form插件
+#### jquery.form插件
 
 > [jquery表单验证插件 jquery.form.js](http://www.cnblogs.com/luluping/archive/2009/04/15/1436177.html)
 > [jQuery插件 -- Form表单插件jquery.form.js](http://blog.csdn.net/zzq58157383/article/details/7718956)
@@ -218,4 +224,102 @@ function validate(formData, jqForm, options) { //在这里对表单进行验证�
     //alert(queryString); //类似 ： name=1&add=2    
     return true;  
 }
+```
+
+----
+
+### dataTables插件
+
+> [dataTables-使用详细说明整理](http://blog.csdn.net/mickey_miki/article/details/8240477)
+> [datatables request unknown parameter '0' from data source for row 0](http://blog.csdn.net/badboyer/article/details/8509484)
+> [Jquery datatable 配置与应用](http://www.cnblogs.com/kezf/p/datatable.html)
+> [fnFilter](http://datatables.net/forums/discussion/537/fnfilter/p1)
+> [Jquery DataTables 自定义布局sdom](http://blog.csdn.net/bill1315/article/details/12577595)
+> [jQuery DataTables插件 单个/批量设置列的显示/隐藏状态](http://lyj86.iteye.com/blog/1824787)
+> [jquery datatables adding row_selected class to a row](http://stackoverflow.com/questions/5454805/jquery-datatables-adding-row-selected-class-to-a-row)
+> [求高手指点jquery 的datatables插件问题](http://bbs.csdn.net/topics/370191615)
+> [How to create JQuery DataTable using JSON and servlet](http://techmytalk.com/2013/08/24/how-to-create-jquery-data-table-using-json-pass-by-servlet/)
+
+[datatables](http://www.datatables.net)是jquery的一款表格插件,接收后端传送过来的json格式的数据把他显示在页面table中，首先对于页面中，必须要有一个空的table，并且保证拥有表头元素:
+```html
+<table id="list">
+  <thead>
+    <th>head1</th>
+    <th>head2</th>
+    <th>...</th>
+  </theand>
+</table>
+```
+这里的表头个数必须与后端传过来的数组长度对应，不然会报错。
+接下来是datatables的部分配置:
+```js
+$('#list').dataTable({
+    //当载入的时候显示进度条
+	"bProcessing": true,
+	//从服务端获取数据
+	"bServerSide": true,
+	//服务端链接
+	"sAjaxSource": "list",
+	//分页显示数组
+	//"sPaginationType": "full_numbers",
+	//使用jQueryUI主题
+	"bJQueryUI": false,
+	//客户端过滤框
+	"bFilter": false,
+	"bSortClasses": false,
+	//指定排序的列
+	"aaSorting": [[2, 'desc']],
+	//如果后端传入的不是数组而是map，则需要指定列对应的key值
+    /*"aoColumns":[{"mDataProp":"name"},
+	             {"mDataProp":"age"},
+				 {"mDataProp":"id"}],*/
+	//渲染列，可以指定列是否排序，是否可见，宽度等
+	"aoColumnDefs": [{"bSortable":false, "aTargets":[0]},
+	                 {"bVisible":false, "aTargets":[1]},
+	                 {"sWidth":"160px", "aTargets":[2]}],
+	"fnRowCallback":function(nRow, aData, iDisplayIndex){
+	    //这里对行进行渲染操作，可以对行数据进行修改
+		$('td:last',nRow).html("test");
+	},
+	"fnServerData":function(sSource, aoData, fnCallback){
+		//这里是去后端获取数据，可以加入条件查询的参数
+		$.getJSON(sSource,aoData,function(json){ fnCallback(json); });
+	},
+	"oLanguage": {
+	    "sProcessing": "正在加载中......",
+        "sLengthMenu": "每页显示 _MENU_ 条记录",
+        "sZeroRecords": "对不起，查询不到相关数据！",
+        "sEmptyTable": "表中无数据存在！",
+        "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
+        "sInfoFiltered": "数据表中共为 _MAX_ 条记录",
+        "sSearch": "搜索",
+        "oPaginate": {
+            "sFirst": "首页",
+            "sPrevious": "上一页",
+            "sNext": "下一页",
+            "sLast": "末页"
+        }
+	    //支持通过文本链接获取语言支持
+		//"sUrl": "resources/datatables/zh_CN.txt"
+    }
+});
+```
+使用`aTable.fnDraw()`方法可以刷新视图,当向后端请求数据时，datatables向后端传入的请求部分参数有
+`sEcho`:请求标识符，需直接返回
+`iSortCol_0`: 需排序列的索引,即`"aaSorting": [[2, 'desc']]`中的2
+`sSortDir_0`: 升降序排序标识，为asc/desc
+`iDisplayStart`: 分页显示开始页面
+`iDisplayLength`: 分页长度
+返回的数据为json格式数据，对应参数为
+```java
+Map m = new HashMap();
+m.put("sEcho", sEcho);
+//总共显示的记录数
+m.put("iTotalRecords", count);
+//条件查询后的记录数
+m.put("iTotalDisplayRecords", filterCount);
+//数据数组
+m.put("aaData", aaData);
+//转换为json格式
+return gson.toJson(m);
 ```

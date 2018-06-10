@@ -1,17 +1,17 @@
 ---
-title: spring boot security with database
+title: "Spring Boot security with database"
 date: 2017-09-06 10:48:47
-tags: ["spring boot", "security"]
-categories: ["java", "spring"]
+tags: ["Spring", "Spring Boot", "security"]
+categories: ["Java", "Spring"]
 ---
-
-> [Securing a Web Application](https://spring.io/guides/gs/securing-web/)
-> [springboot+mybatis＋SpringSecurity 实现用户角色数据库管理](http://blog.csdn.net/u012373815/article/details/54632176)
-> [Spring Boot + Spring MVC + Spring Security + MySQL](https://medium.com/@gustavo.ponce.ch/spring-boot-spring-mvc-spring-security-mysql-a5d8545d837d)
 
 在`Spring Boot`中加入`Spring Security`功能的话，官方给出了一个很好的例子。例子中给出的验证用户是放在内存中的，不过我想试试常规一点的方法，将用户存储到数据库中。
 
 <!-- more -->
+
+> [Securing a Web Application](https://spring.io/guides/gs/securing-web/)
+> [springboot+mybatis＋SpringSecurity 实现用户角色数据库管理](http://blog.csdn.net/u012373815/article/details/54632176)
+> [Spring Boot + Spring MVC + Spring Security + MySQL](https://medium.com/@gustavo.ponce.ch/spring-boot-spring-mvc-spring-security-mysql-a5d8545d837d)
 
 ### 前期配置
 

@@ -1,7 +1,7 @@
 ---
-title: Linphone通话录音功能实现
+title: "Linphone通话录音功能实现"
 date: 2017-06-26 15:17:58
-tags: ["Call Recording", "LinPhone"]
+tags: ["LinPhone"]
 categories: ["iOS","Objective-C"]
 ---
 

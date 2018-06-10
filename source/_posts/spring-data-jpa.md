@@ -1,10 +1,10 @@
-title: spring data jpa整合
+title: "Spring Data JPA简单教程"
 date: 2016-07-30 21:03:51
-tags: ['spring data jpa']
-categories: ["java", "spring"]
+tags: ["Spring", "Spring Data JPA"]
+categories: ["Java", "Spring"]
 ---
 
-Spring JPA Data 基础教程。
+Spring Data JPA 简单教程。
 
 <!-- more -->
 
