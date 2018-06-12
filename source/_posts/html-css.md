@@ -114,3 +114,35 @@ input[type=text]:focus,input[type=password]:focus,textarea:focus{
   </tr>
 </table>
 ```
+
+----
+
+### 实现Parallax效果
+
+> [Creating Scrolling Parallax Effects with CSS](https://davidwalsh.name/parallax)
+
+之前浏览网页，发现一个挺有意思的效果，就是滚动了文章之后，他间隔的背景图片会不断的变化。当时觉得很新奇，就想着该怎么实现，然后用蹩脚的英文在谷歌上输入了几个单词，结果想不到还真的查到了。原来这种效果叫Parallax。实现起来也十分简单：
+```
+.parallax {
+  height: 70vh;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+```
+最核心的就是`background-attachment: fixed`这句。然后再弄一张背景图片：
+```
+.parallax-1 {
+  background-image: url("...");
+}
+```
+最后直接使用样式即可:
+```
+<section class="parallax parallax-1">
+  //...
+</section>
+```

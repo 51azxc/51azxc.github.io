@@ -41,7 +41,7 @@ if __name__ == "__main__":
 
 ### 卷积神经网络简单介绍
 
-卷积神经网络(CNNs)是目前用于图片分类任务中最先进的模型架构。卷积神经网络通过过滤图片的原始数据以提取出一系列更高级别的特征，并加以学习用于构建分类模型。他包含了三个部分：
+卷积神经网络(CNNs)是目前用于图片分类任务中最先进的模型架构。卷积神经网络通过过滤图片的原始数据以提取出一系列更高级别的特征，并加以学习用于构建分类模型。它包含了三个部分：
 
 * **卷积层**:将指定数量的卷积滤镜单元应用于图像中，然后在每个子区域中执行一组数学运算操作从而生成一个单一值放入到输出特征映射集合中。卷积层通常应用ReLU激活函数将非线性因素引入到模型中。
 * **池化层**:为了减少处理时间，池化层会对由卷积层提取的图像数据进行[向下采样](https://en.wikipedia.org/wiki/Convolutional_neural_network#Pooling_layer)，这样可以减小数据的空间大小。常用的池化算法是最大池化，它将输出特征映射集合划分为若干个子区域（例如，2×2像素区块），提取这些区域的最大值并丢弃其他值。
@@ -59,8 +59,8 @@ if __name__ == "__main__":
 1. **卷积层 #1**：以5x5为单位面积大小提取深度为32的特征集合，并且添加ReLU激活函数。
 2. **池化层 #1**：使用最大池化算法以2x2为单位面积，步数为2对卷积层#1得到的输出特征缩减一半。
 3. **卷积层 #2**：以5x5为单位面积大小提取深度为64的特征集合，并且添加ReLU激活函数。
-4. **池化层 #2**：继续池化层#1的操作，将输出特征再压缩一半。
-5. **密集层 #1**：将输出特征组合成包含1024个神经元的全连接层，同时使用驱除40%的输出特征以防止过拟合。
+4. **池化层 #2**：继续池化层#1的操作，将输出特征单位大小再压缩一半。
+5. **密集层 #1**：将输出特征组合成包含1024个神经元的全连接层，同时驱除40%的输出特征集合以防止过拟合。
 6. **密集层 #2（逻辑层）**：包含10个神经元，每个神经元表示0-9这10个数字的目标分类。
 
 对于构建上述三种不同类型的层，[`tf.layers`](https://www.tensorflow.org/api_docs/python/tf/layers)模块提供了下列便捷方法：
@@ -137,7 +137,7 @@ def cnn_model_fn(features, labels, mode):
       mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)
 ```
 
-以下章节将深入解析上述代码部分，包括如何使用[`tf.layers`](https://www.tensorflow.org/api_docs/python/tf/layers?hl=zh-cn)创建卷积神经网络的每一层，以及如何计算损失率，配置训练方法及生成预测值。如果你已经有了CNN与[Tensorflow `Estimator`]()相关使用经验，并且可以直观的明白上述代码，你可以直接跳过这部分，跳至阅读[训练及评估CNN MNIST分类器](https://www.tensorflow.org/tutorials/layers#training_and_evaluating_the_cnn_mnist_classifier)。
+以下章节将深入解析上述代码部分，包括如何使用[`tf.layers`](https://www.tensorflow.org/api_docs/python/tf/layers?hl=zh-cn)创建卷积神经网络的每一层，以及如何计算损失率，配置训练方法及生成预测值。如果你已经有了CNN与[Tensorflow `Estimator`](https://www.tensorflow.org/get_started/custom_estimators)相关使用经验，并且可以直观的明白上述代码，你可以直接跳过这部分，跳至阅读[训练及评估CNN MNIST分类器](https://www.tensorflow.org/tutorials/layers#training_and_evaluating_the_cnn_mnist_classifier)。
 
 #### 输入层(Input Layer)
 
