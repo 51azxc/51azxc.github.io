@@ -5,9 +5,13 @@ tags: ["istio","kubernetes"]
 categories: ["kubernetes"]
 ---
 
-之前试了下Kubernetes，现在试试基于它的[istio](https://istio.io/)。
+[istio](https://istio.io/)项目是Service Mesh概念的最新实现，旨在所有主流集群管理平台上提供Service Mesh层，初期以实现Kubernetes上的服务治理层为目标。它由控制平面和数据平面组成：控制平面由Go语言实现，包括pilot、mixer、auth三个组件；数据平面功能由Envoy在pod中以Sidecar的部署形式提供。
 
 <!-- more -->
+
+istio由Google与IBM联合创作，看到它的爹都是这么强大的存在，还是赶紧来认识一下它。
+
+这次的实验环境是在Kubernetes平台上，因为就目前来说istio对其支持最好。想想看istio的logo是一艘帆船，而kubernets的logo是舵轮，而docker的logo则是一只鲸鱼，它们之间的关系还真是微妙啊。
 
 ### 安装
 

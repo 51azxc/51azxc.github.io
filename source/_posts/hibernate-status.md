@@ -38,9 +38,9 @@ Hibernate中实体有三个状态：瞬时、持久化和脱管。下面先来�
       //启动事务
       Transaction tx = session.beginTransaction();
       //瞬时—持久化的实现，保存UserInfo代表的一条记录到数据库
-      ①session.save(userInfo);
+      session.save(userInfo);
       //对持久化的UserInfo进行属性的更新，此时将同步数据库
-      ②userInfo.setName("RW2");
+      userInfo.setName("RW2");
       userInfo.setSex("F");
       //不用调用update方法，持久化状态的UserInfo会自动同步数据库
       //提交事务
@@ -52,9 +52,9 @@ Hibernate中实体有三个状态：瞬时、持久化和脱管。下面先来�
 ```
 针对该段代码将执行如下SQL语句：
 ```sql
-/* ①session.save(userInfo);的动作 */
+/* session.save(userInfo);的动作 */
 insert into userinfo(NAME, SEX, roomid, id)values(?, ?, ?, ?)
-/* ②userInfo.setName("RW2"); userInfo.setSex("F"); 的动作*/
+/* userInfo.setName("RW2"); userInfo.setSex("F"); 的动作*/
 update userinfo set NAME=?,SEX=?,roomid=? where id=?
 ```
 当瞬时状态转变为持久化状态时，需要自行调用持久化方法（如：session.save()）来执行SQL。而在持久化状态时，Hibernate控制器会自动侦测到改动，执行SQL同步数据库。
@@ -72,7 +72,7 @@ public void run() {
       Transaction tx = session.beginTransaction();
       //得到持久化UserInfo，此时UserInfo为持久化状态
       //与数据库中主键为11117的记录同步
-      ①session.load(userInfo,new Long(11117));
+      session.load(userInfo,new Long(11117));
       //提交事务
       tx.commit();
       //关闭Hibernate Session
@@ -80,14 +80,14 @@ public void run() {
       //关闭Hibernate Session后UserInfo的状态为脱管状态
       //此时依然能够得到数据库在持久化状态时的数据
       //对userInfo实体的属性的操作将不影响数据库中主键为11117的记录
-      ②userInfo.setName("RW3");
+      userInfo.setName("RW3");
       userInfo.setSex("M");
       //启动Session
       session = HibernateSessionFactory.currentSession();
       //启动事务
       tx = session.beginTransaction();
       //从脱管状态到持久化状态的转变，此时将更新数据库中对应主键为11117的记录
-      ③session.update(userInfo);
+      session.update(userInfo);
       //提交事务
       tx.commit();
       //关闭Hibernate Session
@@ -96,7 +96,7 @@ public void run() {
 ```
 针对该段代码将执行如下SQL语句：
 ```sql
-/* ①session.load(userInfo,new Long(11117))的动作 */
+/* session.load(userInfo,new Long(11117))的动作 */
 select 
         userinfo0_.id as id0_0_,
         userinfo0_.NAME as NAME0_0_,
@@ -106,10 +106,10 @@ select
         userinfo userinfo0_
     where
         userinfo0_.id=?
-/* ③session.update(userInfo)的动作 */
+/* session.update(userInfo)的动作 */
 update userinfo set NAME=?, SEX=?, roomid=? where id=?
 ```
-可以看到`②userInfo.setName("RW3")`这一部分的代码没有直接同步数据库的表，因为此时Hibernate Session已经关闭了，此时是脱管状态。而直到再次打开Hibernate Session并调用`③session.update(userInfo)`，此时由于持久化标识存在于UserInfo实例，因此将从脱管状态转变为持久化状态，同步数据库。
+可以看到`userInfo.setName("RW3")`这一部分的代码没有直接同步数据库的表，因为此时Hibernate Session已经关闭了，此时是脱管状态。而直到再次打开Hibernate Session并调用`session.update(userInfo)`，此时由于持久化标识存在于UserInfo实例，因此将从脱管状态转变为持久化状态，同步数据库。
 
 ##### 持久化方法对状态的影响
 在Hibernate中定义了多个持久化方法，这些方法的调用对实体状态是有影响的。注意，并不是每一个持久化方法都会将实体状态变为持久化状态。在之前的代码中，已经使用到的持久化方法为`session.save()`、`session.load()`、`session.update()`。下面是另外一些持久化方法的调用方式。
@@ -126,9 +126,9 @@ update userinfo set NAME=?, SEX=?, roomid=? where id=?
       Transaction tx = session.beginTransaction();
       //得到持久化UserInfo，此时UserInfo为持久化状态
       //与数据库中主键为11117的记录同步
-      ①session.load(userInfo,new Long(11117));
+      session.load(userInfo,new Long(11117));
       //删除持久化状态的UserInfo实体，此时UserInfo实体为瞬时状态
-      ②session.delete(userInfo);
+      session.delete(userInfo);
       //提交事务
       tx.commit();
       //关闭Hibernate Session
@@ -139,13 +139,13 @@ update userinfo set NAME=?, SEX=?, roomid=? where id=?
       System.out.println("---Name:" + userInfo.getName());
       System.out.println("---Sex:" + userInfo.getSex());
       //更新UserInfo实体的持久化标识，使其成为脱管状态
-      ③userInfo.setId(11116);
+      userInfo.setId(11116);
       //启动Session
       session = HibernateSessionFactory.currentSession();
       //启动事务
       tx = session.beginTransaction();
       //调用delete方法将脱管状态的UserInfo实体转变为瞬时状态
-      ④session.delete(userInfo);
+      session.delete(userInfo);
       //提交事务
       tx.commit();
       //关闭Hibernate Session
@@ -154,7 +154,7 @@ update userinfo set NAME=?, SEX=?, roomid=? where id=?
 ```
 针对该段代码将执行如下SQL语句：
 ```sql
-/* ①session.load(userInfo,new Long(11117))的动作 */
+/* session.load(userInfo,new Long(11117))的动作 */
 select
         userinfo0_.id as id0_0_,
         userinfo0_.NAME as NAME0_0_,
@@ -164,13 +164,13 @@ select
         userinfo userinfo0_
     where
         userinfo0_.id=?
-/* ②session.delete(userInfo)的动作 */
+/* session.delete(userInfo)的动作 */
 delete
         from
             userinfo
         where
             id=?
-/* ④session.delete(userInfo)的动作 */
+/* session.delete(userInfo)的动作 */
 delete
         from
             userinfo

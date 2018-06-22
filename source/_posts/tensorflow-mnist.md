@@ -1,11 +1,11 @@
 ---
-title: "译:使用Tensorflow建立一个卷积神经网络"
+title: "使用Tensorflow建立一个卷积神经网络"
 date: 2018-05-29 15:43:44
 tags: ["TensorFlow", "CNN"]
 categories: ["Python","TensorFlow"]
 ---
 
-> [A Guide to TF Layers: Building a Convolutional Neural Network](https://www.tensorflow.org/tutorials/layers)
+> 翻译自[A Guide to TF Layers: Building a Convolutional Neural Network](https://www.tensorflow.org/tutorials/layers)
 
 Tensorflow的[`layers`模块](https://www.tensorflow.org/api_docs/python/tf/layers)提供了一些高等API用于更加容易的构建神经网络。它提供了方便创建密集（全连接）层/卷积层，添加激励函数，及使用正则化解决过拟合等一系列方法。在这个教程中，你将学习到如何使用`layers`创建一个用于识别MNIST手写数字集合的卷积神经网络。
 

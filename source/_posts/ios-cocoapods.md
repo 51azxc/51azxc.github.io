@@ -12,9 +12,11 @@ categories: "iOS"
 ### 安装
 在安装之前，先做一些准备工作。首先需要替换掉`Ruby`的默认源:
 ```bash
+gem sources -a https://ruby.taobao.org/
 gem sources --remove https://rubygems.org/
-gem sources -a https://ruby.taobao.org/ 
 ```
+> 更新: 现在淘宝的ruby镜像不再维护了，现在应该替换成`gem sources -a https://gems.ruby-china.org/`
+
 然后可以输入命令`gem sources -l`验证是否替换成功。
 若是`gem`版本低，可以使用`update`命令更新:
 ```bash
@@ -45,7 +47,23 @@ end
 ```bash
 pod install
 ```
+
+如果是第一次运行`pod install`命令的话，默认会执行`pod setup`来更新源。这一步会从`github`上边下载，如果连接经常断掉的话，可以按以下步骤解决:
+1. 首先通过浏览器[下载](https://github.com/CocoaPods/Specs)压缩包，默认解压后的路径是`~/Download/Spec-master`。
+2. 然后在终端中运行`git clone https://github.com/CocoaPods/Specs.git ~/.cocoapods/repos/master`命令，等其开始运行。
+3. 再开一个终端，运行`cp -r ~/.cocoapods/repos/master/.git ~/Download/Spec-master/`，成功后将上边的下载动作终止。
+4. 运行命令`mv ~/Download/Spec-master ~/.cocoapods/repos/master`转移目录。
+5. `cd`到Pod项目目录中执行`pod install --no-repo-update`命令。
+
 待其构建好项目之后打开`MyApp.xcworkspace`文件即可。
+
+如果出现了引入的依赖无法找到的问题(Could not build module '...')，可以尝试以下步骤解决:
+1. 关闭Xcode。
+2. 运行命令`rm -rf ~/Library/Developer/Xcode/DerivedData`删除项目临时文件。
+3. 删除项目根目录下的`*.xcworkspace`、`Podfile.lock`文件，还有Pods文件夹。
+4. 重新运行`Pod install`命令，待其完成之后再通过`*.xcworkspace`打开项目。
+
+可以参考stackoverflow上的[答案](https://stackoverflow.com/questions/41709912/error-could-not-build-objective-c-module-firebase)。
 
 ----
 
