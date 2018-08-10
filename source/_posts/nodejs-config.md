@@ -1,7 +1,7 @@
 title: "Node.js配置"
 date: 2016-01-14 16:25:26
-tags: "npm"
-categories: "nodejs"
+tags: ["npm"]
+categories: ["Node.js"]
 ---
 
 ### Windows下安装Nodejs

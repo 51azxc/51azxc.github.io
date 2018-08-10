@@ -1,7 +1,7 @@
 title: "Promise处理异步操作"
 date: 2016-01-14 15:50:20
-tags: "promise"
-categories: "nodejs"
+tags: ["promise"]
+categories: ["Node.js"]
 ---
 
 > [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)

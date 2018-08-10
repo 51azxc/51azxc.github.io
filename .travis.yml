@@ -1,0 +1,31 @@
+#设置语言
+language: node_js
+#设置语言版本
+node_js: stable
+#指定缓存模块
+cache:
+  directories:
+    - node_modules
+#安装前先配置一些属性
+before_install:
+  - git config user.name "51azxc"
+  - git config user.email "hhj0862@outlook.com"
+  - npm install -g hexo-cli
+#安装依赖
+install:
+  - npm install
+#执行清理及生成静态网页命令
+script:
+  - hexo clean
+  - hexo generate
+#指定分支
+branches:
+  only:
+    - source
+#提交部署
+after_script:
+  cd ./public
+  git init
+  git add .
+  git commit -m "Travis-cli builder"
+  git push --force --quiet "https://${blog}@github.com/51azxc/51azxc.github.io.git" master:master
