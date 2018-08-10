@@ -2,7 +2,7 @@
 title: 初探istio
 date: 2018-05-04 16:04:37
 tags: ["istio","kubernetes"]
-categories: ["kubernetes"]
+categories: ["Kubernetes"]
 ---
 
 [istio](https://istio.io/)项目是Service Mesh概念的最新实现，旨在所有主流集群管理平台上提供Service Mesh层，初期以实现Kubernetes上的服务治理层为目标。它由控制平面和数据平面组成：控制平面由Go语言实现，包括pilot、mixer、auth三个组件；数据平面功能由Envoy在pod中以Sidecar的部署形式提供。

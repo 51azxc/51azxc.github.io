@@ -1,7 +1,7 @@
 title: "Angular零散知识点收集"
 date: 2016-08-01 16:27:58
 tags: ["Angular", "Angular-Material"]
-categories: ["Javascript", "Angular"]
+categories: ["JavaScript", "Angular"]
 ---
 
 收集一些平时使用Angularjs1.x及Angular Material碰到的问题的解决方法.

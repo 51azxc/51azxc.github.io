@@ -1,7 +1,7 @@
 title: "jQuery UI控件知识点整理"
 date: 2015-04-23 16:16:11
 tags: ["jQueryUI", "jQuery"]
-categories: ["javascript", "jQuery"]
+categories: ["JavaScript", "jQuery"]
 ---
 
 收集平时使用jQuery UI控件碰到的一些问题与知识点。

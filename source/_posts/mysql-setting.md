@@ -1,7 +1,7 @@
 title: "MySQL基本配置"
 date: 2015-05-05 11:27:30
 tags: ["sql", "backup"]
-categories: ["database", "mysql"]
+categories: ["Database", "MySQL"]
 ---
 
 ### MySQL免安装版配置

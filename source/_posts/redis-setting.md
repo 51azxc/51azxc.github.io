@@ -1,7 +1,7 @@
-title: "redis 相关配置"
+title: "Redis 相关配置"
 date: 2015-05-06 12:13:29
 tags: "nosql"
-categories: ["database", "redis"]
+categories: ["Database", "Redis"]
 ---
 
 > [redis windows下的环境搭建](http://www.cnblogs.com/lxx/archive/2013/06/04/3116985.html)

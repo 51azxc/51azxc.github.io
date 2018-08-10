@@ -1,7 +1,7 @@
 title: "Oracle函数命令"
 date: 2015-05-05 17:50:08
 tags: ["sql", "date"]
-categories: ["database", "oracle"]
+categories: ["Database", "Oracle"]
 ---
 
 #### 查看oracle版本

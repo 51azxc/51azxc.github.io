@@ -1,7 +1,7 @@
 title: "Node.js部分框架知识点整理"
 date: 2016-04-23 22:56:28
 tags: ["Express", "Mongoose", "Multer", "Cheerio"]
-categories: ["Node.js", "express"]
+categories: ["Node.js", "Express"]
 ---
 
 使用Express框架及周边的一些框架碰到了一系列的问题，把解决方法整理记录一下。

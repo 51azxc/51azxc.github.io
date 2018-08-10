@@ -1,7 +1,7 @@
-title: "mongodb配置及部分命令"
+title: "MongoDB配置及部分命令"
 date: 2015-05-06 17:47:35
 tags: "nosql"
-categories: ["database", "mongodb"]
+categories: ["Database", "MongoDB"]
 ---
 
 ### MongoDB安装

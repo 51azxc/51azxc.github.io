@@ -1,7 +1,7 @@
 title: "jQuery 部分插件整理"
 date: 2015-05-12 09:47:39
 tags: ["jQuery", "form", "table"]
-categories: ["javascript", "jQuery"]
+categories: ["JavaScript", "jQuery"]
 ---
 
 收集一些jQuery插件使用过程中碰到的问题解决方法。

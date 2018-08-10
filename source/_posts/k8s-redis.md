@@ -2,7 +2,7 @@
 title: Kubernetes初体验：部署无状态服务Redis
 date: 2018-04-13 17:18:02
 tags: ["kubernetes"]
-categories: ["kubernetes"]
+categories: ["Kubernetes"]
 ---
 
 最近看微服务相关的文章得知下一代微服务的王牌项目貌似是[istio](https://istio.io/)，而它现阶段又是构建于[Kubernetes](https://kubernetes.io/)上的，那就想着来简单体验一下Kubernetes。

@@ -1,7 +1,7 @@
 title: "Oracle表"
 date: 2015-04-21 20:38:41
 tags: ["sql", "tablespace"]
-categories: ["database", "oracle"]
+categories: ["Database", "Oracle"]
 ---
 
 #### 创建表时先判断是否已存在
