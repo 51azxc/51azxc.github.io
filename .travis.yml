@@ -1,7 +1,7 @@
 #设置语言
 language: node_js
 #设置语言版本
-node_js: lts
+node_js: lts/*
 #指定缓存模块
 cache:
   directories:
