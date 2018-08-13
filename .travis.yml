@@ -1,7 +1,7 @@
 #设置语言
 language: node_js
 #设置语言版本
-node_js: stable
+node_js: lts
 #指定缓存模块
 cache:
   directories:
@@ -10,11 +10,15 @@ cache:
 branches:
   only:
     - source
+#设置环境变量
+env:
+  global:
+    - BLOG_URL: github.com/51azxc/51azxc.github.io.git
 #安装前先配置一些属性
 before_install:
   - git config user.name "51azxc"
   - git config user.email "hhj0862@outlook.com"
-  - sed -i "s|github.com/51azxc/51azxc.github.io.git|${blog}@github.com/51azxc/51azxc.github.io.git|g" _config.yml
+  - sed -i "s|${BLOG_URL}|${blog}@${BLOG_URL}|g" _config.yml
   - npm install -g hexo-cli
 #安装依赖
 install:
