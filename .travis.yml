@@ -6,10 +6,15 @@ node_js: stable
 cache:
   directories:
     - node_modules
+#指定分支
+branches:
+  only:
+    - source
 #安装前先配置一些属性
 before_install:
   - git config user.name "51azxc"
   - git config user.email "hhj0862@outlook.com"
+  - sed -i "s|github.com/51azxc/51azxc.github.io.git|${blog}@github.com/51azxc/51azxc.github.io.git" _config.yml
   - npm install -g hexo-cli
 #安装依赖
 install:
@@ -18,14 +23,4 @@ install:
 script:
   - hexo clean
   - hexo generate
-#指定分支
-branches:
-  only:
-    - source
-#提交部署
-after_script:
-  cd ./public
-  git init
-  git add .
-  git commit -m "Travis-cli builder"
-  git push --force --quiet "https://${blog}@github.com/51azxc/51azxc.github.io.git" master:master
+  - hexo deploy
