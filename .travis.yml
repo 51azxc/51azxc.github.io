@@ -13,7 +13,7 @@ branches:
 #设置环境变量
 env:
   global:
-    - BLOG_URL: github.com/51azxc/51azxc.github.io.git
+    - BLOG_URL="github.com/51azxc/51azxc.github.io.git"
 #安装前先配置一些属性
 before_install:
   - git config user.name "51azxc"
