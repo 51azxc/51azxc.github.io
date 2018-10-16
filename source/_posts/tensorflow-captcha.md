@@ -319,6 +319,10 @@ Predictive value: sj5d59 Actual value: sj5d59
 Predictive value: vm33el Actual value: vm33wl
 ```
 这样看来算是比较出色的完成了识别任务了。感觉现在简单的验证码也拦不住机器了。
+最后可以使用`shutil`里的方法删除掉生成的图片做一些收尾工作:
+```python
+shutil.rmtree(folder_path, ignore_errors=True)
+```
 
 ----
 
@@ -386,6 +390,7 @@ def cnn_model(features, labels, mode):
 def train_model(steps, batch_size, training_examples, training_targets, test_examples, test_targets):
   training_input_fn = lambda: input_fn(training_examples, training_targets, batch_size=batch_size)
   test_input_fn = lambda: input_fn(test_examples, test_targets, num_epochs=1, shuffle=False)
+  model_dir = 'tmp'
   shutil.rmtree(model_dir, ignore_errors=True)
   model = tf.estimator.Estimator(model_fn=cnn_model, model_dir=model_dir)
   model.train(input_fn=training_input_fn, steps=steps)
