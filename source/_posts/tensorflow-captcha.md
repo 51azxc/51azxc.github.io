@@ -64,10 +64,10 @@ def generate_image_code(path=folder_path, char_list=captcha_set, size=captcha_le
 ```python
 if not tf.gfile.Exists(folder_path):
   tf.gfile.MkDir(folder_path)
-  for _ in range(10000):
+  for _ in range(20000):
     generate_image_code(path, captcha_set, captcha_length)
 ```
-这里生成了10000组验证码图片，对比起mnist的那数据规模来说算是小的了。这里的数据规模跟[超参数](https://developers.google.com/machine-learning/crash-course/glossary#hyperparameter)一样都是会影响到最终生成模型的准确率。一般来说越多是越好，不过太多的数据会导致训练的过程变的更加缓慢。
+这里生成了20000组验证码图片，对比起mnist的那数据规模来说算是小的了。这里的数据规模会影响到最终生成模型的准确率。一般来说越多越随机是越好，不过数据变多就会导致训练的过程变的更加缓慢。
 
 #### 拆分数据集
 在生成了一堆所需要的图片数据之后，我们接下来需要做的就是将它们拆分成**训练集**与**测试集**两个子集。训练集是用于训练模型的子集，而测试集则是用于测试训练后模型的子集。
@@ -129,7 +129,7 @@ def parse_image(feature, label=None):
             [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 1, 0, 0, 0, 0]]
 ```
-独热编码常用于表示拥有有限个可能值的字符串或标识符。我们的标签值为验证码对应着在`captcha_set`中的数组下标，可以转换成`captcha_length x captcha_size`(6 x 35)大小的独热编码。
+独热编码常用于表示拥有有限个可能值的字符串或标识符。我们的标签值为验证码对应着在`captcha_set`中的数组下标，可以转换成`captcha_length x captcha_size`(6 x 36)大小的独热编码。
 
 #### 生成输入函数
 
@@ -221,7 +221,7 @@ def grad(model, inputs, targets):
 model = CnnModel()
 train_dataset = input_fn(train_features, train_labels, batch_size=32, num_epochs=1)
 optimizer = tf.train.AdamOptimizer(learning_rate=0.001)
-epochs = 50
+epochs = 51
 
 for epoch in range(epochs):
   train_loss_avg = tf.contrib.eager.metrics.Mean()
@@ -240,14 +240,14 @@ for epoch in range(epochs):
 
 在循环训练中，程序会从训练集中遍历每个样本，提取出样本的特征及标签；然后通过梯度函数得到预测结果与损失率及梯度；接着优化器会根据梯度指标更新模型的变量。中途程序将记录模型的损失率及准确率，以便查看。
 ```
-Epoch 000: Loss: 0.140, Accuracy: 2.871%
-Epoch 010: Loss: 0.017, Accuracy: 95.656%
-Epoch 020: Loss: 0.006, Accuracy: 99.279%
-Epoch 030: Loss: 0.004, Accuracy: 99.590%
-Epoch 040: Loss: 0.003, Accuracy: 99.721%
+Epoch 000: Loss: 0.136, Accuracy: 2.870%
+Epoch 010: Loss: 0.011, Accuracy: 97.896%
+Epoch 020: Loss: 0.005, Accuracy: 99.329%
+Epoch 030: Loss: 0.004, Accuracy: 99.643%
+Epoch 040: Loss: 0.003, Accuracy: 99.759%
+Epoch 050: Loss: 0.002, Accuracy: 99.825%
 ```
-可以看到一开始模型对这些数据束手无策，全靠瞎猜，准确率低的可怜。经过不断的循环训练之后，准确率将变的越来越高。后续加大epochs可能有更高的准确率，只不过我实在等不下去了......
-训练这个步骤对计算要求十分高，因此十分耗时，所以有个好的CPU或者GPU那花费的时间将大大减少。
+可以看到一开始模型对这些数据束手无策，全靠瞎猜，准确率低的可怜。经过不断的循环训练之后，准确率将变的越来越高，损失率也变的越来越低。这一步耗时十分长，而且十分吃CPU，因此有个好的CPU或者GPU那花费的时间将大大减少。
 
 ----
 
@@ -267,9 +267,9 @@ print("Test Accuracy: {:.2%}".format(test_accuracy.result()))
 我们通过输入函数生成了测试数据集，然后迭代测试数据集，提取样本中的特征让模型进行预测，然后通过与样本标签之前的对比而得出测试集的准确率。
 在这里需要注意的是模型进行评估时就不需要进行过拟合操作了，因此需要设置`training=False`。我们的标签及模型输出值都是独热编码，因此需要通过`tf.argmax`来得到他们的数组下标，类似独热编码的反向操作。
 ```
-Test Accuracy: 93.96%
+Test Accuracy: 96.80%
 ```
-准确率还不算低，如果对模型感到满意，可以调用`model.save_weights()`方法来保存模型，这样下次可以通过`model.load_weights()`方法来载入训练完毕的模型。
+准确率还不算低，只能说CNN不愧是对目前对图像识别最先进的模型。如果对模型感到满意，可以调用`model.save_weights()`方法来保存模型，这样下次可以通过`model.load_weights()`方法来载入训练完毕的模型。
 
 > 由于这里使用的是`subclassing`的方式，因此`tf.keras.models.Model`的某些内置方法如`model.save()`、`model.summary()`是不能使用的。
 
@@ -307,16 +307,16 @@ if predict_labels is not None:
 ```
 得到的自然是图片中的验证码对应着在`captcha_set`中的数组下标，然后通过在`captcha_set`集合中查找，最终得到了对应的验证码。
 ```
-Predictive value: 2xjyej Actual value: 2xjyej
-Predictive value: 66azsm Actual value: 66azsm
-Predictive value: dvknys Actual value: dvknys
-Predictive value: i43hg5 Actual value: i43hg5
-Predictive value: 1n7ggm Actual value: jn7ggm
-Predictive value: nimacm Actual value: nimacm
-Predictive value: pd5tkz Actual value: pd5tkz
-Predictive value: q468lu Actual value: q468lu
-Predictive value: sj5d59 Actual value: sj5d59
-Predictive value: vm33el Actual value: vm33wl
+Predictive value: 2gz6yt Actual value: 2gz6yt
+Predictive value: 2mza8c Actual value: 2mza8c
+Predictive value: 3elyvi Actual value: 3eiyvi
+Predictive value: 3krvqx Actual value: 3krvqx
+Predictive value: 9gsbvr Actual value: 9gsbvr
+Predictive value: eedyaz Actual value: eedyaz
+Predictive value: pe3rpe Actual value: pe3rpe
+Predictive value: pyfs6p Actual value: pyfs6p
+Predictive value: q0wvnx Actual value: q0wvnx
+Predictive value: xl29u6 Actual value: xl29u6
 ```
 这样看来算是比较出色的完成了识别任务了。感觉现在简单的验证码也拦不住机器了。
 最后可以使用`shutil`里的方法删除掉生成的图片做一些收尾工作:
