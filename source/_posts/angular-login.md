@@ -8,10 +8,6 @@ categories: ["JavaScript", "Angular"]
 
 <!-- more -->
 
-> [Handling User Authentication With Angular and Flask](https://realpython.com/blog/python/handling-user-authentication-with-angular-and-flask/)
-> [AngularJS User Registration and Login Example & Tutorial](http://jasonwatmore.com/post/2015/03/10/AngularJS-User-Registration-and-Login-Example.aspx)
-> [Authentication made simple in Single Page AngularJS Applications](http://brewhouse.io/blog/2014/12/09/authentication-made-simple-in-single-page-angularjs-applications.html)
-
 首先在路由设置中添加对应的变量`requireLogin`来断定是否登陆:
 ```js
 $stateProvider
@@ -198,3 +194,10 @@ def creaetBlog():
 这里面使用了`Flask-HTTPAuth`来进行**HTTP BASIC Authentication**的方法来进行验证。
 在标注了`@auth.login_required`的注解的方法则表明需要让`Flask-HTTPAuth`需要验证用户信息。通过实现`verify_password`回调函数去验证用户名和密码，然后`Flask-HTTPAuth`再调用这个回调函数，这样就验证用户是否授权了。
 当通过授权的用户信息则是保存在应用上下文`g`对象中，这样其他函数就可以调用到登陆的用户信息，相当于存在`session`中。
+
+----
+
+> 参考
+> [Handling User Authentication With Angular and Flask](https://realpython.com/blog/python/handling-user-authentication-with-angular-and-flask/)
+> [AngularJS User Registration and Login Example & Tutorial](http://jasonwatmore.com/post/2015/03/10/AngularJS-User-Registration-and-Login-Example.aspx)
+> [Authentication made simple in Single Page AngularJS Applications](http://brewhouse.io/blog/2014/12/09/authentication-made-simple-in-single-page-angularjs-applications.html)

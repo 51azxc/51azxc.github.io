@@ -7,6 +7,8 @@ categories: ["Java", "Spring"]
 
 现在的Web项目基本上都是前后端分离，后端专注于提供API接口即可，使用Spring Boot来开发RESTful API十分方便，如果需要保护这些API接口搭配Spring全家桶套餐中的Spring Security算是不错的选择。之前在Spring官网看Spring Security相关的示例是包含了网页访问相关的内容，并不是只提供接口访问的Web后端。接下来我就试试用JWT来保护这些后端提供的接口。
 
+<!-- more -->
+
 > `JSON Web Token(JWT)`是一个基于JSON的开放标准[（RFC 7519）](https://tools.ietf.org/html/rfc7519)，用于创建声明一些声明的访问令牌。[wiki](https://en.wikipedia.org/wiki/JSON_Web_Token)
 
 ### 基本配置

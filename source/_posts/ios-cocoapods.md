@@ -4,12 +4,8 @@ tags: "Cocoapods"
 categories: "iOS"
 ---
 
-> [CocoaPods详解之----使用篇](http://blog.csdn.net/wzzvictory/article/details/18737437)
-> [用CocoaPods做iOS程序的依赖管理](http://blog.devtang.com/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/)
-> [CocoaPods 安装 使用](http://www.jianshu.com/p/071d30a3af02)
-> [CocoaPods报错：The dependency `AFNetworking ` is not used in any concrete target](http://blog.csdn.net/sjl_leaf/article/details/50506057)
-
 ### 安装
+
 在安装之前，先做一些准备工作。首先需要替换掉`Ruby`的默认源:
 ```bash
 gem sources -a https://ruby.taobao.org/
@@ -69,8 +65,6 @@ pod install
 
 ### 卸载Cocoapods
 
-> [如何从电脑中卸载cocoapods](http://blog.csdn.net/qq_18670721/article/details/50432892)
-
 首先使用命令查找`pod`的安装路径
 ```bash
 which pod
@@ -89,3 +83,12 @@ sudo gem uninstall cocoapods
 ```
 如果有多个版本同时存在，终端会提示需要删除哪一个版本，按对应的数字即可。
 这样`Cocoapods`就算是成功卸载了。
+
+----
+
+> 参考
+> [CocoaPods详解之----使用篇](http://blog.csdn.net/wzzvictory/article/details/18737437)
+> [用CocoaPods做iOS程序的依赖管理](http://blog.devtang.com/2014/05/25/use-cocoapod-to-manage-ios-lib-dependency/)
+> [CocoaPods 安装 使用](http://www.jianshu.com/p/071d30a3af02)
+> [CocoaPods报错：The dependency `AFNetworking ` is not used in any concrete target](http://blog.csdn.net/sjl_leaf/article/details/50506057)
+> [如何从电脑中卸载cocoapods](http://blog.csdn.net/qq_18670721/article/details/50432892)

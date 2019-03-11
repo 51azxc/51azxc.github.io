@@ -8,11 +8,6 @@ Spring Data JPA 简单教程。
 
 <!-- more -->
 
-> [Spring JPA Data + Hibernate + MySQL + Maven](https://www.javacodegeeks.com/2013/05/spring-jpa-data-hibernate-mysql-maven.html)
-> [Spring Data Jpa 详解 （配置篇）](http://www.cnblogs.com/liuyitian/p/4062748.html)
-> [spring-data-jpa 使用](http://mybar.iteye.com/blog/1863390)
-> [深入浅出学Spring Data JPA](http://sishuok.com/forum/blogPost/list/7000.html)
-
 配置类:
 ```java
 @Configuration
@@ -239,3 +234,9 @@ public class TestController {
 	//...
 }
 ```
+
+> 参考
+> [Spring JPA Data + Hibernate + MySQL + Maven](https://www.javacodegeeks.com/2013/05/spring-jpa-data-hibernate-mysql-maven.html)
+> [Spring Data Jpa 详解 （配置篇）](http://www.cnblogs.com/liuyitian/p/4062748.html)
+> [spring-data-jpa 使用](http://mybar.iteye.com/blog/1863390)
+> [深入浅出学Spring Data JPA](http://sishuok.com/forum/blogPost/list/7000.html)

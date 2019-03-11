@@ -8,10 +8,6 @@ categories: ["JavaScript", "Angular"]
 
 <!-- more -->
 
-> [AngularJS Form Validation](https://scotch.io/tutorials/angularjs-form-validation)
-> [Form validation with AngularJS](http://www.ng-newsletter.com/posts/form-validation-with-angularjs.html)
-> [password-check directive in angularjs](http://stackoverflow.com/questions/14012239/password-check-directive-in-angularjs)
-
 ### 基本表单验证
 
 `Angular`的表单验证的部分属性:
@@ -23,8 +19,6 @@ categories: ["JavaScript", "Angular"]
 | `$pristine` | ng-pristine | 表单还没有被输入任何字符，`boolean`类型 |
 | `$dirty` | ng-dirty | 表单已经有输入字符，清除为空也算， `boolean`类型 |
 | `$touched` | ng-touched | 表单的任何输入框处罚了`onblur`事件，即获取焦点后又失去了焦点。`boolean`类型 |
-
-<!-- more -->
 
 接下来开始构建一个表单:
 ```html
@@ -202,3 +196,10 @@ myApp.directive('passwordMatch', [function(){
 </div>
 ```
 关于**指令**部分，可以参考[官方文档](https://docs.angularjs.org/guide/directive)
+
+----
+
+> 参考
+> [AngularJS Form Validation](https://scotch.io/tutorials/angularjs-form-validation)
+> [Form validation with AngularJS](http://www.ng-newsletter.com/posts/form-validation-with-angularjs.html)
+> [password-check directive in angularjs](http://stackoverflow.com/questions/14012239/password-check-directive-in-angularjs)

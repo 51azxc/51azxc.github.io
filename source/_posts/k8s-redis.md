@@ -13,8 +13,6 @@ categories: ["Kubernetes"]
 
 ### 安装Kubernetes工具
 
-> [使用minikube在本机搭建kubernetes集群](https://qii404.me/2018/01/06/minukube.html)
-
 首先先安装相关工具`kubectl`，执行[官网](https://kubernetes.io/docs/tasks/tools/install-kubectl/)提供的命令
 ```bash
 curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x ./kubectl && sudo mv ./kubectl /usr/local/bin/kubectl
@@ -439,3 +437,6 @@ storage-provisioner                     1/1       Running   0          5h
 ```
 
 看到他们都已经成功运行了，再运行一下`sudo minikube dashboard`命令，终于算是成功打开浏览器并且访问到**Kubernetes**的控制面板了。
+
+> 参考
+> [使用minikube在本机搭建kubernetes集群](https://qii404.me/2018/01/06/minukube.html)

@@ -7,6 +7,7 @@ categories: ["Java", "Spring"]
 
 在`Spring Boot`中加入`Spring Security`功能的话，官方给出了一个很好的例子。例子中给出的验证用户是放在内存中的，不过我想试试常规一点的方法，将用户存储到数据库中。
 
+<!-- more -->
 
 ### 前期配置
 
@@ -251,6 +252,7 @@ public static Application {
 ```
 这里我们通过调用`UserSerivce`中的方法加入一个用户，接下来就是运行一下项目查看成果了。
 
+> 参考
 > [Securing a Web Application](https://spring.io/guides/gs/securing-web/)
 > [springboot+mybatis＋SpringSecurity 实现用户角色数据库管理](http://blog.csdn.net/u012373815/article/details/54632176)
 > [Spring Boot + Spring MVC + Spring Security + MySQL](https://medium.com/@gustavo.ponce.ch/spring-boot-spring-mvc-spring-security-mysql-a5d8545d837d)
