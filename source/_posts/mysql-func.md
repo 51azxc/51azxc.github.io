@@ -1,7 +1,7 @@
 title: "MySQL函数命令"
 date: 2015-05-05 11:32:10
 tags: ["date", "string", "sql"]
-categories: ["Batabase", "MySQL"]
+categories: ["Database", "MySQL"]
 ---
 
 ### MySQL函数
