@@ -7,7 +7,7 @@ categories: ["Java", "Spring"]
 
 访问控制列表（*Access Control List*,即 ACL）是用以对指定对象权限进行管理的一组列表。Spring Security ACL可以在单个域对象上定义特定的用户/角色权限。例如，一个拥有管理员角色的用户可以读取(READ)与删除(DELETE)所有的资源，而普通用户只能查看自己的资源。可以认为是不同的用户/角色对不同的指定对象有着不同的权限。接下来我就来试试Spring Security ACL是如何实现这一基本功能的。
 
-<!-- more -->
+<!--more-->
 
 ### 配置
 

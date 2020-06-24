@@ -1,3 +1,4 @@
+---
 title: "Angular表单部分知识点"
 date: 2016-08-03 18:07:14
 tags: ["Angular", "form"]
@@ -6,7 +7,7 @@ categories: ["JavaScript", "Angular"]
 
 收集一些使用Angular处理表单的知识点。
 
-<!-- more -->
+<!--more-->
 
 ### 基本表单验证
 

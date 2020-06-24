@@ -1,20 +1,13 @@
+---
 title: "GCD相关知识"
 date: 2015-04-21 16:28:55
 tags: "GCD"
 categories: ["iOS","Objective-C"]
 ---
 
-> [GCD 深入理解（一）](http://www.cocoachina.com/industry/20140428/8248.html)
-> [GCD 深入理解（二）](http://www.cocoachina.com/industry/20140515/8433.html)
-> [iOS GCD使用指南](http://blog.csdn.net/zhangao0086/article/details/38904923)
-> [GCD介绍](http://www.cnblogs.com/lovesmile/archive/2012/09/13/2683468.html)
-> [多线程编程4 - GCD](http://blog.csdn.net/q199109106q/article/details/8566300)
-> [iOS多线程编程之Grand Central Dispatch(GCD)介绍和使用](http://blog.csdn.net/totogo2010/article/details/8016129)
-> [利用dispatch_once创建单例](http://bj007.blog.51cto.com/1701577/649413/)
-
 GCD是Grand Central Dispatch的简称,它是基于C语言的。如果使用GCD，完全由系统管理线程，我们不需要编写线程代码。只需定义想要执行的任务,然后添加到适当的调度队列(dispatch queue)。GCD会负责创建线程和调度你的任务，系统直接提供线程管理
 
-<!-- more -->
+<!--more-->
 
 ### GCD 术语
 要理解 GCD ，你要先熟悉与线程和并发相关的几个概念。这两者都可能模糊和微妙，所以在开始 GCD 之前先简要地回顾一下它们。
@@ -259,3 +252,14 @@ dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		[[NSRunLoop mainRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
 	});        
 });
+```
+
+----
+
+> [GCD 深入理解（一）](http://www.cocoachina.com/industry/20140428/8248.html)
+> [GCD 深入理解（二）](http://www.cocoachina.com/industry/20140515/8433.html)
+> [iOS GCD使用指南](http://blog.csdn.net/zhangao0086/article/details/38904923)
+> [GCD介绍](http://www.cnblogs.com/lovesmile/archive/2012/09/13/2683468.html)
+> [多线程编程4 - GCD](http://blog.csdn.net/q199109106q/article/details/8566300)
+> [iOS多线程编程之Grand Central Dispatch(GCD)介绍和使用](http://blog.csdn.net/totogo2010/article/details/8016129)
+> [利用dispatch_once创建单例](http://bj007.blog.51cto.com/1701577/649413/)
