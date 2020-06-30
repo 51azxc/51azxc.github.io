@@ -98,7 +98,7 @@ students.stream().distinct().forEach(System.out::println);
 #### filter方法
 
 如果不想修改自定义类的`equals()`与`hashCode()`方法，就可以利用`filter`方法来过滤掉重复的类。
-`filter`方法接收的是一个`Predicate`,他可以过滤掉在`stream`中与该`Predicate`匹配的元素，
+`filter`方法接收的是一个`Predicate`,他可以筛选出在`stream`中与该`Predicate`匹配的元素，
 因此可以写个去重的`Predicate`来达到目的：
 ```java
 public static <T> Predicate<T> distinctByKeys(Function<? super T, ?>... keyExtractors) {
@@ -110,15 +110,19 @@ public static <T> Predicate<T> distinctByKeys(Function<? super T, ?>... keyExtra
 }
 ```
 `Function`有点类似匿名函数，他通过传入一个参数，然后可以返回一个结果。
-这里通过将这些`Function`组成一个列表当作`Map`的key存入到指定的`Map`中，
-`putIfAbset`表示如果`Map`中找不到该键所对应的值或者值为`null`时，则将该键值存储到`Map`中，并且返回`null`,否则就返回获取到的值。简单来说，就是不会覆盖已存在的值。
-如果是不重复元素，加入到`Map`中都会返回`null`,而重复的元素则会提取出值来不为`null`,最终配合`filter()`方法可以过滤掉重复的元素。
+这里通过将这些`Function`的执行结果组成一个列表当作`Map`的key存入到指定的`Map`中，
+`putIfAbset`方法与`put`方法不同点在于它并不会覆盖掉`Map`中已存在的键值对，并且还会返回该键所对应的值。
+所以如果`Map`中没有该键值对时，必然返回的值为`null`。
+因此第一次放入`Map`中的元素都能成功放入，返回的都是`null`,如果`Map`本身已包含了该元素，则不会返回`null`，说明该元素已经重复了。
+这里主要是通过键来过滤元素，对值的要求不高，使用`Boolean.True`对象是因为它占用的字节数较少。
+因为`stream`有可能通过`parallel()`方法来变成一个`parallelStream`,因此需要使用`ConcurrentHashMap`来确保多线程下的访问。
+最终配合`filter()`方法可以过滤掉重复的元素。
 ```java
 students.stream().filter(distinctByKeys(Student::getName, Student::getAge)).forEach(System.out::println);
 ```
 最终输出结果与上边过滤结果一致。
 
-如果只是想要利用类的单个属性来过滤，则直接将`Function`作为key即可：
+如果只是想要利用类的单个属性来过滤，则直接将`Function`的执行结果作为key即可：
 ```java
 public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
     Map<Object, Boolean> map = new ConcurrentHashMap<>();

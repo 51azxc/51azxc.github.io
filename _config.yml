@@ -77,5 +77,6 @@ search:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/51azxc/51azxc.github.io.git
+  #repo: https://github.com/51azxc/51azxc.github.io.git
+  repo: git@github.com:51azxc/51azxc.github.io.git
   branch: master
