@@ -216,3 +216,11 @@ git submodule deinit submodule_name
 git rm --cached submodule_name
 rm -rf .git/modules/submodule_name
 ```
+
+### submodule更新版本
+
+如果修改了子模块里的内容，需要先到子模块目录里`git commit -am`然后成功`git push`到远端服务器上，接着在主项目目录下输入一下命令：
+```bash
+git submodule update --remote --merge
+```
+即可将子模块更新到最新版本，接着`push`主项目分支到远端服务器上即可。

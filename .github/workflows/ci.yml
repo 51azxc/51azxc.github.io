@@ -2,26 +2,26 @@ name: DELPOY_HEXO_BLOG
 
 on:
   push:
-    branches: [ source ]
+    branches: [ source ]                            # 当此branches有push操作时触发
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest                          # 运行在最新版本的ubuntu环境中
 
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - name: checkout
-      uses: actions/checkout@v2
+    - name: checkout                                # 获取内容下载到$GITHUB_WORKSPACE中
+      uses: actions/checkout@v2                     # https://github.com/marketplace/actions/checkout
       with:
-        submodules: true
+        submodules: true                            # themes下的主题为子模块，因此需要一起checkout
 
    # - name: Update Submodule
-   #   run: git submodule update --init --recursive
+   #   run: |
+   #     git submodule update --init --recursive    # 拉取子模块
 
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v2.1.0
+    - name: Setup Node.js environment               # 安装Nodejs环境
+      uses: actions/setup-node@v2.1.0               # https://github.com/marketplace/actions/setup-node-js-environment
       with: 
-        node-version: 12.x 
+        node-version: 12.x                          # 指定Nodejs版本
     
     - name: Setup Hexo
       env:
