@@ -5,7 +5,7 @@ tags: ["Java"]
 categories: ["Java"]
 ---
 
-**JDK8**加入了`Optional`这一利器用来对付`null`。它里边就包含了`orElse`与`orElseGet`方法。
+**Java8**加入了`Optional`这一利器用来对付`null`。它里边就包含了`orElse`与`orElseGet`方法。
 单看方法及注释的话，它俩的区别就是接收的参数不一样，以及一个返回`null`,另一个则不允许。
 不过最近在使用过程中发现它俩还有一个区别，就是*无论`Optional`中的值为不为`null`，
 `orElse`都会有执行，而`orElseGet`则不会执行。*
