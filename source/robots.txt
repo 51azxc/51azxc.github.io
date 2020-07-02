@@ -8,3 +8,4 @@ Disallow: /fonts/
 Disallow: /vendors/
 Disallow: /fancybox/
 Sitemap: https://51azxc.github.io/sitemap.xml
+Sitemap: https://51azxc.github.io/baidusitemap.xml
