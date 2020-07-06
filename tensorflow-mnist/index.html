@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Ruthie:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="TensorFlow,CNN,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Tensorflow的layers模块提供了一些高等API用于更加容易的构建神经网络。它提供了方便创建密集（全连接）层/卷积层，添加激励函数，及使用正则化解决过拟合等一系列方法。在这个教程中，你将学习到如何使用layers创建一个用于识别MNIST手写数字集合的卷积神经网络。">
+<meta name="keywords" content="TensorFlow,CNN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Tensorflow建立一个卷积神经网络">
+<meta property="og:url" content="https://51azxc.github.io/tensorflow-mnist/index.html">
+<meta property="og:site_name" content="Shepard&#39;s Blog">
+<meta property="og:description" content="Tensorflow的layers模块提供了一些高等API用于更加容易的构建神经网络。它提供了方便创建密集（全连接）层/卷积层，添加激励函数，及使用正则化解决过拟合等一系列方法。在这个教程中，你将学习到如何使用layers创建一个用于识别MNIST手写数字集合的卷积神经网络。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://tensorflow.google.cn/images/mnist_0-9.png">
+<meta property="og:updated_time" content="2020-07-06T10:57:41.916Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Tensorflow建立一个卷积神经网络">
+<meta name="twitter:description" content="Tensorflow的layers模块提供了一些高等API用于更加容易的构建神经网络。它提供了方便创建密集（全连接）层/卷积层，添加激励函数，及使用正则化解决过拟合等一系列方法。在这个教程中，你将学习到如何使用layers创建一个用于识别MNIST手写数字集合的卷积神经网络。">
+<meta name="twitter:image" content="https://tensorflow.google.cn/images/mnist_0-9.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://51azxc.github.io/tensorflow-mnist/">
+
+
+
+
+
+  <title>使用Tensorflow建立一个卷积神经网络 | Shepard's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shepard's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Nothing is true everything is permitted</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://51azxc.github.io/tensorflow-mnist/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shepard">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shepard's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">使用Tensorflow建立一个卷积神经网络</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-29T15:43:44+00:00">
+                2018-05-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/TensorFlow/" itemprop="url" rel="index">
+                    <span itemprop="name">TensorFlow</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/tensorflow-mnist/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="tensorflow-mnist/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Tensorflow的<a href="https://www.tensorflow.org/api_docs/python/tf/layers" rel="external nofollow noopener noreferrer" target="_blank"><code>layers</code>模块</a>提供了一些高等API用于更加容易的构建神经网络。它提供了方便创建密集（全连接）层/卷积层，添加激励函数，及使用正则化解决过拟合等一系列方法。在这个教程中，你将学习到如何使用<code>layers</code>创建一个用于识别MNIST手写数字集合的卷积神经网络。</p>
+<a id="more"></a>
+<p><img src="https://tensorflow.google.cn/images/mnist_0-9.png" alt="0123456789"></p>
+<p><strong><a href="http://yann.lecun.com/exdb/mnist/" rel="external nofollow noopener noreferrer" target="_blank">MNIST数据集</a>包含了60,000个训练用例及10,000个测试用例，它们由内容为0-9个手写数字，大小为28*28像素的单色图片组成。</strong></p>
+<hr>
+<h3 id="准备开始"><a href="#准备开始" class="headerlink" title="准备开始"></a>准备开始</h3><p>让我们首先开始创建一个Tensorflow程序的<code>cnn_mnist.py</code>文件，加入如下代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> absolute_import</span><br><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> division</span><br><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function</span><br><span class="line"></span><br><span class="line"><span class="comment"># 引入基本组件</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line">tf.logging.set_verbosity(tf.logging.INFO)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 我们的程序逻辑将写于此</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">  tf.app.run()</span><br></pre></td></tr></table></figure></p>
+<p>当完成这部分教程之后，你将会添加构建、训练、评估卷积神经网络的代码于上文件之中。完整的代码可以在<a href="https://www.github.com/tensorflow/tensorflow/blob/r1.8/tensorflow/examples/tutorials/layers/cnn_mnist.py" rel="external nofollow noopener noreferrer" target="_blank">这里</a>查看。</p>
+<h3 id="卷积神经网络简单介绍"><a href="#卷积神经网络简单介绍" class="headerlink" title="卷积神经网络简单介绍"></a>卷积神经网络简单介绍</h3><p>卷积神经网络(CNNs)是目前用于图片分类任务中最先进的模型架构。卷积神经网络通过过滤图片的原始数据以提取出一系列更高级别的特征，并加以学习用于构建分类模型。它包含了三个部分：</p>
+<ul>
+<li><strong>卷积层</strong>:将指定数量的卷积滤镜单元应用于图像中，然后在每个子区域中执行一组数学运算操作从而生成一个单一值放入到输出特征映射集合中。卷积层通常应用ReLU激活函数将非线性因素引入到模型中。</li>
+<li><strong>池化层</strong>:为了减少处理时间，池化层会对由卷积层提取的图像数据进行<a href="https://en.wikipedia.org/wiki/Convolutional_neural_network#Pooling_layer" rel="external nofollow noopener noreferrer" target="_blank">向下采样</a>，这样可以减小数据的空间大小。常用的池化算法是最大池化，它将输出特征映射集合划分为若干个子区域（例如，2×2像素区块），提取这些区域的最大值并丢弃其他值。</li>
+<li><strong>密集（全连接）层</strong>:对由上述两个模块输出的特征进行分类。在一个全连接层中，层中的每个节点都连接到上一层的每个节点。</li>
+</ul>
+<p>通常来说，一个卷积神经网络由一叠执行特征提取的卷积模块构成。每个卷积模块都是由一个卷积层接一个池化层组成(这样可以更完整的获取图片特征)。最后一层卷积模块一般会接一个或多个用于执行分类操作的全连接层。CNN中的最终全连接层包含模型中每个目标分类的单个节点（模型可能预测的所有可能性的分类），使用<a href="https://en.wikipedia.org/wiki/Softmax_function" rel="external nofollow noopener noreferrer" target="_blank">softmax</a>激活函数为每个节点生成一个0-1的值(这些值最终相加总和为1)。这些值就是给定图像上区域落在每个目标分类的可能性的相对测量值。</p>
+<blockquote>
+<p>如果想要更全面的了解卷积神经网络，可以参考斯坦福大学的<a href="https://cs231n.github.io/convolutional-networks/" rel="external nofollow noopener noreferrer" target="_blank"> Convolutional Neural Networks for Visual Recognition course materials</a>.</p>
+</blockquote>
+<hr>
+<h3 id="构建分类MNIST数据的卷积神经网络"><a href="#构建分类MNIST数据的卷积神经网络" class="headerlink" title="构建分类MNIST数据的卷积神经网络"></a>构建分类MNIST数据的卷积神经网络</h3><p>让我们按以下架构开始构建：</p>
+<ol>
+<li><strong>卷积层 #1</strong>：以5x5为单位面积大小提取深度为32的特征集合，并且添加ReLU激活函数。</li>
+<li><strong>池化层 #1</strong>：使用最大池化算法以2x2为单位面积，步数为2对卷积层#1得到的输出特征缩减一半。</li>
+<li><strong>卷积层 #2</strong>：以5x5为单位面积大小提取深度为64的特征集合，并且添加ReLU激活函数。</li>
+<li><strong>池化层 #2</strong>：继续池化层#1的操作，将输出特征单位大小再压缩一半。</li>
+<li><strong>密集层 #1</strong>：将输出特征组合成包含1024个神经元的全连接层，同时驱除40%的输出特征集合以防止过拟合。</li>
+<li><strong>密集层 #2（逻辑层）</strong>：包含10个神经元，每个神经元表示0-9这10个数字的目标分类。</li>
+</ol>
+<p>对于构建上述三种不同类型的层，<a href="https://www.tensorflow.org/api_docs/python/tf/layers" rel="external nofollow noopener noreferrer" target="_blank"><code>tf.layers</code></a>模块提供了下列便捷方法：</p>
+<ul>
+<li><code>conv2d()</code>：构建一个二维的卷积层。参数包括输出特征维度(filters),卷积内核大小(kernel size),卷积填充方式(padding)及应用激活函数(activation function)。</li>
+<li><code>max_pooling2d()</code>：使用最大池化算法构建一个二维池化层。参数包括单位池化大小(filter size)及步幅(stride)。</li>
+<li><code>dense()</code>：构建一个密集层。参数包括神经元个数及激活函数。</li>
+</ul>
+<p>上述所有的方法都接受一个张量(tensor)作为输入值然后输出一个经过变换的张量。这样每层之间就可以通过接收上一层返回的输出值作为输入值这样的方式很容易的组合在一起。</p>
+<p>继续添加<code>cnn_model_fn</code>函数，此函数符合TensorFlow的Estimator API所期望的接口（后边有关于此部分的更多<a href="https://www.tensorflow.org/tutorials/layers#create_the_estimator" rel="external nofollow noopener noreferrer" target="_blank">内容</a>）。<code>cnn_mnist.py</code>使用从MNIST数据集中取出的特征数据，标签(labels)及<a href="https://www.tensorflow.org/api_docs/python/tf/estimator/ModeKeys" rel="external nofollow noopener noreferrer" target="_blank">模型类型</a>(<code>TRAIN</code>,<code>EVAL</code>,<code>PREDICT</code>)作为参数；函数过程为配置好卷积神经网络模型；返回一个需要在Estimator运行的模型，包含了预测模型，损失率及训练方式：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cnn_model_fn</span><span class="params">(features, labels, mode)</span>:</span></span><br><span class="line">  <span class="string">"""Model function for CNN."""</span></span><br><span class="line">  <span class="comment"># 输入层 Input Layer</span></span><br><span class="line">  input_layer = tf.reshape(features[<span class="string">"x"</span>], [<span class="number">-1</span>, <span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 卷积层 Convolutional Layer #1</span></span><br><span class="line">  conv1 = tf.layers.conv2d(</span><br><span class="line">      inputs=input_layer,</span><br><span class="line">      filters=<span class="number">32</span>,</span><br><span class="line">      kernel_size=[<span class="number">5</span>, <span class="number">5</span>],</span><br><span class="line">      padding=<span class="string">"same"</span>,</span><br><span class="line">      activation=tf.nn.relu)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 池化层 Pooling Layer #1</span></span><br><span class="line">  pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[<span class="number">2</span>, <span class="number">2</span>], strides=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 卷积层 #2 &amp; 池化 #2</span></span><br><span class="line">  conv2 = tf.layers.conv2d(</span><br><span class="line">      inputs=pool1,</span><br><span class="line">      filters=<span class="number">64</span>,</span><br><span class="line">      kernel_size=[<span class="number">5</span>, <span class="number">5</span>],</span><br><span class="line">      padding=<span class="string">"same"</span>,</span><br><span class="line">      activation=tf.nn.relu)</span><br><span class="line">  pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[<span class="number">2</span>, <span class="number">2</span>], strides=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 密集层 Dense Layer</span></span><br><span class="line">  pool2_flat = tf.reshape(pool2, [<span class="number">-1</span>, <span class="number">7</span> * <span class="number">7</span> * <span class="number">64</span>])</span><br><span class="line">  dense = tf.layers.dense(inputs=pool2_flat, units=<span class="number">1024</span>, activation=tf.nn.relu)</span><br><span class="line">  dropout = tf.layers.dropout(</span><br><span class="line">      inputs=dense, rate=<span class="number">0.4</span>, training=mode == tf.estimator.ModeKeys.TRAIN)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># 逻辑层 Logits Layer</span></span><br><span class="line">  logits = tf.layers.dense(inputs=dropout, units=<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">  predictions = &#123;</span><br><span class="line">      <span class="comment"># Generate predictions (for PREDICT and EVAL mode)</span></span><br><span class="line">      <span class="string">"classes"</span>: tf.argmax(input=logits, axis=<span class="number">1</span>),</span><br><span class="line">      <span class="comment"># Add `softmax_tensor` to the graph. It is used for PREDICT and by the</span></span><br><span class="line">      <span class="comment"># `logging_hook`.</span></span><br><span class="line">      <span class="string">"probabilities"</span>: tf.nn.softmax(logits, name=<span class="string">"softmax_tensor"</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> mode == tf.estimator.ModeKeys.PREDICT:</span><br><span class="line">    <span class="keyword">return</span> tf.estimator.EstimatorSpec(mode=mode, predictions=predictions)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Calculate Loss (for both TRAIN and EVAL modes)</span></span><br><span class="line">  loss = tf.losses.sparse_softmax_cross_entropy(labels=labels, logits=logits)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Configure the Training Op (for TRAIN mode)</span></span><br><span class="line">  <span class="keyword">if</span> mode == tf.estimator.ModeKeys.TRAIN:</span><br><span class="line">    optimizer = tf.train.GradientDescentOptimizer(learning_rate=<span class="number">0.001</span>)</span><br><span class="line">    train_op = optimizer.minimize(</span><br><span class="line">        loss=loss,</span><br><span class="line">        global_step=tf.train.get_global_step())</span><br><span class="line">    <span class="keyword">return</span> tf.estimator.EstimatorSpec(mode=mode, loss=loss, train_op=train_op)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Add evaluation metrics (for EVAL mode)</span></span><br><span class="line">  eval_metric_ops = &#123;</span><br><span class="line">      <span class="string">"accuracy"</span>: tf.metrics.accuracy(</span><br><span class="line">          labels=labels, predictions=predictions[<span class="string">"classes"</span>])&#125;</span><br><span class="line">  <span class="keyword">return</span> tf.estimator.EstimatorSpec(</span><br><span class="line">      mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)</span><br></pre></td></tr></table></figure></p>
+<p>以下章节将深入解析上述代码部分，包括如何使用<a href="https://www.tensorflow.org/api_docs/python/tf/layers?hl=zh-cn" rel="external nofollow noopener noreferrer" target="_blank"><code>tf.layers</code></a>创建卷积神经网络的每一层，以及如何计算损失率，配置训练方法及生成预测值。如果你已经有了CNN与<a href="https://www.tensorflow.org/get_started/custom_estimators" rel="external nofollow noopener noreferrer" target="_blank">Tensorflow <code>Estimator</code></a>相关使用经验，并且可以直观的明白上述代码，你可以直接跳过这部分，跳至阅读<a href="https://www.tensorflow.org/tutorials/layers#training_and_evaluating_the_cnn_mnist_classifier" rel="external nofollow noopener noreferrer" target="_blank">训练及评估CNN MNIST分类器</a>。</p>
+<h4 id="输入层-Input-Layer"><a href="#输入层-Input-Layer" class="headerlink" title="输入层(Input Layer)"></a>输入层(Input Layer)</h4><p>在<code>layers</code>模块中的为二维图像创建卷积及池化层的方法预期的张量输入值默认形状(shape)为<code>[batch_size, image_height, image_width, channels]</code>。如果需要改变结构可以使用<code>data_format</code>参数。这些参数定于如下：</p>
+<ul>
+<li><code>batch_size</code>: 用于参加训练的样本集个数。</li>
+<li><code>image_height</code>: 图片高度。</li>
+<li><code>image_width</code>: 图片宽度。</li>
+<li><code>channels</code>: 图片颜色通道数。彩色图片为3(RGB), 黑白图片为1(Black)。</li>
+<li><code>data_format</code>: string类型，默认值为<code>channels_last</code>，可选值为<code>channels_first</code>。前者对应输入形状为<code>(batch_size, ..., channels)</code>,后者为<code>(batch_size, channels, ...)</code>。</li>
+</ul>
+<p>由于我们的MNIST数据集是由28*28像素的黑白图片组成，因此我们需要使用<code>reshape</code>函数将输入特征集合转换为为<code>[batch_size, 28, 28, 1]</code>这样的构造形状(shape):<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">input_layer = tf.reshape(features[<span class="string">"x"</span>], [<span class="number">-1</span>, <span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>])</span><br></pre></td></tr></table></figure></p>
+<p>这里使用了-1作为<code>batch_size</code>，意为根据输入值<code>features[&quot;x&quot;]</code>动态计算，而其他的属性都指定了固定值。这样我们就可以根据对应情况进行调整<code>batch_size</code>。例如，我们提供5个批次的样例给我们的模型，那这样<code>features[&quot;x&quot;]</code>就会包含了3,920个值(像素)，因此输入层的的形状<code>[5, 28, 28, 1]</code>。同理，如果我们需要输入100个样例，那就需要将值为78,400的<code>features[&quot;x&quot;]</code>转换成<code>[100, 28, 28, 1]</code>。</p>
+<h4 id="卷积层-Convolutional-Layer-1"><a href="#卷积层-Convolutional-Layer-1" class="headerlink" title="卷积层(Convolutional Layer) #1"></a>卷积层(Convolutional Layer) #1</h4><p>我们使用<code>layers</code>模块中的<code>conv2d</code>方法创建第一个卷积层：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">conv1 = tf.layers.conv2d(</span><br><span class="line">    inputs=input_layer,</span><br><span class="line">    filters=<span class="number">32</span>,</span><br><span class="line">    kernel_size=[<span class="number">5</span>, <span class="number">5</span>],</span><br><span class="line">    padding=<span class="string">"same"</span>,</span><br><span class="line">    activation=tf.nn.relu)</span><br></pre></td></tr></table></figure></p>
+<p>第一个卷积层连接了输入层(<code>[bacth_size, 28, 28, 1]</code>),因此<code>inputs</code>接收的参数为<code>input_layer</code>。</p>
+<blockquote>
+<p>如果指定参数<code>data_format=channels_first</code>，那<code>conv2d()</code>接收的输入层形状为<code>[batch_size, channels, image_height, image_width]</code></p>
+</blockquote>
+<p><code>filter</code>参数定义为卷积过滤器的数量，也就是输出特征集合的深度(此处为32), <code>kernel_size</code>指定了需要卷积内核从图片抽离分析的单位面积大小<code>[height, width]</code>(此处为[5,5])。如果长宽一致，可以直接指定边长，也就是<code>kernel_size=5</code>。</p>
+<p><code>padding</code>参数(不区分大小写)指定了卷积层抽取特征的方式，默认值为<code>valid</code>。这里我们指定<code>same</code>,他会通过在抽取出来的特征体周边填充0这个值使得长宽会与输入层一致,即为28(如果不使用这种方式，最终得到的输出张量形状为24*24)。</p>
+<p><code>activation</code>参数指定需要应用在卷积输出值的激活函数。这里通过<a href="https://www.tensorflow.org/api_docs/python/tf/nn/relu" rel="external nofollow noopener noreferrer" target="_blank"><code>tf.nn.relu</code></a>来指定激活函数为ReLU。</p>
+<p>最终输入层<code>input_layer</code>经过<code>conv2d()</code>函数而生成的输出值形状(shape)为<code>[batch_size, 28, 28, 32]</code>:长宽与输入层的一致，而深度则为32。</p>
+<h4 id="池化层-Pooling-Layer-1"><a href="#池化层-Pooling-Layer-1" class="headerlink" title="池化层(Pooling Layer) #1"></a>池化层(Pooling Layer) #1</h4><p>接下来，我门需要将第一个池化层接入到上边创建的卷积层后边。我们使用<code>layer</code>模块里的<code>max_pooling2d()</code>方法构建一个步长为2，单位面积边长为2及执行最大池化算法的池化层：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[<span class="number">2</span>, <span class="number">2</span>], strides=<span class="number">2</span>)</span><br></pre></td></tr></table></figure></p>
+<p>这里的<code>inputs</code>参数接收的张量(tensor)形状(shape)为<code>[batch_size, image_height, image_width, channels]</code>。这里我们的输入张量为<code>conv1</code>，就是第一个卷积层输出的数据(<code>[batch_size, 28, 28, 32]</code>)。</p>
+<blockquote>
+<p><code>max_pooling2d()</code>与<code>conv2d()</code>一样拥有<code>data_format</code>参数，功能与<code>conv2d()</code>方法一致。</p>
+</blockquote>
+<p><code>pool_size</code>参数指定了最大池化的滤镜面积<code>[height, widht]</code>(这里为[2,2])。当然如果两个维度值一样，可以通过<code>pool_size=2</code>这样的方式设置。</p>
+<p><code>strides</code>指定了每次跨步的大小。这里设置了步长为2，意味着池化滤镜在提取过程中在高度及宽度上都间隔着2个像素(对于2x2的单位面积来说，刚好不重叠)。如果希望设置长宽为不同的步长，可以通过元组/列表的方式设置(例如，strides=[3,6])。</p>
+<p>因为池化层的功能最终将输出张量的形状减小了一半，因此第一个卷积模块输出的张量(tensor)形状(shape)为<code>[batch_size, 14, 14, 32]</code>。</p>
+<h4 id="卷积层-Convolutional-Layer-2-amp-池化-Pooling-Layer-2"><a href="#卷积层-Convolutional-Layer-2-amp-池化-Pooling-Layer-2" class="headerlink" title="卷积层(Convolutional Layer) #2 &amp; 池化(Pooling Layer) #2"></a>卷积层(Convolutional Layer) #2 &amp; 池化(Pooling Layer) #2</h4><p>第二个卷积模块的构造与上边一样，都是使用了相同的函数来构建，只是这里的<code>conv2d()</code>指定了<code>filter</code>的数量为64，比上边多增了一倍:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">conv2 = tf.layers.conv2d(</span><br><span class="line">    inputs=pool1,</span><br><span class="line">    filters=<span class="number">64</span>,</span><br><span class="line">    kernel_size=[<span class="number">5</span>, <span class="number">5</span>],</span><br><span class="line">    padding=<span class="string">"same"</span>,</span><br><span class="line">    activation=tf.nn.relu)</span><br><span class="line"></span><br><span class="line">pool2 = tf.layers.max_pooling2d(inputs=conv2, pool_size=[<span class="number">2</span>, <span class="number">2</span>], strides=<span class="number">2</span>)</span><br></pre></td></tr></table></figure></p>
+<p><code>conv2d()</code>接收的<code>inputs</code>参数为上边池化层生成的张量<code>pool1</code>，<code>padding</code>指定为<code>same</code>意味着输出的长宽与输入值一致，因此<code>conv2</code>的形状(shape)为<code>[batch_size, 14, 14, 64]</code>。</p>
+<p><code>max_pooling2d()</code>继续将<code>conv2</code>的形状长宽进一步压缩一倍，因此<code>pool2</code>的形状(shape)为<code>[batch_size, 7, 7, 64]</code>。</p>
+<h4 id="密集层-Dense-Layer"><a href="#密集层-Dense-Layer" class="headerlink" title="密集层(Dense Layer)"></a>密集层(Dense Layer)</h4><p>接下来，我们需要添加一个密集层(包含1024个神经元和ReLU激活函数)到CNN，对由经上述两个卷积模块提取的特征集合进行分类。在连接之前，需要通过<code>reshape</code>函数拍平(flatten)特征集合(pool2)，变成<code>[batch_size, features]</code>这样的二维形状(shape)：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pool2_flat = tf.reshape(pool2, [<span class="number">-1</span>, <span class="number">7</span> * <span class="number">7</span> * <span class="number">64</span>])</span><br></pre></td></tr></table></figure></p>
+<p>在<code>reshape()</code>方法中，-1表示<code>batch_size</code>维度将根据输入数据样例数动态计算。每一个样例都包含7(<code>pool2</code>的高度)X7(<code>pool2</code>的宽度)X64(<code>pool2</code>的通道数)个特征，因此最终输出张量<code>pool2_flat</code>的形状(shape)为<code>[batch_size, 3136]</code>。</p>
+<p>现在我们就可以通过<code>layers</code>模块里的<code>dense()</code>方法创建一个密集层了：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dense = tf.layers.dense(inputs=pool2_flat, units=<span class="number">1024</span>, activation=tf.nn.relu)</span><br></pre></td></tr></table></figure></p>
+<p><code>inputs</code>参数传入的是上边生成的<code>pool2_flat</code>特征集合，<code>units</code>表示指定1024个神经元，<code>activation</code>参数表示指定的激活函数为ReLU。</p>
+<p>为了能够提升模型结果的准确性，我们还需要加入<code>dropout()</code>方法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dropout = tf.layers.dropout(</span><br><span class="line">    inputs=dense, rate=<span class="number">0.4</span>, training=mode == tf.estimator.ModeKeys.TRAIN)</span><br></pre></td></tr></table></figure></p>
+<p><code>rate</code>参数指定<code>dropout</code>比例，这里指定0.4表示在训练中有40%的元素会被随机丢弃。<br><code>training</code>参数表示当前模型是否运行在训练模式中；<code>dropout</code>只会在<code>training</code>为<code>True</code>的情况下执行。<br>最终经过了这一神经元层只会输出的张量形状(shape)为<code>[batch_size, 1024]</code>。</p>
+<h4 id="逻辑层-Logits-Layer"><a href="#逻辑层-Logits-Layer" class="headerlink" title="逻辑层(Logits Layer)"></a>逻辑层(Logits Layer)</h4><p>在我们的神经网络中最后一层为逻辑层,将会返回预测的原始数据。我们创建一个包含10个神经元(分别表示0-9)和默认使用线性激活的密集层：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logits = tf.layers.dense(inputs=dropout, units=<span class="number">10</span>)</span><br></pre></td></tr></table></figure></p>
+<p>最终我们的CNN输出的张量形状(shape)为<code>[batch_size, 10]</code>。</p>
+<h4 id="生成预测值"><a href="#生成预测值" class="headerlink" title="生成预测值"></a>生成预测值</h4><p>我们的模型最后一层返回的是预测的原始值。我们需要将这些值转换成两种不同的数据格式：</p>
+<ul>
+<li><strong>predicted class</strong>：表示预测类别为0-9这10个数字。</li>
+<li><strong>probabilities</strong>：表示每个样例为每个分类的概率。例如这个样本可能是0，1，2等等。</li>
+</ul>
+<p>对于给定的样例，我们需要在逻辑张量中找到最高的数值(意味着概率最大)的那一行作为预测类别(就是哪个数字)。通过<code>tf.argmax</code>可以很容易的找到这个元素的索引：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.argmax(input=logits, axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<p><code>input</code>参数意为希望从哪里(这里是<code>logits</code>)提取出最大值,而<code>axis</code>表示从哪个轴提取。这里设置为1，就是从<code>[batch_size, 10]</code>后边这个参数来获得最大值，而这个索引数字刚好就表示为预测类为0-9哪个数字。</p>
+<p>我们可以通过应用<code>softmax</code>激活函数来得出准确率：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf.nn.softmax(logits, name=<span class="string">"softmax_tensor"</span>)</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>这里指定来这个操作名为<strong>softmax_tensor</strong>，接下来我们可以通过这个名字来引用它(在<a href="https://www.tensorflow.org/tutorials/layersset_up_a_logging_hook" rel="external nofollow noopener noreferrer" target="_blank">“Set Up a Logging Hook”</a>章节中我们将会通过它来记录softmax值)。</p>
+</blockquote>
+<p>我们将我们的预测对象变成一个字典(dict)，传入到一个<code>EstimatorSpec</code>对象里并返回它:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">predictions = &#123;</span><br><span class="line">    <span class="string">"classes"</span>: tf.argmax(input=logits, axis=<span class="number">1</span>),</span><br><span class="line">    <span class="string">"probabilities"</span>: tf.nn.softmax(logits, name=<span class="string">"softmax_tensor"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> mode == tf.estimator.ModeKeys.PREDICT:</span><br><span class="line">  <span class="keyword">return</span> tf.estimator.EstimatorSpec(mode=mode, predictions=predictions)</span><br></pre></td></tr></table></figure></p>
+<h4 id="计算损失率"><a href="#计算损失率" class="headerlink" title="计算损失率"></a>计算损失率</h4><p>对于培训与评估之间，我们需要定义一个<a href="https://en.wikipedia.org/wiki/Loss_function" rel="external nofollow noopener noreferrer" target="_blank">损失函数</a>来衡量预测值与目标值之间的匹配程度。对于类似MNIST这样的多分类问题，通常用<a href="https://en.wikipedia.org/wiki/Cross_entropy" rel="external nofollow noopener noreferrer" target="_blank">交叉熵</a>来衡量损失率。下面的代码用于计算模型运行于<code>TRAIN</code>与<code>EVAL</code>之间的交叉熵:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">onehot_labels = tf.one_hot(indices=tf.cast(labels, tf.int32), depth=<span class="number">10</span>)</span><br><span class="line">loss = tf.losses.softmax_cross_entropy(</span><br><span class="line">    onehot_labels=onehot_labels, logits=logits)</span><br></pre></td></tr></table></figure></p>
+<p>我们的<code>labels</code>里的张量(tensor)包含的是我们的样例预测值列表，像<code>[1, 9, ...]</code>这样。为了能够计算<br>交叉熵，首先需要将<code>labels</code>转换成对应的<a href="https://www.quora.com/What-is-one-hot-encoding-and-when-is-it-used-in-data-science" rel="external nofollow noopener noreferrer" target="_blank">单热编码</a>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[[0, 1, 0, 0, 0, 0, 0, 0, 0, 0],</span><br><span class="line"> [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],</span><br><span class="line"> ...</span><br></pre></td></tr></table></figure></p>
+<p>我们使用<a href="https://www.tensorflow.org/api_docs/python/tf/one_hot" rel="external nofollow noopener noreferrer" target="_blank"><code>tf.one_hot</code></a>来进行转换。<code>tf.one_hot()</code>有两个必备参数:</p>
+<ul>
+<li><code>indices</code>：决定单热张量(one-hot tensor)中需要被指定为非零值的坐标。例如上述指定为1在内部数组中的索引。</li>
+<li><code>depth</code>：决定单热张量的深度，在这个例子中也就是指定多少个数组。这里设置为10，就是指明0-9这10个数字分类。</li>
+</ul>
+<p>接下来指定<code>onehot_labels</code>为我们的<code>labels</code>的单热张量(one-hot tensor):<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onehot_labels = tf.one_hot(indices=tf.cast(labels, tf.int32), depth=<span class="number">10</span>)</span><br></pre></td></tr></table></figure></p>
+<p>因为我们的<code>labels</code>包括0-9个不同的数字，所以<code>indices</code>表示着<code>labels</code>值在张量中的位置，刚好与值对应，所以需要转换成整数类型。<code>depth</code>设置10表示有10个潜在的分类，代表着每个数字。</p>
+<p>接下来，我们需要计算<code>onehoe_labels</code>与逻辑层(logits layer)生成（经过<code>softmax</code>激活）的预测值之间的交叉熵，我们可以使用<code>tf.losses.softmax_cross_entropy()</code>来计算，并且返回一个标量张量<code>loss</code>：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">loss = tf.losses.softmax_cross_entropy(</span><br><span class="line">    onehot_labels=onehot_labels, logits=logits)</span><br></pre></td></tr></table></figure></p>
+<h4 id="配置训练方法"><a href="#配置训练方法" class="headerlink" title="配置训练方法"></a>配置训练方法</h4><p>在上一节中，我们定义损失率为CNN最后一层输出的<code>softmax</code>值与<code>labels</code>之间的交叉熵。接下来我们需要配置我们的模型在训练中不断的优化损失率。我们使用学习率为0.001，优化算法为<a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent" rel="external nofollow noopener noreferrer" target="_blank">随机梯度下降</a>的优化器优化:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> mode == tf.estimator.ModeKeys.TRAIN:</span><br><span class="line">  optimizer = tf.train.GradientDescentOptimizer(learning_rate=<span class="number">0.001</span>)</span><br><span class="line">  train_op = optimizer.minimize(</span><br><span class="line">      loss=loss,</span><br><span class="line">      global_step=tf.train.get_global_step())</span><br><span class="line">  <span class="keyword">return</span> tf.estimator.EstimatorSpec(mode=mode, loss=loss, train_op=train_op)</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>想要更多的了解Estimator模型函数配置培训操作，请参阅<a href="https://www.tensorflow.org/get_started/custom_estimators" rel="external nofollow noopener noreferrer" target="_blank">“Creating Estimators in tf.estimator.”</a>教程中的<a href="https://www.tensorflow.org/get_started/custom_estimators#defining_the_training_op_for_the_model" rel="external nofollow noopener noreferrer" target="_blank">Defining the training op for the model</a>部分。</p>
+</blockquote>
+<h4 id="添加评估指标"><a href="#添加评估指标" class="headerlink" title="添加评估指标"></a>添加评估指标</h4><p>我们在<code>EVAL</code>模式中定义一个字典(dict)用来给我们的模型训练添加准确率指标:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">eval_metric_ops = &#123;</span><br><span class="line">    <span class="string">"accuracy"</span>: tf.metrics.accuracy(</span><br><span class="line">        labels=labels, predictions=predictions[<span class="string">"classes"</span>])&#125;</span><br><span class="line"><span class="keyword">return</span> tf.estimator.EstimatorSpec(</span><br><span class="line">    mode=mode, loss=loss, eval_metric_ops=eval_metric_ops)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="训练及评估CNN-MNIST分类器"><a href="#训练及评估CNN-MNIST分类器" class="headerlink" title="训练及评估CNN MNIST分类器"></a>训练及评估CNN MNIST分类器</h3><p>我们已经编写了MNIST的CNN模型函数，现在我们要准备开始训练及评估它了。</p>
+<h4 id="载入训练和测试数据"><a href="#载入训练和测试数据" class="headerlink" title="载入训练和测试数据"></a>载入训练和测试数据</h4><p>首先我们在<code>main()</code>方法中载入训练和测试数据:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">(unused_argv)</span>:</span></span><br><span class="line">  <span class="comment"># Load training and eval data</span></span><br><span class="line">  mnist = tf.contrib.learn.datasets.load_dataset(<span class="string">"mnist"</span>)</span><br><span class="line">  train_data = mnist.train.images <span class="comment"># Returns np.array</span></span><br><span class="line">  train_labels = np.asarray(mnist.train.labels, dtype=np.int32)</span><br><span class="line">  eval_data = mnist.test.images <span class="comment"># Returns np.array</span></span><br><span class="line">  eval_labels = np.asarray(mnist.test.labels, dtype=np.int32)</span><br></pre></td></tr></table></figure></p>
+<p>我们将训练特征数据(55,000个手绘数字图像中的原始像素值)及训练标签(labels,每个图像为0-9的对应值)分别存储为名为<code>train_data</code>及<code>train_labels</code>的<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.array.html" rel="external nofollow noopener noreferrer" target="_blank">numpy数组</a>中。同样，我们将评估特征数据(10,000张图片)及评估标签(labels)存储为<code>eval_data</code>及<code>eval_labels</code>的numpy数组中。</p>
+<blockquote>
+<p>如果无法加载MNIST数据，可以通过上述的<a href="http://yann.lecun.com/exdb/mnist/" rel="external nofollow noopener noreferrer" target="_blank">MNIST官网</a>先下载数据，放入到指定文件夹中(如<code>MNIST_data</code>)，然后通过<code>mnist = tf.contrib.learn.datasets.mnist.load_mnist(train_dir = &quot;MNIST_data/&quot;)</code>这样的方式载入数据。</p>
+</blockquote>
+<h4 id="创建Estimator"><a href="#创建Estimator" class="headerlink" title="创建Estimator"></a>创建Estimator</h4><p>接下来，我们需要为模型创建一个<code>Estimator</code>(执行高层模型的训练、评估及推理的Tensorflow类):<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Create the Estimator</span></span><br><span class="line">mnist_classifier = tf.estimator.Estimator(</span><br><span class="line">    model_fn=cnn_model_fn, model_dir=<span class="string">"/tmp/mnist_convnet_model"</span>)</span><br></pre></td></tr></table></figure></p>
+<p><code>model_fn</code>参数指定生成用于训练，评估和预测的模型函数。这里传入的<code>cnn_model_fn</code>就是上个段落定义的函数。<code>model_dir</code>参数保存模型数据(检查点)的目录(这里指定了一个临时文件路径<code>/tmp/mnist_convnet_model</code>,当然你可以随意更改一个你喜欢的路径)。</p>
+<blockquote>
+<p>如果想要更深入的了解Tensorflow <strong>Estimator</strong> API,可以参考<a href="https://www.tensorflow.org/get_started/custom_estimators" rel="external nofollow noopener noreferrer" target="_blank">“Creating Estimators in tf.estimator.”</a>教程</p>
+</blockquote>
+<h4 id="设置日志钩子"><a href="#设置日志钩子" class="headerlink" title="设置日志钩子"></a>设置日志钩子</h4><p>由于CNN需要花费一段时间进行训练，我们可以设置一些日志用来追踪训练进度。我们可以使用Tensroflow中的<a href="https://www.tensorflow.org/api_docs/python/tf/train/SessionRunHook" rel="external nofollow noopener noreferrer" target="_blank"><code>tf.train.SessionRunHook</code></a>来创建一个<a href="https://www.tensorflow.org/api_docs/python/tf/train/LoggingTensorHook" rel="external nofollow noopener noreferrer" target="_blank"><code>tf.train.LoggingTensorHook</code></a>。它将记录我们CNN中softmax层的概率值。继续添加以下代码到<code>main()</code>：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Set up logging for predictions</span></span><br><span class="line">tensors_to_log = &#123;<span class="string">"probabilities"</span>: <span class="string">"softmax_tensor"</span>&#125;</span><br><span class="line">logging_hook = tf.train.LoggingTensorHook(</span><br><span class="line">      tensors=tensors_to_log, every_n_iter=<span class="number">50</span>)</span><br></pre></td></tr></table></figure></p>
+<p>我们定义一个<code>tensors_to_log</code>字典用来存储需要被记录的张量。字典里的每个键值对应着我们想要输出到日志中的标签，相应的标签是TensorFlow图形中张量的名称。这里我们可以通过<code>probabilities</code>来找到<code>softmax_tensor</code>,这个名字在之前的<code>cnn_model_fn</code>中已定义。</p>
+<blockquote>
+<p>如果你没有指定具体名称，Tensorflow将会指定一个默认的名字。另外还有两个简单的方法可以发现操作：在<a href="https://www.tensorflow.org/programmers_guide/graph_viz" rel="external nofollow noopener noreferrer" target="_blank">TensorBoard</a>可视化你的神经元图,或者开启<a href="https://www.tensorflow.org/programmers_guide/debugger" rel="external nofollow noopener noreferrer" target="_blank">TensorFlow Debugger (tfdbg)</a>。</p>
+</blockquote>
+<p>接下来，我们创建<code>LoggingTensorHook</code>，<code>tensors</code>参数传入<code>tensors_to_log</code>。我们设置<code>every_n_iter = 50</code>，它表示每隔50次训练之后记录概率值。</p>
+<h4 id="训练模型"><a href="#训练模型" class="headerlink" title="训练模型"></a>训练模型</h4><p>现在我们准备训练我们的模型，我们需要创建一个<code>train_input_fn</code>然后调用<code>mnist_classifier</code>的<code>train()</code>方法。添加以下内容到<code>main()</code>:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Train the model</span></span><br><span class="line">train_input_fn = tf.estimator.inputs.numpy_input_fn(</span><br><span class="line">    x=&#123;<span class="string">"x"</span>: train_data&#125;,</span><br><span class="line">    y=train_labels,</span><br><span class="line">    batch_size=<span class="number">100</span>,</span><br><span class="line">    num_epochs=<span class="literal">None</span>,</span><br><span class="line">    shuffle=<span class="literal">True</span>)</span><br><span class="line">mnist_classifier.train(</span><br><span class="line">    input_fn=train_input_fn,</span><br><span class="line">    steps=<span class="number">20000</span>,</span><br><span class="line">    hooks=[logging_hook])</span><br></pre></td></tr></table></figure></p>
+<p>在调用<code>numpy_input_fn</code>这个方法中，我们以字典的形式将训练数据传入到<code>x</code>中，将训练结果标签传入到<code>y</code>中。指定来<code>batch_size</code>为<code>100</code>(意味着每次将会训练100个样例)。<code>num_epochs=None</code>表示这个模型将一直训练下去。<code>shuffle=True</code>参数表示会冲刷训练数据。在调用<code>train</code>方法中，我们设置来<code>step=20000</code>(表示这个模型将会训练20,000次)，然后传入了<code>logging_hook</code>给<code>hooks</code>，让它会在训练过程中被触发。</p>
+<h4 id="评估模型"><a href="#评估模型" class="headerlink" title="评估模型"></a>评估模型</h4><p>一旦训练完成，我们希望通过MNIST test数据集来评估我们的模型生成的概率值的准确度。我们调用<code>evaluate</code>方法，而评估指标在<code>cnn_model_fn</code>中已定义(<code>eval_metric_ops</code>)。继续添加下列代码到<code>main()</code>方法中:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Evaluate the model and print results</span></span><br><span class="line">eval_input_fn = tf.estimator.inputs.numpy_input_fn(</span><br><span class="line">    x=&#123;<span class="string">"x"</span>: eval_data&#125;,</span><br><span class="line">    y=eval_labels,</span><br><span class="line">    num_epochs=<span class="number">1</span>,</span><br><span class="line">    shuffle=<span class="literal">False</span>)</span><br><span class="line">eval_results = mnist_classifier.evaluate(input_fn=eval_input_fn)</span><br><span class="line">print(eval_results)</span><br></pre></td></tr></table></figure></p>
+<p>我们设置了<code>num_epochs=1</code>，表示这次操作只迭代一次所有的数据。同时设置<code>shuffle=False</code>表示这次评估将顺行遍历数据。</p>
+<h4 id="运行模型"><a href="#运行模型" class="headerlink" title="运行模型"></a>运行模型</h4><p>我们编写了创建CNN模型的函数，<code>Estimator</code>，已经训练/评估的相关逻辑代码，现在是该看看结果如何了；运行<code>cnn_mnist.py</code>。</p>
+<blockquote>
+<p>注意：训练CNNs是需要大量计算的，因此十分耗时。运行<code>cnn_mnist.py</code>所需的时间取决于你的处理器，如果在CPU上运行可能会超过1个小时。可以通过减少步数(指定<strong>train()</strong>中的<strong>step</strong>参数)来缩减训练时间，当然这会影响到准确度。</p>
+</blockquote>
+<p>在训练过程中，你可以看到类似下列日志输出:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">INFO:tensorflow:loss = 2.36026, step = 1</span><br><span class="line">INFO:tensorflow:probabilities = [[ 0.07722801  0.08618255  0.09256398, ...]]</span><br><span class="line">...</span><br><span class="line">INFO:tensorflow:loss = 2.13119, step = 101</span><br><span class="line">INFO:tensorflow:global_step/sec: 5.44132</span><br><span class="line">...</span><br><span class="line">INFO:tensorflow:Loss for final step: 0.553216.</span><br><span class="line"></span><br><span class="line">INFO:tensorflow:Restored model from /tmp/mnist_convnet_model</span><br><span class="line">INFO:tensorflow:Eval steps [0,inf) for training step 20000.</span><br><span class="line">INFO:tensorflow:Input iterator is exhausted.</span><br><span class="line">INFO:tensorflow:Saving evaluation summary for step 20000: accuracy = 0.9733, loss = 0.0902271</span><br><span class="line">&#123;&apos;loss&apos;: 0.090227105, &apos;global_step&apos;: 20000, &apos;accuracy&apos;: 0.97329998&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在这里，我们的测试数据集已经达到了97.3％的准确率。</p>
+<hr>
+<h3 id="更多资源"><a href="#更多资源" class="headerlink" title="更多资源"></a>更多资源</h3><p>如果想要更多的了解Tensorflow中的Estimators及CNNs，可以阅读以下资源：</p>
+<ul>
+<li><a href="https://www.tensorflow.org/get_started/custom_estimators" rel="external nofollow noopener noreferrer" target="_blank">Creating Estimators in tf.estimator</a>提供一个关于TensorFlow Estimator API的入门介绍。里边包含了配置一个Estimator,编写生成模型函数，计算损失率，及定义训练操作。</li>
+<li><a href="https://www.tensorflow.org/tutorials/deep_cnn" rel="external nofollow noopener noreferrer" target="_blank">Convolutional Neural Networks</a>如何使用Tensorflow<em>低层次</em>API而不是Estimator来构建一个MNIST CNN分类模型。</li>
+</ul>
+<blockquote>
+<p>译自<a href="https://www.tensorflow.org/tutorials/layers" rel="external nofollow noopener noreferrer" target="_blank">A Guide to TF Layers: Building a Convolutional Neural Network</a></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/TensorFlow/" rel="tag"># TensorFlow</a>
+          
+            <a href="/tags/CNN/" rel="tag"># CNN</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/k8s-istio/" rel="next" title="初探istio">
+                <i class="fa fa-chevron-left"></i> 初探istio
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/tensorflow-captcha/" rel="prev" title="使用Tensorflow识别图片验证码">
+                使用Tensorflow识别图片验证码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" rel="external nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Shepard">
+            
+              <p class="site-author-name" itemprop="name">Shepard</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/51azxc" target="_blank" title="GitHub" rel="external nofollow noopener noreferrer">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备开始"><span class="nav-number">1.</span> <span class="nav-text">准备开始</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#卷积神经网络简单介绍"><span class="nav-number">2.</span> <span class="nav-text">卷积神经网络简单介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建分类MNIST数据的卷积神经网络"><span class="nav-number">3.</span> <span class="nav-text">构建分类MNIST数据的卷积神经网络</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#输入层-Input-Layer"><span class="nav-number">3.1.</span> <span class="nav-text">输入层(Input Layer)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#卷积层-Convolutional-Layer-1"><span class="nav-number">3.2.</span> <span class="nav-text">卷积层(Convolutional Layer) #1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#池化层-Pooling-Layer-1"><span class="nav-number">3.3.</span> <span class="nav-text">池化层(Pooling Layer) #1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#卷积层-Convolutional-Layer-2-amp-池化-Pooling-Layer-2"><span class="nav-number">3.4.</span> <span class="nav-text">卷积层(Convolutional Layer) #2 &amp; 池化(Pooling Layer) #2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#密集层-Dense-Layer"><span class="nav-number">3.5.</span> <span class="nav-text">密集层(Dense Layer)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑层-Logits-Layer"><span class="nav-number">3.6.</span> <span class="nav-text">逻辑层(Logits Layer)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生成预测值"><span class="nav-number">3.7.</span> <span class="nav-text">生成预测值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#计算损失率"><span class="nav-number">3.8.</span> <span class="nav-text">计算损失率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置训练方法"><span class="nav-number">3.9.</span> <span class="nav-text">配置训练方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加评估指标"><span class="nav-number">3.10.</span> <span class="nav-text">添加评估指标</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#训练及评估CNN-MNIST分类器"><span class="nav-number">4.</span> <span class="nav-text">训练及评估CNN MNIST分类器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#载入训练和测试数据"><span class="nav-number">4.1.</span> <span class="nav-text">载入训练和测试数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建Estimator"><span class="nav-number">4.2.</span> <span class="nav-text">创建Estimator</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置日志钩子"><span class="nav-number">4.3.</span> <span class="nav-text">设置日志钩子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#训练模型"><span class="nav-number">4.4.</span> <span class="nav-text">训练模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#评估模型"><span class="nav-number">4.5.</span> <span class="nav-text">评估模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运行模型"><span class="nav-number">4.6.</span> <span class="nav-text">运行模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更多资源"><span class="nav-number">5.</span> <span class="nav-text">更多资源</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shepard</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow noopener noreferrer">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow noopener noreferrer">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://shepard-blog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://51azxc.github.io/tensorflow-mnist/';
+          this.page.identifier = 'tensorflow-mnist/';
+          this.page.title = '使用Tensorflow建立一个卷积神经网络';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://shepard-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

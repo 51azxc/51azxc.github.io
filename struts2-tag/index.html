@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Ruthie:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="form,Struts2,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="平时使用Struts2碰到的一些问题的解决方法。">
+<meta name="keywords" content="form,Struts2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Struts2零散知识点整理">
+<meta property="og:url" content="https://51azxc.github.io/struts2-tag/index.html">
+<meta property="og:site_name" content="Shepard&#39;s Blog">
+<meta property="og:description" content="平时使用Struts2碰到的一些问题的解决方法。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-06T10:57:41.912Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Struts2零散知识点整理">
+<meta name="twitter:description" content="平时使用Struts2碰到的一些问题的解决方法。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://51azxc.github.io/struts2-tag/">
+
+
+
+
+
+  <title>Struts2零散知识点整理 | Shepard's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shepard's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Nothing is true everything is permitted</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://51azxc.github.io/struts2-tag/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shepard">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shepard's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Struts2零散知识点整理</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-05-09T01:07:11+00:00">
+                2015-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/Struts2/" itemprop="url" rel="index">
+                    <span itemprop="name">Struts2</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/struts2-tag/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="struts2-tag/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>平时使用Struts2碰到的一些问题的解决方法。</p>
+<a id="more"></a>
+<h3 id="Struts2使用Ajax"><a href="#Struts2使用Ajax" class="headerlink" title="Struts2使用Ajax"></a>Struts2使用Ajax</h3><blockquote>
+<p><a href="http://hi.baidu.com/suinmi/item/5de98cfb8da44eee1b111fa8" rel="external nofollow noopener noreferrer" target="_blank">struts2使用ajax技术返回字符串</a></p>
+</blockquote>
+<ol>
+<li>使用stream来进行服务端处理<br>action<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TextResult</span> <span class="keyword">extends</span> <span class="title">ActionSupport</span>  </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> InputStream inputStream;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> InputStream <span class="title">getInputStream</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> inputStream;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">execute</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        inputStream = <span class="keyword">new</span> StringBufferInputStream(<span class="string">"ok"</span>);</span><br><span class="line">        <span class="keyword">return</span> SUCCESS;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>struts.xml<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">action</span> <span class="attr">name</span>=<span class="string">"text-result"</span> <span class="attr">class</span>=<span class="string">"actions.TextResult"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">type</span>=<span class="string">"stream"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"contentType"</span>&gt;</span>text/html <span class="tag">&lt;/<span class="name">param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"inputName"</span>&gt;</span>inputStream <span class="tag">&lt;/<span class="name">param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">action</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<ol start="2">
+<li>将struts2的标签theme属性设置为ajax<br>这种方法要求是服务端不需要特殊处理，就像一个单纯的action处理一样，你只需要在action中进行处理，<br>并转向到一个jsp文件中，<br>在发送ajax的页面中使用 &lt;s:a&gt;标签，将theme属性设置为ajax,并设置接收服务器返回信息的控件id.<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">s:a</span> <span class="attr">href</span>=<span class="string">"process.action"</span> <span class="attr">theme</span>=<span class="string">"ajax"</span> <span class="attr">targets</span>=<span class="string">"result"</span> <span class="attr">cssStyle</span>=<span class="string">"text-align:center;"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"result"</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<hr>
+<h3 id="java-util-MissingResourceException-Can-39-t-find-bundle-for-base-name"><a href="#java-util-MissingResourceException-Can-39-t-find-bundle-for-base-name" class="headerlink" title="java.util.MissingResourceException Can&#39;t find bundle for base name"></a><code>java.util.MissingResourceException Can&#39;t find bundle for base name</code></h3><blockquote>
+<p><a href="http://blog.chinaunix.net/uid-25820084-id-3494142.html" rel="external nofollow noopener noreferrer" target="_blank">解决方法：java.util.MissingResourceException Can’t find bundle for base name</a></p>
+</blockquote>
+<p>这个问题的原因是<code>MessageResource_zh_CN.properties</code>，这个配置文件没有放在classpath中，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ResourceBundle config = ResourceBundle.getBundle(&quot;com.amaker.test.MessageResource&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>要按照路径，把你的配置文件加入ClassPath中就可以了</p>
+<hr>
+<h3 id="解决java-lang-IllegalStateException"><a href="#解决java-lang-IllegalStateException" class="headerlink" title="解决java.lang.IllegalStateException"></a>解决<code>java.lang.IllegalStateException</code></h3><blockquote>
+<p><a href="http://blog.sina.com.cn/s/blog_6151984a0100owod.html" rel="external nofollow noopener noreferrer" target="_blank">Web开发中常见的java.lang.IllegalStateException错误</a></p>
+</blockquote>
+<p>JSP文件或struts action(纯servlet应用中没发现此问题)中采用了,如下代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print2Screen</span><span class="params">(HttpServletResponse resp,String encodeString,String[] htmlCommands)</span> <span class="keyword">throws</span> IOException</span>&#123;</span><br><span class="line">    resp.setCharacterEncoding(encodeString);</span><br><span class="line">    ServletOutputStream httpOutput= resp.getOutputStream();</span><br><span class="line">    <span class="keyword">for</span>(String temp:htmlCommands)</span><br><span class="line">        httpOutput.write(temp.getBytes());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>深层原理</strong>:</p>
+<ol>
+<li>Servlet规范说明，不能既调用 <code>response.getOutputStream()</code>，又调用<code>response.getWriter()</code>，无论先调用哪一个，在调用第二个时候应会抛出 <code>IllegalStateException</code>.</li>
+<li>servlet代码中有<code>out.write(&quot;&quot;)</code>，这个和JSP中缺省调用的<code>response.getOutputStream()</code>产生冲突.因为在jsp中，<code>out</code>变量是通过<code>response.getWriter</code>得到的，在程序中既用了 <code>response.getOutputStream</code>，又用了<code>out</code>变量，故出现以上错误。</li>
+</ol>
+<p><strong>解决方法</strong></p>
+<ul>
+<li>在JSP文件中,加入下面两句<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">out.clear();</span><br><span class="line">out = pageContext.pushBody();</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>此法的缺陷:<br>很多开发项目并不是JSP前端,如freemarker,velocity等<br>造成问题的<code>response.getOutputStream()</code>并未被写在JSP里,而是写在servlet/action里</p>
+<ul>
+<li>在action中,不要return 回具体的result文件,而是<code>return null</code></li>
+</ul>
+<hr>
+<h3 id="Struts2国际化"><a href="#Struts2国际化" class="headerlink" title="Struts2国际化"></a>Struts2国际化</h3><blockquote>
+<p><a href="http://blog.csdn.net/zollty/article/details/8710718" rel="external nofollow noopener noreferrer" target="_blank">国际化之struts2实现研究</a><br><a href="http://www.cnblogs.com/lihuiyy/archive/2013/03/14/2958782.html" rel="external nofollow noopener noreferrer" target="_blank">Struts2 的国际化实现</a></p>
+</blockquote>
+<p>在src目录下添加两个资源文件,格式<code>baseName_language_country.properties</code>例如<br><code>message_zh_CN.properties</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">login.title=请登录</span><br><span class="line">login.username=用户名</span><br><span class="line">login.password=密码</span><br><span class="line">login.welcome=欢迎，&#123;0&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>message_en_US.properties</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">login.title=Please login</span><br><span class="line">login.username=Username</span><br><span class="line">login.password=Password</span><br><span class="line">login.welcome=Welcome，&#123;0&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在jsp中使用<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">s:text</span> <span class="attr">name</span>=<span class="string">"login.title"</span>&gt;</span><span class="tag">&lt;/<span class="name">s:text</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">s:textfield</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">key</span>=<span class="string">"login.username"</span>&gt;</span><span class="tag">&lt;/<span class="name">s:textfield</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">s:textfield</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">key</span>=<span class="string">"login.password"</span>&gt;</span><span class="tag">&lt;/<span class="name">s:textfield</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在action中使用<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">getText(<span class="string">"login.username"</span>);</span><br><span class="line"><span class="comment">//使用占位符</span></span><br><span class="line">getText(<span class="string">"login.welcome"</span>, <span class="string">"user"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>在jsp中实行中英文切换<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"login.action?request_locale=zh_CN"</span>&gt;</span>中文<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"login.action?request_locale=en_US"</span>&gt;</span>English<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="Struts2中不同namespace的重定向用法"><a href="#Struts2中不同namespace的重定向用法" class="headerlink" title="Struts2中不同namespace的重定向用法"></a>Struts2中不同namespace的重定向用法</h3><blockquote>
+<p><a href="http://hi.baidu.com/wanglshen1/item/ab0c599a12b1a236326eeb50" rel="external nofollow noopener noreferrer" target="_blank">struts2中不同namespace的重定向用法</a></p>
+</blockquote>
+<p>简单的同一个包或者namespace中：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">result</span> <span class="attr">name</span>=<span class="string">"success"</span> <span class="attr">type</span>=<span class="string">"redirectAction"</span>&gt;</span>xxx?a=1<span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>xxx 就是指你要重定向的action，?a=1 这个是参数的传递，你若是有参数的话可以这样传递<br>不同包或者不同namespace的<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">result</span> <span class="attr">name</span>=<span class="string">"success"</span> <span class="attr">type</span>=<span class="string">"redirectAction"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"actionName"</span>&gt;</span>xxx<span class="tag">&lt;/<span class="name">param</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">param</span> <span class="attr">name</span>=<span class="string">"namespace"</span>&gt;</span>/xx<span class="tag">&lt;/<span class="name">param</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">result</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>xxx ：重定向的action<br>/xx: xxx所在的namespace</p>
+<hr>
+<h3 id="struts2中-“-”-“-”-“-”-的区别和用法"><a href="#struts2中-“-”-“-”-“-”-的区别和用法" class="headerlink" title="struts2中 “#” “%” “$” 的区别和用法"></a>struts2中 “#” “%” “$” 的区别和用法</h3><blockquote>
+<p><a href="http://hi.baidu.com/golotus/item/6e16444df986d8e81f19bc1e" rel="external nofollow noopener noreferrer" target="_blank">struts2中 # % $ 的区别和用法</a></p>
+</blockquote>
+<p>表达式语言主要有以下几大好处：  </p>
+<ol>
+<li>避免<code>request.getAttribute()</code>和<code>myBean.getMyProperty()</code>之类的语句，使页面更简洁；  </li>
+<li>支持运算符（如+-*/），比普通的标志具有更高的自由度和更强的功能；  </li>
+<li>简单明了地表达代码逻辑，使用代码更可读与便于维护。</li>
+</ol>
+<p>Struts2 中OGNL表达式的用法：<br>OGNL（Object-Graph Navigation Language），可以方便地操作对象属性的开源表达式语言；</p>
+<p>“#”主要有三种用途：  </p>
+<ol>
+<li>用于过滤和投影（projecting)集合，如<code>books.{?#this.price&lt;100}；</code>  </li>
+<li>构造Map，如<code>#{&#39;foo1&#39;:&#39;bar1&#39;, &#39;foo2&#39;:&#39;bar2&#39;}</code>。  </li>
+<li>访问OGNL上下文和Action上下文，#相当于<code>ActionContext.getContext()；</code>下表有几个ActionContext中有用的属性：  </li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>作用</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>parameters</td>
+<td>包含当前HTTP请求参数的Map</td>
+<td>#parameters.id[0]作用相当于request.getParameter(“id”)</td>
+</tr>
+<tr>
+<td>request</td>
+<td>包含当前HttpServletRequest的属性（attribute)的Map</td>
+<td>#request.userName相当于request.getAttribute(“userName”)</td>
+</tr>
+<tr>
+<td>session</td>
+<td>包含当前HttpSession的属性（attribute）的Map</td>
+<td>#session.userName相当于session.getAttribute(“userName”)</td>
+</tr>
+<tr>
+<td>application</td>
+<td>包含当前应用的ServletContext的属性（attribute）的Map</td>
+<td>#application.userName相当于application.getAttribute(“userName”)</td>
+</tr>
+<tr>
+<td>attr</td>
+<td>用于按request &gt; session &gt; application顺序访问其属性（attribute）</td>
+<td>#attr.userName相当于按顺序在以上三个范围（scope）内读取userName属性，直到找到为止</td>
+</tr>
+</tbody>
+</table>
+<p>“%”的用途是在标志的属性为字符串类型时，计算OGNL表达式的值。例如在Ognl.jsp中加入以下代码：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>%的用途<span class="tag">&lt;/<span class="name">h3</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">s:url</span> <span class="attr">value</span>=<span class="string">"#foobar['foo1']"</span> /&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">s:url</span> <span class="attr">value</span>=<span class="string">"%&#123;#foobar['foo1']&#125;"</span> /&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>“$”有两个主要的用途 ：    </p>
+<ol>
+<li>用于在国际化资源文件中，引用OGNL表达式 </li>
+<li>在Struts 2配置文件中，引用OGNL表达式，如<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">action</span> <span class="attr">name</span>=<span class="string">"AddPhoto"</span> <span class="attr">class</span>=<span class="string">"addPhoto"</span>&gt;</span>  </span><br><span class="line">  <span class="tag">&lt;<span class="name">interceptor-ref</span> <span class="attr">name</span>=<span class="string">"fileUploadStack"</span> /&gt;</span>              </span><br><span class="line">  <span class="tag">&lt;<span class="name">result</span> <span class="attr">type</span>=<span class="string">"redirect"</span>&gt;</span>ListPhotos.action?albumId=$&#123;albumId&#125;<span class="tag">&lt;/<span class="name">result</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">action</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<hr>
+<h3 id="Struts2-部分标签"><a href="#Struts2-部分标签" class="headerlink" title="Struts2 部分标签"></a>Struts2 部分标签</h3><h4 id="iterator标签"><a href="#iterator标签" class="headerlink" title="iterator标签"></a><code>iterator</code>标签</h4><blockquote>
+<p><a href="http://blog.csdn.net/oxcow/article/details/4516283" rel="external nofollow noopener noreferrer" target="_blank">struts2中iterator标签的相关使用</a><br><a href="http://www.iteye.com/problems/23667" rel="external nofollow noopener noreferrer" target="_blank">struts2 的标签遍历：<code>list&lt;map&lt;String,String&gt;&gt;</code></a></p>
+</blockquote>
+<p><code>iterator</code>标签可以用来遍历数组，最简单的使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; days = [&quot;Mon&quot;,&quot;Tue&quot;,&quot;Wed&quot;,&quot;Thu&quot;,&quot;Fri&quot;];</span><br><span class="line"></span><br><span class="line">&lt;s:iterator value=&quot;days&quot;&gt;</span><br><span class="line">  &lt;s:property /&gt;</span><br><span class="line">&lt;/s:iterator&gt;</span><br></pre></td></tr></table></figure></p>
+<!-- more -->
+<p>在<code>iterator</code>中，<code>top</code>可以表示当前元素，也可以携程<code>[0].top</code>.[0]代表整个栈对象<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">s:iterator</span> <span class="attr">value</span>=<span class="string">"days"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">s:if</span> <span class="attr">test</span>=<span class="string">"top!='Mon'"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">s:property</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">s:if</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">s:iterator</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><code>iterator</code>的<code>status</code>属性有如下方法:</p>
+<ul>
+<li><code>count</code>: int - 返回当前迭代位置的计数(从1开始)</li>
+<li><code>index</code>: int - 返回当前迭代位置的编号(从0开始)</li>
+<li><code>first</code>: boolean - 如果当前迭代位置是第一位时返回true</li>
+<li><code>last</code>: boolean - 如果当前迭代位置是最后一位时返回true</li>
+<li><code>even</code>: boolean - 如果当前迭代位置是偶数返回true</li>
+<li><code>odd</code>: boolean - 如果当前迭代位置是奇数返回true</li>
+<li><code>modulus(operand : int)</code>: int - 返回当前计数(从1开始)与指定操作数的模数</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">s:iterator</span> <span class="attr">value</span>=<span class="string">"days"</span> <span class="attr">status</span>=<span class="string">"day"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">s:if</span> <span class="attr">test</span>=<span class="string">"#day.first"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">s:property</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">s:if</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">s:iterator</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>最后再来看下在iterator中调用value stack的用法。<br>假定countries是一个List对象，每一个country有一个name属性和一个citys List对象，并且每一个city也有一个name属性。那么我们想要在迭代citys时访问所属country的name属性就的用如下方式：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">s:iterator</span> <span class="attr">value</span>=<span class="string">"countries"</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">s:iterator</span> <span class="attr">value</span>=<span class="string">"cities"</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">s:property</span> <span class="attr">value</span>=<span class="string">"name"</span>/&gt;</span>, <span class="tag">&lt;<span class="name">s:property</span> <span class="attr">value</span>=<span class="string">"[1].name"</span>/&gt;</span><span class="tag">&lt;<span class="name">br</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">s:iterator</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">s:iterator</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>这里的 <code>&lt;s:property value=&quot;name&quot;/&gt;</code>取的是ctiy.name;<code>&lt;s:property value=&quot;[1].name&quot;/&gt;</code>取得是country.name</li>
+<li><code>&lt;s:property value=&quot;[1].name&quot;/&gt;</code> 等价于 <code>&lt;s:property value=&quot;[1].top.name&quot;/&gt;</code></li>
+<li>city处于当前栈，即top或者[0],而[1]指明了外层iterator对象，即country</li>
+<li>‘[n]’标记引用开始位置为n的子栈（sub-stack），而不仅仅是位置n处的对象。因此’[0]’代表整个栈，而’[1]’是除top对象外所有的栈元素。</li>
+</ul>
+<p><code>iterator</code>遍历：list&lt;map&lt;String,String&gt;&gt;<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">s:iterator</span> <span class="attr">id</span>=<span class="string">"map"</span> <span class="attr">value</span>=<span class="string">"userList"</span> <span class="attr">status</span>=<span class="string">"user_state"</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">s:iterator</span> <span class="attr">value</span>=<span class="string">"userList[#user_state.index]"</span>&gt;</span>   </span><br><span class="line">        Key : <span class="tag">&lt;<span class="name">s:property</span> <span class="attr">value</span>=<span class="string">"key"</span> /&gt;</span>  </span><br><span class="line">        Value : <span class="tag">&lt;<span class="name">s:property</span> <span class="attr">value</span>=<span class="string">"value"</span> /&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">br</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;/<span class="name">s:iterator</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">s:iterator</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="select标签"><a href="#select标签" class="headerlink" title="select标签"></a><code>select</code>标签</h4><blockquote>
+<p><a href="http://blog.csdn.net/moliqin/article/details/3753570" rel="external nofollow noopener noreferrer" target="_blank">struts2中s:select标签的使用</a></p>
+</blockquote>
+<p><code>headerKey headerValue</code> 为设置缺省值<br><code>listKey</code>为option的value,<code>listValue</code>为option显示的选项</p>
+<p>普通数组<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;s:select list=&quot;&#123;&apos;aa&apos;,&apos;bb&apos;,&apos;cc&apos;&#125;&quot;</span><br><span class="line">          theme=&quot;simple&quot; </span><br><span class="line">          headerKey=&quot;00&quot; </span><br><span class="line">          headerValue=&quot;00&quot;&gt;</span><br><span class="line">&lt;/s:select&gt;</span><br></pre></td></tr></table></figure></p>
+<p>key-value映射<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;s:select list=&quot;#&#123;1:&apos;aa&apos;,2:&apos;bb&apos;,3:&apos;cc&apos;&#125;&quot;  </span><br><span class="line">          label=&quot;abc&quot; </span><br><span class="line">          listKey=&quot;key&quot; </span><br><span class="line">          listValue=&quot;value&quot;  </span><br><span class="line">          headerKey=&quot;0&quot; </span><br><span class="line">          headerValue=&quot;aabb&quot;&gt;</span><br><span class="line">&lt;/s:select&gt;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">java.util.HashMap map = <span class="keyword">new</span> java.util.LinkedHashMap();</span><br><span class="line">map.put(<span class="number">1</span>,<span class="string">"aaa"</span>);</span><br><span class="line">map.put(<span class="number">2</span>,<span class="string">"bbb"</span>);</span><br><span class="line">map.put(<span class="number">3</span>,<span class="string">"ccc"</span>);</span><br><span class="line">request.setAttribute(<span class="string">"map"</span>,map);</span><br><span class="line">request.setAttribute(<span class="string">"aa"</span>,<span class="string">"2"</span>);</span><br><span class="line">%&gt;</span><br><span class="line">&lt;s:select list=<span class="string">"#request.map"</span>  </span><br><span class="line">          label=<span class="string">"abc"</span> </span><br><span class="line">          listKey=<span class="string">"key"</span> </span><br><span class="line">          listValue=<span class="string">"value"</span> </span><br><span class="line">          value=<span class="string">"#request.aa"</span>  </span><br><span class="line">          headerKey=<span class="string">"0"</span> </span><br><span class="line">          headerValue=<span class="string">"aabb"</span>&gt;</span><br><span class="line">&lt;/s:select&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="Struts2-s-checkboxlist-国际化"><a href="#Struts2-s-checkboxlist-国际化" class="headerlink" title="Struts2 s:checkboxlist 国际化"></a>Struts2 s:checkboxlist 国际化</h4><blockquote>
+<p><a href="http://blog.csdn.net/crazy_kis/article/details/4765937" rel="external nofollow noopener noreferrer" target="_blank">Struts2 s:checkboxlist 国际化</a></p>
+</blockquote>
+<p>使用<code>getText(key)</code>方法即可,key为国际化资源文件中的key值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;s:checkboxlist name=&quot;adminUserRoles&quot; </span><br><span class="line">                theme=&quot;simple&quot; </span><br><span class="line">                list=&quot;#&#123;1:getText(&apos;aa&apos;),2:getText(&apos;bb&apos;),3:getText(&apos;cc&apos;)&#125;&quot;  /&gt;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="checkbox标签"><a href="#checkbox标签" class="headerlink" title="checkbox标签"></a><code>checkbox</code>标签</h4><blockquote>
+<p><a href="http://www.blogjava.net/SpartaYew/archive/2011/05/19/350594.html" rel="external nofollow noopener noreferrer" target="_blank">Struts2标签之Checkbox详解</a></p>
+</blockquote>
+<p><code>&lt;s:checkbox&gt;</code>有如下属性:<br><code>id</code>: 标签id<br><code>name</code>: 标签name<br><code>value</code>:是否选中，值为true|false,类似checkbox中的checked<br><code>fieldValue</code>: 类似checkbox中的value<br><code>label</code>: 选框后面的显示描述</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">s:checkbox</span> <span class="attr">id</span>=<span class="string">"a"</span> <span class="attr">name</span>=<span class="string">"a"</span> <span class="attr">value</span>=<span class="string">"true"</span> <span class="attr">fieldValue</span>=<span class="string">"1"</span> <span class="attr">label</span>=<span class="string">"A"</span> /&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 转换为checkbox --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"checkbox"</span> <span class="attr">id</span>=<span class="string">"a"</span> <span class="attr">name</span>=<span class="string">"a"</span> <span class="attr">value</span>=<span class="string">"1"</span> <span class="attr">checked</span>&gt;</span>A</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/form/" rel="tag"># form</a>
+          
+            <a href="/tags/Struts2/" rel="tag"># Struts2</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/mongodb-crud/" rel="next" title="MongoDB简单使用">
+                <i class="fa fa-chevron-left"></i> MongoDB简单使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/struts2-file/" rel="prev" title="Struts2 文件上传下载">
+                Struts2 文件上传下载 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" rel="external nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Shepard">
+            
+              <p class="site-author-name" itemprop="name">Shepard</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/51azxc" target="_blank" title="GitHub" rel="external nofollow noopener noreferrer">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Struts2使用Ajax"><span class="nav-number">1.</span> <span class="nav-text">Struts2使用Ajax</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java-util-MissingResourceException-Can-39-t-find-bundle-for-base-name"><span class="nav-number">2.</span> <span class="nav-text">java.util.MissingResourceException Can&#39;t find bundle for base name</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决java-lang-IllegalStateException"><span class="nav-number">3.</span> <span class="nav-text">解决java.lang.IllegalStateException</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Struts2国际化"><span class="nav-number">4.</span> <span class="nav-text">Struts2国际化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Struts2中不同namespace的重定向用法"><span class="nav-number">5.</span> <span class="nav-text">Struts2中不同namespace的重定向用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#struts2中-“-”-“-”-“-”-的区别和用法"><span class="nav-number">6.</span> <span class="nav-text">struts2中 “#” “%” “$” 的区别和用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Struts2-部分标签"><span class="nav-number">7.</span> <span class="nav-text">Struts2 部分标签</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#iterator标签"><span class="nav-number">7.1.</span> <span class="nav-text">iterator标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#select标签"><span class="nav-number">7.2.</span> <span class="nav-text">select标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Struts2-s-checkboxlist-国际化"><span class="nav-number">7.3.</span> <span class="nav-text">Struts2 s:checkboxlist 国际化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#checkbox标签"><span class="nav-number">7.4.</span> <span class="nav-text">checkbox标签</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shepard</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow noopener noreferrer">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow noopener noreferrer">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://shepard-blog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://51azxc.github.io/struts2-tag/';
+          this.page.identifier = 'struts2-tag/';
+          this.page.title = 'Struts2零散知识点整理';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://shepard-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

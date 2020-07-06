@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Ruthie:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="istio,kubernetes,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="istio项目是Service Mesh概念的最新实现，旨在所有主流集群管理平台上提供Service Mesh层，初期以实现Kubernetes上的服务治理层为目标。它由控制平面和数据平面组成：控制平面由Go语言实现，包括pilot、mixer、auth三个组件；数据平面功能由Envoy在pod中以Sidecar的部署形式提供。">
+<meta name="keywords" content="istio,kubernetes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="初探istio">
+<meta property="og:url" content="https://51azxc.github.io/k8s-istio/index.html">
+<meta property="og:site_name" content="Shepard&#39;s Blog">
+<meta property="og:description" content="istio项目是Service Mesh概念的最新实现，旨在所有主流集群管理平台上提供Service Mesh层，初期以实现Kubernetes上的服务治理层为目标。它由控制平面和数据平面组成：控制平面由Go语言实现，包括pilot、mixer、auth三个组件；数据平面功能由Envoy在pod中以Sidecar的部署形式提供。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-06T10:57:41.908Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="初探istio">
+<meta name="twitter:description" content="istio项目是Service Mesh概念的最新实现，旨在所有主流集群管理平台上提供Service Mesh层，初期以实现Kubernetes上的服务治理层为目标。它由控制平面和数据平面组成：控制平面由Go语言实现，包括pilot、mixer、auth三个组件；数据平面功能由Envoy在pod中以Sidecar的部署形式提供。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://51azxc.github.io/k8s-istio/">
+
+
+
+
+
+  <title>初探istio | Shepard's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shepard's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Nothing is true everything is permitted</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://51azxc.github.io/k8s-istio/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shepard">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shepard's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">初探istio</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-04T16:04:37+00:00">
+                2018-05-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kubernetes/" itemprop="url" rel="index">
+                    <span itemprop="name">Kubernetes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/k8s-istio/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="k8s-istio/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://istio.io/" rel="external nofollow noopener noreferrer" target="_blank">istio</a>项目是Service Mesh概念的最新实现，旨在所有主流集群管理平台上提供Service Mesh层，初期以实现Kubernetes上的服务治理层为目标。它由控制平面和数据平面组成：控制平面由Go语言实现，包括pilot、mixer、auth三个组件；数据平面功能由Envoy在pod中以Sidecar的部署形式提供。</p>
+<a id="more"></a>
+<p>istio由Google与IBM联合创作，看到它的爹都是这么强大的存在，还是赶紧来认识一下它。</p>
+<p>这次的实验环境是在Kubernetes平台上，因为就目前来说istio对其支持最好。想想看istio的logo是一艘帆船，而kubernets的logo是舵轮，而docker的logo则是一只鲸鱼，它们之间的关系还真是微妙啊。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>目前使用的<code>istio</code>版本为<code>0.7.1</code>,对环境的要求为<code>Kubernetes &gt;= 1.7.3,minikube &gt;= 0.25</code>,我之前装的Kubernetes及minikube刚好符合这个要求，那就先启动minikube吧:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo minikube start \</span><br><span class="line">--extra-config=controller-manager.ClusterSigningCertFile=<span class="string">"/var/lib/localkube/certs/ca.crt"</span> \</span><br><span class="line">--extra-config=controller-manager.ClusterSigningKeyFile=<span class="string">"/var/lib/localkube/certs/ca.key"</span> \</span><br><span class="line">--extra-config=apiserver.Admission.PluginNames=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota \</span><br><span class="line">--kubernetes-version=v1.9.0 \</span><br><span class="line">--vm-driver=none \</span><br><span class="line">--registry-mirror=<span class="string">"https://registry.docker-cn.com"</span></span><br></pre></td></tr></table></figure></p>
+<p>这里对比官网的命令就多加了最后两个选项。<code>--vm-driver</code>表示使用本地<strong>Docker</strong>环境，<code>--registry-mirror</code>指定镜像加速地址。不然等下下载istio的核心服务镜像就可能不成功了。</p>
+<p>然后根据官网的命令下载：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://git.io/getLatestIstio | sh -</span><br></pre></td></tr></table></figure></p>
+<p>下载好后通过<code>cd</code>命令进入到<code>istio-0.7.1</code>文件目录下，将<code>istioctl</code>客户端加入到环境变量中:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PWD</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure></p>
+<p>在安装istio的核心组件之前，需要修改一下<code>istio.yaml</code>配置文件的<code>istion-ingress</code>服务部分:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">istio-ingress</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">istio-system</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">istio:</span> <span class="string">ingress</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">    <span class="attr">nodePort:</span> <span class="number">32000</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">http</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">443</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">https</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">istio:</span> <span class="string">ingress</span></span><br></pre></td></tr></table></figure></p>
+<p>因为我是在<strong>minikube</strong>环境中运行的，按照官网的说法(minikube不支持外部负载均衡)，需要将<code>istio-ingress</code>服务的类型设置为<strong>NodePort</strong>。如果不希望每次运行都随机分配一个端口号，可以通过<code>nodePort</code>属性指定。<br>接下来运行命令安装核心组件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f install/kubernetes/istio.yaml</span><br></pre></td></tr></table></figure></p>
+<p>如果想要体验一下<code>istio</code>的自动注入功能，那就需要安装<a href="https://istio.io/docs/setup/kubernetes/sidecar-injection.html#automatic-sidecar-injection" rel="external nofollow noopener noreferrer" target="_blank">sidecar injector webhook</a>,(要求<code>Kubernetes &gt;= 1.9.0</code>)。这个功能模块我安装的过程中出了一个问题，就是在执行<code>webhook-create-signed-cert.sh</code>脚本的时候报了一个错：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error: error validating <span class="string">"STDIN"</span>: error validating data: [apiVersion not <span class="built_in">set</span>, kind not <span class="built_in">set</span>]; <span class="keyword">if</span> you choose to ignore these errors, turn validation off with --validate=<span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
+<p>然后在<a href="https://github.com/istio/issues/issues/261" rel="external nofollow noopener noreferrer" target="_blank">github issue</a>上边发现也有人讨论类似的问题，解决办法就是将这个脚本的最后一行注释下边的语句替换成:<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> create the secret with CA cert and server cert/key</span></span><br><span class="line">echo "apiVersion: v1" &gt; $&#123;tmpdir&#125;/create-secret.yaml</span><br><span class="line">echo "kind: Secret" &gt;&gt; $&#123;tmpdir&#125;/create-secret.yaml</span><br><span class="line">kubectl create secret generic $&#123;secret&#125; \</span><br><span class="line">        --from-file=key.pem=$&#123;tmpdir&#125;/server-key.pem \</span><br><span class="line">        --from-file=cert.pem=$&#123;tmpdir&#125;/server-cert.pem \</span><br><span class="line">        --dry-run -o yaml &gt;&gt; $&#123;tmpdir&#125;/create-secret.yaml</span><br><span class="line">kubectl -n $&#123;namespace&#125; apply -f $&#123;tmpdir&#125;/create-secret.yaml</span><br></pre></td></tr></table></figure></p>
+<p>这样这个模块才安装成功。感觉这部分可能是非正式版所以错误还是有的，后边就没有用自动注入的方式而采取的是手动注入的方式。</p>
+<p>安装好之后查看一下相关服务及Pod是否已经成功运行了:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get svc -n istio-system</span><br><span class="line">NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                                                             AGE</span><br><span class="line">istio-ingress   NodePort    10.104.248.2     &lt;none&gt;        80:32000/TCP,443:31392/TCP                                          2h</span><br><span class="line">istio-mixer     ClusterIP   10.106.203.121   &lt;none&gt;        9091/TCP,15004/TCP,9093/TCP,9094/TCP,9102/TCP,9125/UDP,42422/TCP    2h</span><br><span class="line">istio-pilot     ClusterIP   10.105.143.198   &lt;none&gt;        15003/TCP,15005/TCP,15007/TCP,15010/TCP,8080/TCP,9093/TCP,443/TCP   2h</span><br><span class="line"></span><br><span class="line">$ kubectl get po -n istio-system</span><br><span class="line">NAME                             READY     STATUS    RESTARTS   AGE</span><br><span class="line">istio-ca-86f55cc46f-qqggd        1/1       Running   0          2h</span><br><span class="line">istio-ingress-5bb556fcbf-g2mn5   1/1       Running   0          2h</span><br><span class="line">istio-mixer-86f5df6997-d8gvp     3/3       Running   0          2h</span><br><span class="line">istio-pilot-67d6ddbdf6-6b74h     2/2       Running   0          2h</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>如果安装了自动注入的模块，还有一个<code>istio-sidecar-injector-*</code>的Pod</p>
+</blockquote>
+<hr>
+<h3 id="部署应用"><a href="#部署应用" class="headerlink" title="部署应用"></a>部署应用</h3><h4 id="编写测试用例"><a href="#编写测试用例" class="headerlink" title="编写测试用例"></a>编写测试用例</h4><p>在成功安装好了istio的核心组件之后，就可以开始部署应用了。官网有个十分完整的案例<a href="https://istio.io/docs/guides/bookinfo.html" rel="external nofollow noopener noreferrer" target="_blank">Bookinfo</a>,不过这里我就想着一起复习一下<a href="https://docs.spring.io/spring/docs/5.0.0.BUILD-SNAPSHOT/spring-framework-reference/html/web-reactive.html" rel="external nofollow noopener noreferrer" target="_blank">spring boot 2 webflux</a>就自己写了一个挺简单的例子。</p>
+<p>主要有两个服务:<code>service1</code>及<code>service2</code>。客户端调用<code>service2</code>的服务，然后<code>service2</code>来调用<code>service1</code>的服务，最终将结果返回给客户端。</p>
+<p>首先先创建<code>service1</code>的<code>spring boot</code>项目:<br>首先是一个简单的用户类:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Integer id;</span><br><span class="line">	<span class="keyword">private</span> String username;</span><br><span class="line">	<span class="keyword">private</span> String version;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// getter and setter ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接下来编写一个<code>Repository</code>类，实现最基本的<em>CRUD</em>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserRepository</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Map&lt;Integer, User&gt; map = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> AtomicInteger ids = <span class="keyword">new</span> AtomicInteger(<span class="number">0</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Mono&lt;User&gt; <span class="title">getUserById</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> Mono.justOrEmpty(map.get(id)).switchIfEmpty(Mono.empty());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Flux&lt;User&gt; <span class="title">getUsers</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> Flux.fromIterable(map.values());</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Mono&lt;Integer&gt; <span class="title">createUser</span><span class="params">(<span class="keyword">final</span> Mono&lt;User&gt; user)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> user.doOnNext(u -&gt; &#123;</span><br><span class="line">			Integer id = ids.incrementAndGet();</span><br><span class="line">			u.setId(id);</span><br><span class="line">			map.put(id, u);</span><br><span class="line">		&#125;).flatMap(u -&gt; Mono.just(u.getId()));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Mono&lt;User&gt; <span class="title">updateUser</span><span class="params">(<span class="keyword">final</span> Mono&lt;User&gt; user)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> user.doOnNext(u -&gt; map.put(u.getId(), u));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Mono&lt;User&gt; <span class="title">removeUser</span><span class="params">(<span class="keyword">final</span> Integer id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> Mono.justOrEmpty(map.remove(id)).switchIfEmpty(Mono.empty());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>Mono</code>表示<code>0..1</code>,<code>Flux</code>表示<code>0..n</code>。<code>Reactive Streams</code>已是<code>Rx</code>的标准了。这大概是<code>Spring boot</code>会采用它的原因之一吧。<br>接下来是<code>Service</code>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> UserRepository repo;</span><br><span class="line">	<span class="meta">@Value</span>(<span class="string">"$&#123;SERVICE_VERSION:v1&#125;"</span>)</span><br><span class="line">	<span class="keyword">private</span> String version;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Mono&lt;ServerResponse&gt; <span class="title">listUsers</span><span class="params">(ServerRequest request)</span> </span>&#123;</span><br><span class="line">		Flux&lt;User&gt; users = repo.getUsers();</span><br><span class="line">		<span class="keyword">return</span> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(users, User<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Mono&lt;ServerResponse&gt; <span class="title">getUserById</span><span class="params">(ServerRequest request)</span> </span>&#123;</span><br><span class="line">		Integer userId = Integer.valueOf(request.pathVariable(<span class="string">"id"</span>));</span><br><span class="line">		Mono&lt;ServerResponse&gt; notFound = ServerResponse.notFound().build();</span><br><span class="line">		Mono&lt;User&gt; user = repo.getUserById(userId);</span><br><span class="line">		<span class="keyword">return</span> user.flatMap(u -&gt; ServerResponse.ok()</span><br><span class="line">					.contentType(MediaType.APPLICATION_JSON)</span><br><span class="line">					.body(BodyInserters.fromObject(u)))</span><br><span class="line">				.switchIfEmpty(notFound);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Mono&lt;ServerResponse&gt; <span class="title">addUser</span><span class="params">(ServerRequest request)</span> </span>&#123;</span><br><span class="line">		Mono&lt;User&gt; user = request.bodyToMono(User<span class="class">.<span class="keyword">class</span>).<span class="title">doOnNext</span>(<span class="title">u</span>-&gt;<span class="title">u</span>.<span class="title">setVersion</span>(<span class="title">version</span>))</span>;</span><br><span class="line">		<span class="keyword">return</span> repo.createUser(user)</span><br><span class="line">				.flatMap(id -&gt; ServerResponse.ok()</span><br><span class="line">						.contentType(MediaType.APPLICATION_JSON)</span><br><span class="line">						.body(BodyInserters.fromObject(id)))</span><br><span class="line">				.switchIfEmpty(ServerResponse.badRequest().build());</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Mono&lt;ServerResponse&gt; <span class="title">updateUser</span><span class="params">(ServerRequest request)</span> </span>&#123;</span><br><span class="line">		Integer userId = Integer.valueOf(request.pathVariable(<span class="string">"id"</span>));</span><br><span class="line">		Mono&lt;User&gt; user = request.bodyToMono(User<span class="class">.<span class="keyword">class</span>).<span class="title">doOnNext</span>(<span class="title">u</span>-&gt;</span>&#123;</span><br><span class="line">			u.setId(userId);</span><br><span class="line">			u.setVersion(version);</span><br><span class="line">		&#125;);</span><br><span class="line">		<span class="keyword">return</span> repo.updateUser(user)</span><br><span class="line">				.flatMap(u -&gt; ServerResponse.ok()</span><br><span class="line">						.contentType(MediaType.APPLICATION_JSON)</span><br><span class="line">						.body(BodyInserters.fromObject(u)))</span><br><span class="line">				.switchIfEmpty(ServerResponse.badRequest().build());</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Mono&lt;ServerResponse&gt; <span class="title">deleteUser</span><span class="params">(ServerRequest request)</span> </span>&#123;</span><br><span class="line">		Integer userId = Integer.valueOf(request.pathVariable(<span class="string">"id"</span>));</span><br><span class="line">		<span class="keyword">return</span> repo.removeUser(userId).flatMap(user -&gt; ServerResponse.ok()</span><br><span class="line">						.contentType(MediaType.APPLICATION_JSON)</span><br><span class="line">						.body(BodyInserters.fromObject(user)))</span><br><span class="line">				.switchIfEmpty(ServerResponse.badRequest().build());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里的<code>version</code>通过寻找系统变量<code>SERVICE_VERSION</code>来注入，默认值是<code>v1</code>。这个变量在后边创建的<code>Docker</code>镜像中加入。<br>早先接触<code>RxJava</code>的时候就觉得这种链式写法十分爽，调试起来就十分酸爽。<br>然后是<code>Routes</code>文件用来配置路由:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.springframework.web.reactive.function.server.RequestPredicates.*;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.springframework.web.reactive.function.server.RouterFunctions.route;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Routes</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> UserHandler userHandler;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Bean</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> RouterFunction&lt;ServerResponse&gt; <span class="title">routerFunction</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> route(GET(<span class="string">"/api/users"</span>).and(accept(APPLICATION_JSON)), userHandler::listUsers)</span><br><span class="line">		  .and(route(GET(<span class="string">"/api/users/&#123;id&#125;"</span>).and(accept(APPLICATION_JSON)), userHandler::getUserById))</span><br><span class="line">		  .and(route(POST(<span class="string">"/api/users"</span>).and(contentType(APPLICATION_JSON)), userHandler::addUser))</span><br><span class="line">		  .and(route(PUT(<span class="string">"/api/users/&#123;id&#125;"</span>).and(contentType(APPLICATION_JSON)), userHandler::updateUser))</span><br><span class="line">		  .and(route(DELETE(<span class="string">"/api/users/&#123;id&#125;"</span>).and(accept(APPLICATION_JSON)), userHandler::deleteUser));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这种声明式路由最早在<code>RoR</code>中见过，可能比较好管理吧。<br>最后在<code>applicatioin.properties</code>文件中设置<code>server.port=8088</code>指定端口。</p>
+<p>然后继续写一个<code>service2</code>项目来调用上边的服务<code>service1</code>，这里用到了<code>webflux</code>的客户端<code>WebClient</code>，最主要的类就是一个<code>Controller</code>:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/api/users"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> WebClient webClient;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@GetMapping</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Flux&lt;User&gt; <span class="title">list</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> webClient.get().uri(<span class="string">"/api/users"</span>).accept(MediaType.APPLICATION_JSON).retrieve().bodyToFlux(User<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@GetMapping</span>(<span class="string">"&#123;id&#125;"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Mono&lt;String&gt; <span class="title">getUser</span><span class="params">(@PathVariable <span class="keyword">final</span> Integer id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> webClient.get().uri(<span class="string">"/api/users/&#123;id&#125;"</span>,id).accept(MediaType.APPLICATION_JSON)</span><br><span class="line">				.retrieve().onStatus(HttpStatus::is4xxClientError, res -&gt; Mono.error(<span class="keyword">new</span> Throwable(res.statusCode().getReasonPhrase())))</span><br><span class="line">				.bodyToMono(User<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line">				.flatMap(user-&gt;Mono.justOrEmpty("Hello, " + user.getUsername() + " " + user.getVersion()))</span><br><span class="line">				.onErrorReturn(<span class="string">"error"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@PostMapping</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Mono&lt;Integer&gt; <span class="title">addUser</span><span class="params">(@RequestBody <span class="keyword">final</span> User user)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> webClient.post().uri(<span class="string">"/api/users"</span>).contentType(MediaType.APPLICATION_JSON)</span><br><span class="line">				.body(BodyInserters.fromObject(user)).retrieve()</span><br><span class="line">				.bodyToMono(Integer<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@PutMapping</span>(<span class="string">"&#123;id&#125;"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Mono&lt;User&gt; <span class="title">updateUser</span><span class="params">(@PathVariable <span class="keyword">final</span> Integer id, @RequestBody <span class="keyword">final</span> User user)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> webClient.put().uri(<span class="string">"/api/users/&#123;id&#125;"</span>,id).contentType(MediaType.APPLICATION_JSON)</span><br><span class="line">				.body(BodyInserters.fromObject(user)).retrieve()</span><br><span class="line">				.bodyToMono(User<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@DeleteMapping</span>(<span class="string">"&#123;id&#125;"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Mono&lt;String&gt; <span class="title">deleteUser</span><span class="params">(@PathVariable <span class="keyword">final</span> Integer id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> webClient.delete().uri(<span class="string">"/api/users/&#123;id&#125;"</span>,id).accept(MediaType.APPLICATION_JSON)</span><br><span class="line">				.retrieve().bodyToMono(User<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">				.<span class="title">doOnError</span>(<span class="title">error</span>-&gt;<span class="title">Mono</span>.<span class="title">error</span>(<span class="title">error</span>))</span></span><br><span class="line">				.flatMap(user-&gt;Mono.justOrEmpty("Bye, " + user.getUsername() + " " + user.getVersion()))</span><br><span class="line">				.onErrorReturn(<span class="string">"error"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里需要拷贝一下<code>service1</code>的<code>User.java</code>,然后指定一个配置类注入<code>WebClient</code>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppConfig</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Value</span>(<span class="string">"$&#123;service1.url&#125;"</span>)</span><br><span class="line">	<span class="keyword">private</span> String service1Url;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Bean</span> <span class="function">WebClient <span class="title">webClient</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> WebClient.create(service1Url);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>最后需要在<code>application.properties</code>文件中配置端口及调用服务的<code>url</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">server.port=8880</span><br><span class="line">service1.url=http://service1:8088</span><br></pre></td></tr></table></figure></p>
+<p>接下来就是通过<code>Maven</code>将各自的项目打包，然后放到不同的文件夹下，准备生成<code>Docker</code>镜像了。</p>
+<h4 id="创建Docker镜像"><a href="#创建Docker镜像" class="headerlink" title="创建Docker镜像"></a>创建Docker镜像</h4><p>将打包好的<code>jar</code>放入不同的文件夹下，然后分别生成对应的<code>Dockerfile</code>文件:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">FROM java:8-jdk-alpine</span><br><span class="line"></span><br><span class="line">COPY service1-0.0.1-SNAPSHOT.jar service1.jar</span><br><span class="line"></span><br><span class="line">ARG service_version</span><br><span class="line">ENV SERVICE_VERSION $&#123;service_version:-v1&#125;</span><br><span class="line"></span><br><span class="line">ENTRYPOINT [ &quot;java&quot;, &quot;-Djava.security.egd=file:/dev/./urandom&quot;, &quot;-jar&quot;, &quot;service1.jar&quot; ]</span><br></pre></td></tr></table></figure></p>
+<p>这里主要是配置了一个<code>SERVICE_VERSION</code>环境变量，用来标识版本号,然后运行<code>build</code>命令生成镜像:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo docker build -t service1:v1 --build-arg service_version=v1 .</span><br><span class="line">sudo docker build -t service1:v2 --build-arg service_version=v2 .</span><br></pre></td></tr></table></figure></p>
+<p>接下来是生成service2的镜像,跟上边的<code>Dockerfile</code>文件差不多，只不过需要拷贝的jar包不一样:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM java:8-jdk-alpine</span><br><span class="line"></span><br><span class="line">COPY service2-0.0.1-SNAPSHOT.jar service2.jar</span><br><span class="line"></span><br><span class="line">ENTRYPOINT [ &quot;java&quot;, &quot;-Djava.security.egd=file:/dev/./urandom&quot;, &quot;-jar&quot;, &quot;service2.jar&quot; ]</span><br></pre></td></tr></table></figure></p>
+<p>然后生成镜像:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker build -t service2:v1 .</span><br></pre></td></tr></table></figure></p>
+<h4 id="生成Kubernetes服务"><a href="#生成Kubernetes服务" class="headerlink" title="生成Kubernetes服务"></a>生成Kubernetes服务</h4><p>接着生成相关的<code>Service</code>及<code>Deployment</code>:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">service1</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">service1</span>    </span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">http</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8088</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">service1</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">extensions/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">service1-v1</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">service1</span></span><br><span class="line">        <span class="attr">version:</span> <span class="string">v1</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">service1</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">service1:v1</span></span><br><span class="line">        <span class="attr">imagePullPolicy:</span> <span class="string">IfNotPresent</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8088</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">extensions/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">service1-v2</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">service1</span></span><br><span class="line">        <span class="attr">version:</span> <span class="string">v2</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">service1</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">service1:v2</span></span><br><span class="line">        <span class="attr">imagePullPolicy:</span> <span class="string">IfNotPresent</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8088</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">service2</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">service2</span>    </span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">http</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8880</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">service2</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">extensions/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">service2</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">service2</span></span><br><span class="line">        <span class="attr">version:</span> <span class="string">v1</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">service2</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">service2:v1</span></span><br><span class="line">        <span class="attr">imagePullPolicy:</span> <span class="string">IfNotPresent</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8880</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">extensions/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Ingress</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">service2-ingress</span></span><br><span class="line">  <span class="attr">annotations:</span></span><br><span class="line">    <span class="attr">kubernetes.io/ingress.class:</span> <span class="string">"istio"</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">rules:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">http:</span></span><br><span class="line">      <span class="attr">paths:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">path:</span> <span class="string">/api/users.*</span></span><br><span class="line">        <span class="attr">backend:</span></span><br><span class="line">          <span class="attr">serviceName:</span> <span class="string">service2</span></span><br><span class="line">          <span class="attr">servicePort:</span> <span class="number">8880</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure></p>
+<p>这里使用<code>Ingress</code>向集群外暴露服务。这里匹配了如果是<code>/api/users</code>前缀的路径流量都会流转到<code>service2</code>服务中。</p>
+<p>接下来就是通过手动注入<code>istio</code>的方式部署应用了：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f &lt;(istioctl kube-inject -f service1.yaml)</span><br></pre></td></tr></table></figure></p>
+<p>然后通过命令查看一下是否部署成功：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pods</span><br><span class="line">NAME                           READY     STATUS    RESTARTS   AGE</span><br><span class="line">service1-v1-6bcd8675b9-qgrdh   2/2       Running   1          3h</span><br><span class="line">service1-v2-759bc48449-zwk4p   2/2       Running   1          3h</span><br><span class="line">service2-6df4cd875c-jvzj6      2/2       Running   0          3h</span><br></pre></td></tr></table></figure></p>
+<p>这里每个<code>Pod</code>的数量都是2,说明istio已经成功将组件服务注入到对应的<code>Pod</code>中了。</p>
+<p>由于服务是运行在minikube中的，<code>Ingress</code>并没有外部<code>IP</code>访问，所以需要通过以下命令来获取访问地址:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export TEST_URL=$(kubectl get po -l istio=ingress -n istio-system -o &apos;jsonpath=&#123;.items[0].status.hostIP&#125;&apos;):$(kubectl get svc istio-ingress -n istio-system -o &apos;jsonpath=&#123;.spec.ports[0].nodePort&#125;&apos;)</span><br></pre></td></tr></table></figure></p>
+<p>然后通过<code>curl</code>命令增加一条数据：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -H <span class="string">'Content-Type: application/json'</span> -X POST -d <span class="string">'&#123;"username":"a"&#125;'</span> http://<span class="variable">$TEST_URL</span>/api/users</span><br></pre></td></tr></table></figure></p>
+<p>由于<code>service1</code>服务有<code>v1</code>及<code>v2</code>版本，以上命令需要运行两次，这样两个版本都可以添加到相同的数据。</p>
+<p>接下来编写一个脚本用来批量访问服务:<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">for i in &#123;1..10&#125;</span><br><span class="line">do</span><br><span class="line">  curl http://$TEST_URL/api/users/1;</span><br><span class="line">  echo "";</span><br><span class="line">done</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>如果运行脚本提示没有权限就先用chmod u+x 命令给予权限</p>
+</blockquote>
+<p>运行脚本，查看输出可以看到流量十分均匀的分布至<code>v1</code>及<code>v2</code>上。</p>
+<hr>
+<h3 id="流量管理"><a href="#流量管理" class="headerlink" title="流量管理"></a>流量管理</h3><h4 id="流量切分"><a href="#流量切分" class="headerlink" title="流量切分"></a>流量切分</h4><p>编写一个路由规则文件，指定80%的流量访问<code>v1</code>，而20%的流量访问到<code>v2</code>上:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">config.istio.io/v1alpha2</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">RouteRule</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">service1-v1</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">destination:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">service1</span></span><br><span class="line">  <span class="attr">precedence:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">route:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">labels:</span></span><br><span class="line">      <span class="attr">version:</span> <span class="string">v1</span></span><br><span class="line">    <span class="attr">weight:</span> <span class="number">80</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">labels:</span></span><br><span class="line">      <span class="attr">version:</span> <span class="string">v2</span></span><br><span class="line">    <span class="attr">weight:</span> <span class="number">20</span></span><br></pre></td></tr></table></figure></p>
+<p><code>weight</code>属性来指定流量的权重，需要注意的是最终权重相加一定要等于100。<br><code>precedence</code>表示优先度。</p>
+<p>通过<code>istioctl create</code>命令生成流量规则:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">istio create -f service1-routerule-v1.yaml</span><br></pre></td></tr></table></figure></p>
+<p>成功生成之后，可以通过命令<code>istioctl get routerule -o yaml</code>方式来查看所有的流量规则。</p>
+<p>之后等待一会儿运行一下脚本查看一下结果：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ ./request.sh </span><br><span class="line">Hello, a v1</span><br><span class="line">Hello, a v1</span><br><span class="line">Hello, a v2</span><br><span class="line">Hello, a v1</span><br><span class="line">Hello, a v1</span><br><span class="line">Hello, a v1</span><br><span class="line">Hello, a v2</span><br><span class="line">Hello, a v1</span><br><span class="line">Hello, a v1</span><br><span class="line">Hello, a v1</span><br></pre></td></tr></table></figure></p>
+<p>流量大部分都是访问到<code>v1</code>版本的<code>service1</code>中。规则成功生效。<br>试验成功之后可以删除这个规则:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">istioctl delete -f service1-routerule-v1.yaml</span><br></pre></td></tr></table></figure></p>
+<p>当然也可以通过流量规则名来删除:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">istioctl delete routerule service1-v1</span><br></pre></td></tr></table></figure></p>
+<h4 id="错误注入"><a href="#错误注入" class="headerlink" title="错误注入"></a>错误注入</h4><p>这里通过<code>httpFault</code>属性来注入一些故障。比如设置一个延迟时间为2s,然后50%的流量会返回400错误:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">config.istio.io/v1alpha2</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">RouteRule</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">service1-delay-abort</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">destination:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">service1</span></span><br><span class="line">  <span class="attr">route:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">labels:</span></span><br><span class="line">      <span class="attr">version:</span> <span class="string">v1</span></span><br><span class="line">  <span class="attr">httpFault:</span></span><br><span class="line">    <span class="attr">delay:</span></span><br><span class="line">      <span class="attr">fixedDelay:</span> <span class="string">2s</span></span><br><span class="line">    <span class="attr">abort:</span></span><br><span class="line">      <span class="attr">percent:</span> <span class="number">50</span></span><br><span class="line">      <span class="attr">httpStatus:</span> <span class="number">400</span></span><br></pre></td></tr></table></figure></p>
+<p>通过<code>istio create</code>生成规则，然后等待一段时间运行脚本查看结果：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ ./request.sh</span><br><span class="line">error</span><br><span class="line">error</span><br><span class="line">Hello, a v1</span><br><span class="line">error</span><br><span class="line">Hello, a v1</span><br><span class="line">Hello, a v1</span><br><span class="line">error</span><br><span class="line">error</span><br><span class="line">error</span><br><span class="line">error</span><br></pre></td></tr></table></figure></p>
+<p>最后记得清除规则。</p>
+<h4 id="请求超时"><a href="#请求超时" class="headerlink" title="请求超时"></a>请求超时</h4><p>在这里将<code>service1</code>的服务调用延时2s，然后设置<code>service2</code>的请求超时时间为1s：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">config.istio.io/v1alpha2</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">RouteRule</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">service1-delay-timeout</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">destination:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">service1</span></span><br><span class="line">  <span class="attr">route:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">labels:</span></span><br><span class="line">      <span class="attr">version:</span> <span class="string">v1</span></span><br><span class="line">  <span class="attr">httpFault:</span></span><br><span class="line">    <span class="attr">delay:</span></span><br><span class="line">      <span class="attr">percent:</span> <span class="number">100</span></span><br><span class="line">      <span class="attr">fixedDelay:</span> <span class="string">2s</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">config.istio.io/v1alpha2</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">RouteRule</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">service2-timeout</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">destination:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">service2</span></span><br><span class="line">  <span class="attr">route:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">labels:</span></span><br><span class="line">      <span class="attr">version:</span> <span class="string">v1</span></span><br><span class="line">  <span class="attr">httpReqTimeout:</span></span><br><span class="line">    <span class="attr">simpleTimeout:</span></span><br><span class="line">      <span class="attr">timeout:</span> <span class="string">1s</span></span><br></pre></td></tr></table></figure></p>
+<p>然后通过<code>istioctl</code>创建规则，等待一段时间运行脚本：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ ./request.sh</span><br><span class="line">upstream request timeout</span><br><span class="line">upstream request timeout</span><br><span class="line">upstream request timeout</span><br><span class="line">upstream request timeout</span><br><span class="line">upstream request timeout</span><br><span class="line">upstream request timeout</span><br><span class="line">upstream request timeout</span><br><span class="line">upstream request timeout</span><br><span class="line">upstream request timeout</span><br><span class="line">upstream request timeout</span><br></pre></td></tr></table></figure></p>
+<p>基本上都出现了超时错误。试验完毕删除规则。</p>
+<h4 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h4><p>istio还有其他各种强大的流量管理功能比如熔断等等, 不知道是不是运行在minikube中实在是不稳定，经常性的服务访问不到，其他的功能就没试了。目前官网的流量管理规则已经有<code>v1alpha3</code>版本了，已经有挺大的变化，<code>RouteRule</code>变成了<code>VirtualService</code>，<code>Ingress</code>还强烈推荐用<code>Gateway</code>替代，不过<strong>Github</strong>上边的<code>v1alpha3</code>的路由规则在我现在使用的这个版本(0.7.1)中是会出错的，而官网文档的这部分跟<strong>Github</strong>上边也不一致，最终还是用回了<code>v1alpha2</code>的版本。</p>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>istio运行下来觉得毕竟还没有到正式版，<code>api</code>改动还挺大，而且运行过程中经常服务访问不到，流量规则有时候没有效果，可能是运行环境的问题，还是等到正式版出来再看看效果。</p>
+<p>最后如果需要删除istio的组件的话进入到istio的文件夹下运行命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete -f install/kubernetes/istio.yaml</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/istio/" rel="tag"># istio</a>
+          
+            <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/k8s-redis/" rel="next" title="Kubernetes初体验：部署无状态服务Redis">
+                <i class="fa fa-chevron-left"></i> Kubernetes初体验：部署无状态服务Redis
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/tensorflow-mnist/" rel="prev" title="使用Tensorflow建立一个卷积神经网络">
+                使用Tensorflow建立一个卷积神经网络 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" rel="external nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Shepard">
+            
+              <p class="site-author-name" itemprop="name">Shepard</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/51azxc" target="_blank" title="GitHub" rel="external nofollow noopener noreferrer">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署应用"><span class="nav-number">2.</span> <span class="nav-text">部署应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#编写测试用例"><span class="nav-number">2.1.</span> <span class="nav-text">编写测试用例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建Docker镜像"><span class="nav-number">2.2.</span> <span class="nav-text">创建Docker镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生成Kubernetes服务"><span class="nav-number">2.3.</span> <span class="nav-text">生成Kubernetes服务</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流量管理"><span class="nav-number">3.</span> <span class="nav-text">流量管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#流量切分"><span class="nav-number">3.1.</span> <span class="nav-text">流量切分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#错误注入"><span class="nav-number">3.2.</span> <span class="nav-text">错误注入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#请求超时"><span class="nav-number">3.3.</span> <span class="nav-text">请求超时</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后记"><span class="nav-number">3.4.</span> <span class="nav-text">后记</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shepard</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow noopener noreferrer">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow noopener noreferrer">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://shepard-blog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://51azxc.github.io/k8s-istio/';
+          this.page.identifier = 'k8s-istio/';
+          this.page.title = '初探istio';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://shepard-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

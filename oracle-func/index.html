@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Ruthie:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="date,sql,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="查看oracle版本 查看oracle版本命令  12select * from v$instanceselect * from product_component_version">
+<meta name="keywords" content="date,sql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle函数命令">
+<meta property="og:url" content="https://51azxc.github.io/oracle-func/index.html">
+<meta property="og:site_name" content="Shepard&#39;s Blog">
+<meta property="og:description" content="查看oracle版本 查看oracle版本命令  12select * from v$instanceselect * from product_component_version">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-06T10:57:41.912Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle函数命令">
+<meta name="twitter:description" content="查看oracle版本 查看oracle版本命令  12select * from v$instanceselect * from product_component_version">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://51azxc.github.io/oracle-func/">
+
+
+
+
+
+  <title>Oracle函数命令 | Shepard's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shepard's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Nothing is true everything is permitted</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://51azxc.github.io/oracle-func/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shepard">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shepard's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Oracle函数命令</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-05-05T17:50:08+00:00">
+                2015-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Database/" itemprop="url" rel="index">
+                    <span itemprop="name">Database</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Database/Oracle/" itemprop="url" rel="index">
+                    <span itemprop="name">Oracle</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/oracle-func/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="oracle-func/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="查看oracle版本"><a href="#查看oracle版本" class="headerlink" title="查看oracle版本"></a>查看oracle版本</h4><blockquote>
+<p><a href="http://blog.csdn.net/cnham/article/details/5388016" rel="external nofollow noopener noreferrer" target="_blank">查看oracle版本命令</a></p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> v$<span class="keyword">instance</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> product_component_version</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<hr>
+<h4 id="insert···select···union语句"><a href="#insert···select···union语句" class="headerlink" title="insert···select···union语句"></a>insert···select···union语句</h4><blockquote>
+<p><a href="http://zhidao.baidu.com/question/376044972.html" rel="external nofollow noopener noreferrer" target="_blank">oracle能不能使用insert…select…union语句？</a></p>
+</blockquote>
+<p>如果需要插入常量，则需要使用<code>dual</code>表,例如<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> table1 </span><br><span class="line"><span class="keyword">select</span> <span class="string">'a'</span> <span class="keyword">from</span> dual</span><br><span class="line"><span class="keyword">union</span></span><br><span class="line"><span class="keyword">select</span> <span class="string">'b'</span> <span class="keyword">from</span> dual</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="merge-into用法"><a href="#merge-into用法" class="headerlink" title="merge into用法"></a>merge into用法</h4><blockquote>
+<p><a href="http://blog.csdn.net/edgenhuang/article/details/3587912" rel="external nofollow noopener noreferrer" target="_blank">oracle merge into 用法详解</a></p>
+</blockquote>
+<p><code>merge</code>命令可以在SQL语句中对一个表同时执行<code>insert</code>和<code>update</code>操作。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">merge</span> <span class="keyword">into</span> table1 a</span><br><span class="line"><span class="keyword">using</span> table2 b</span><br><span class="line"><span class="keyword">on</span> (a.id = b.id)</span><br><span class="line"><span class="keyword">when</span> <span class="keyword">matched</span> <span class="keyword">then</span></span><br><span class="line"><span class="keyword">update</span></span><br><span class="line"><span class="keyword">set</span> a.name = b.name</span><br><span class="line"><span class="keyword">when</span> <span class="keyword">not</span> <span class="keyword">matched</span> <span class="keyword">then</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">values</span>(b.id,b.name,b.age)</span><br></pre></td></tr></table></figure></p>
+<p><code>merge</code>命令给table1插入table2的数据，其中通过<code>on</code>关键字来匹配相关数据，如果相等则更新相关数据，如果不相等则插入新的数据。其中<code>update</code>及<code>insert</code>语句可以追加<code>where</code>子句进行条件筛选。<code>update</code>及<code>insert</code>语句也不是非必需的，同时也允许在<code>update</code>子句包含<code>delete</code>语句进行删除操作，<code>delete</code>语句必须跟<code>where</code>条件。匹配<code>delete where</code>条件但不匹配<code>on</code>条件的行不会被从表中删除<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">merge</span> <span class="keyword">into</span> table1 a</span><br><span class="line"><span class="keyword">using</span> table2 b</span><br><span class="line"><span class="keyword">on</span> (a.id = b.id)</span><br><span class="line"><span class="keyword">when</span> <span class="keyword">matched</span> <span class="keyword">then</span></span><br><span class="line"><span class="keyword">update</span></span><br><span class="line"><span class="keyword">set</span> a.name = b.name</span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">where</span>(a.name!=<span class="string">'a'</span>)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="按分隔符截取字符串"><a href="#按分隔符截取字符串" class="headerlink" title="按分隔符截取字符串"></a>按分隔符截取字符串</h4><blockquote>
+<p><a href="http://bbs.csdn.net/topics/370163558" rel="external nofollow noopener noreferrer" target="_blank">Oracle函数，按分隔符截取字符串</a></p>
+</blockquote>
+<p>使用<code>regexp_substr</code>函数利用正则表达式截取<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> regexp_substr(<span class="string">'aaa,bb,ccccc,ddd,vvv'</span>,<span class="string">'[^,]+'</span>,<span class="number">1</span>,<span class="number">3</span>)</span><br><span class="line"><span class="keyword">from</span> dual</span><br><span class="line">;</span><br></pre></td></tr></table></figure></p>
+<p>结果为 ‘ccccc’</p>
+<hr>
+<h4 id="trunc函数"><a href="#trunc函数" class="headerlink" title="trunc函数"></a>trunc函数</h4><blockquote>
+<p><a href="http://database.51cto.com/art/201004/197703.htm" rel="external nofollow noopener noreferrer" target="_blank">Oracle TRUNC函数的正确用法</a></p>
+</blockquote>
+<p><strong>TRUNC(for dates)</strong><br><code>TRUNC(date[,fmt])</code>为指定元素而截去的日期值。<br><code>date</code>: 一个日期值<br><code>fmt</code>: 日期格式，该日期将由指定的元素格式所截去。忽略它则由最近的日期截去<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> TRUNC(<span class="keyword">TO_DATE</span>(’<span class="number">24</span>-Nov<span class="number">-1999</span> <span class="number">08</span>:<span class="number">00</span> pm’,’dd-mon-yyyy hh:mi am’)) <span class="keyword">from</span> dual</span><br><span class="line"><span class="comment">-- result: 24-Nov-1999 12:00:00 am</span></span><br><span class="line"><span class="keyword">select</span> TRUNC(<span class="keyword">TO_DATE</span>(’<span class="number">24</span>-Nov<span class="number">-1999</span> <span class="number">08</span>:<span class="number">37</span> pm’,’dd-mon-yyyy hh:mi am’,’hh’)) <span class="keyword">from</span> dual</span><br><span class="line"><span class="comment">-- result: 24-Nov-1999 08:00:00 am</span></span><br></pre></td></tr></table></figure></p>
+<p><code>round (date,&#39;&#39;format&#39;&#39;)</code>未指定format时，如果日期中的时间在中午之前，则将日期中的时间截断为12 A.M.(午夜,一天的开始),否则进到第二天。<br><code>trunc(date,&#39;&#39;format&#39;&#39;)</code>未指定format时，将日期截为12 A.M.，不考虑是否在中午之前的条件。</p>
+<p><strong>TRUNC(for number)</strong><br><code>TRUNC(number[,decimals])</code>函数返回处理后的数值，其工作机制与<code>ROUND</code>函数极为类似，只是该函数不对指定小数前或后的部分做相应舍入选择处理，而统统截去。<br><code>number</code> 待做截取处理的数值<br><code>decimals</code> 指明需保留小数点后面的位数。可选项，忽略它则截去所有的小数部分<br>下面是该函数的使用情况：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> TRUNC（<span class="number">89.985</span>，<span class="number">2</span>） <span class="keyword">from</span> dual</span><br><span class="line"><span class="comment">--result: 89.98</span></span><br><span class="line"><span class="keyword">select</span> TRUNC（<span class="number">89.985</span>） <span class="keyword">from</span> dual</span><br><span class="line"><span class="comment">--result: 89</span></span><br><span class="line"><span class="keyword">select</span> TRUNC（<span class="number">89.985</span>，<span class="number">-1</span>） <span class="keyword">from</span> dual</span><br><span class="line"><span class="comment">--result: 80</span></span><br></pre></td></tr></table></figure></p>
+<p>注意：第二个参数可以为负数，表示为小数点左边指定位数后面的部分截去，即均以0记</p>
+<hr>
+<h4 id="trim函数"><a href="#trim函数" class="headerlink" title="trim函数"></a>trim函数</h4><blockquote>
+<p><a href="http://blog.csdn.net/indexman/article/details/7748766" rel="external nofollow noopener noreferrer" target="_blank">oracle trim函数用法详解</a></p>
+</blockquote>
+<p>基本语法<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">TRIM([ &#123; &#123; LEADING | TRAILING | BOTH &#125;</span><br><span class="line">         [ trim_character ]</span><br><span class="line">       | trim_character</span><br><span class="line">       &#125;</span><br><span class="line">       FROM </span><br><span class="line">     ]</span><br><span class="line">     trim_source</span><br><span class="line">    )</span><br></pre></td></tr></table></figure></p>
+<p>参数解释：<br><code>leading</code>  开头字符<br><code>trailing</code>  结尾字符<br><code>both</code>  开头和结尾字符<br><code>trim_character</code>  去除的字符<br><code>trim_source</code>  修剪源</p>
+<p><code>trim</code>函数用来去除一个字符串的开头或结尾（或两者）的字符。函数返回一个varchar2类型值。该值最大的长度等于<code>trim_source</code>的长度。<code>trim_character</code>和<code>trim_source</code>都可以为以下任意一种数据类型：<strong>CHAR</strong>, <strong>VARCHAR2</strong>， <strong>NCHAR</strong>, <strong>NVARCHAR2</strong>， <strong>CLOB</strong>, <strong>NCLOB</strong>。返回值的类型与<code>trim_source</code>的数据类型一致</p>
+<p>如果指定<code>leading</code>参数，oracle数据库将去除任何等于<code>trim_character</code>的开头字符<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">trim</span>(<span class="keyword">leading</span> <span class="string">'a'</span> <span class="keyword">from</span> <span class="string">'abc'</span>) <span class="keyword">from</span> dual;</span><br><span class="line"><span class="comment">-- result: bc</span></span><br></pre></td></tr></table></figure></p>
+<p>如果指定<code>traling</code>参数，oracle将去除任何等于<code>trim_character</code>的结尾字符<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">trim</span>(trailing <span class="string">'c'</span> <span class="keyword">from</span> <span class="string">'abc'</span>) <span class="keyword">from</span> dual;</span><br><span class="line"><span class="comment">-- result: ab</span></span><br></pre></td></tr></table></figure></p>
+<p>如果指定了<code>both</code>参数或者三个参数都未指定，oracle将去除任何等于<code>trim_character</code>的开头和结尾字符<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">trim</span>(<span class="keyword">both</span> <span class="string">'a'</span> <span class="keyword">from</span> <span class="string">'abca'</span>) <span class="keyword">from</span> dual;</span><br><span class="line"><span class="comment">-- result: bc</span></span><br></pre></td></tr></table></figure></p>
+<p>如果没有指定<code>trim_character</code>参数，默认去除的值为空格<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">trim</span>(<span class="keyword">both</span> <span class="keyword">from</span> <span class="string">' abc '</span>) <span class="keyword">from</span> dual;</span><br><span class="line"><span class="comment">-- result: abc</span></span><br></pre></td></tr></table></figure></p>
+<p>如果只指定修剪源<code>trim_source</code>，oracle将去除<code>trim_source</code>的开头和结尾的空格<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">trim</span>(<span class="string">' abc '</span>) <span class="keyword">from</span> dual;</span><br><span class="line"><span class="comment">-- result: abc</span></span><br></pre></td></tr></table></figure></p>
+<p>如果<code>trim_source</code>和<code>trim_character</code>有一个为<strong>null</strong>，则trim函数返回<strong>null</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">trim</span>(<span class="keyword">both</span> <span class="literal">null</span> <span class="keyword">from</span> <span class="string">'abca'</span>) <span class="keyword">from</span> dual;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">trim</span>(<span class="keyword">both</span> <span class="string">'a'</span> <span class="keyword">from</span> <span class="literal">null</span>) <span class="keyword">from</span> dual;</span><br><span class="line"><span class="comment">-- result: (null)</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="NULL相关"><a href="#NULL相关" class="headerlink" title="NULL相关"></a>NULL相关</h4><blockquote>
+<p><a href="http://jenny-86.iteye.com/blog/465725" rel="external nofollow noopener noreferrer" target="_blank">oracle中的NVL,NVL2,NULLIF,COALESCE几个通用函数</a></p>
+</blockquote>
+<ul>
+<li><code>NVL(expr1,expr2)</code>: 如果<code>expr1</code>为null则返回<code>expr2</code>,否则返回<code>expr1</code></li>
+<li><code>NVL2(expr1,expr2, expr3)</code>: 如果<code>expr1</code>为null则返回<code>expr3</code>，否则返回<code>expr2</code></li>
+<li><code>NULLIF(exp1,expr2)</code>: 如果<code>expr1</code>与<code>expr2</code>相等则返回null，否则返回<code>expr1</code></li>
+<li><code>Coalesce(expr1, expr2, expr3….. exprn)</code>: 返回第一个不为null的参数，全为空则返回null</li>
+</ul>
+<hr>
+<h4 id="日期函数"><a href="#日期函数" class="headerlink" title="日期函数"></a>日期函数</h4><blockquote>
+<p><a href="http://blog.csdn.net/wocjj/article/details/7490994" rel="external nofollow noopener noreferrer" target="_blank">oracle_查询date只显示日期不显示时间</a><br><a href="http://blog.csdn.net/meboy88scofiled/article/details/5035045" rel="external nofollow noopener noreferrer" target="_blank">oracle 日期显示英文格式</a><br><a href="http://bbs.csdn.net/topics/360053715" rel="external nofollow noopener noreferrer" target="_blank">日期如何增加一年</a></p>
+</blockquote>
+<p><code>TO_CHAR(d [, fmt [, &#39;nlsparams&#39;] ])</code>函数用于将日期转换成指定格式的字符串<br><code>d</code>是<code>Date</code>类型的变量，<code>fmt</code>是我们指定的日期时间格式，如果不显式指定就用 Oracle 的默认值。 <code>fmt</code>里常用的跟日期时间有关的占位符如下：<br>MM 用数字表示的月份(例如，07)<br>MON 缩写的月份名称(例如，JUL)<br>MONTH 完整的月份名称(例如，JULY)<br>DD 日期(例如, 24)<br>DY 星期几的缩写(例如，FRI)<br>YYYY 用4位表示的年份(例如, 2008)<br>YY 用2位表示的年份，取年份的后两位(例如，08)<br>RR 跟 YY 类似，但两位表示的年份被近似到 1950 到 2049 这个范围里的年份<br>AM (或 PM) 上下午指示符<br>HH 12进制表示的时间(1-12)<br>HH24 24进制表示的时间(0-23)<br>MI 分钟(0-59)<br>SS 秒(0-59)</p>
+<p>如果需要输出英文格式的日期，可以指定<code>nlsparams</code>为<code>nls_date_language=american</code><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> to_char(<span class="keyword">sysdate</span>,<span class="string">'dd-mon-yyyy'</span>,<span class="string">'nls_date_language=american'</span>) <span class="keyword">from</span> dual</span><br></pre></td></tr></table></figure></p>
+<p>也可以使用<code>ALTER SESSION SET NLS_DATE_LANGUAGE=&#39;AMERICAN&#39;</code>来指定当前会话的<code>NLS_DATE_LANGUAGE</code>属性，但是断开此次会话后，数据库会恢复到默认的格式</p>
+<p><code>TO_DATE(char [, fmt [, &#39;nlsparams&#39;] ])</code> 将字符串转换成指定格式的日期。<code>char</code> 是表示日期和时间的字符串。<code>fmt</code> 的表示方法和 <code>TO_CHAR</code> 函数一样</p>
+<p>如果需要给日期增加一年可以使用<code>add_months</code>函数<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> add_months(<span class="keyword">sysdate</span>,<span class="number">12</span>) <span class="keyword">from</span> dual;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="rank函数"><a href="#rank函数" class="headerlink" title="rank函数"></a>rank函数</h4><blockquote>
+<p><a href="http://keke-wanwei.iteye.com/blog/138632" rel="external nofollow noopener noreferrer" target="_blank">oracle rank()函数总结</a></p>
+</blockquote>
+<p><code>rank</code>是一个给数据确定等级的函数.</p>
+<p>以销售为例,有地区,年,月,销售员,销售额,记录这五个字段.我们可以按地区,年,月,销售额对销售员进行排序,这样对销售员来说就相当于有一个等级概念了,第一名就是销售最高的……,如果我们要找出每个地区,年,月,销售额的前三名销售员.SQL如何写?<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> area_code, <span class="keyword">YEAR</span>, <span class="keyword">MONTH</span>, saleroom,saler   </span><br><span class="line">       <span class="keyword">RANK</span> () <span class="keyword">OVER</span> </span><br><span class="line">    (<span class="keyword">PARTITION</span> <span class="keyword">BY</span> area_code,<span class="keyword">year</span>,<span class="keyword">month</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> area_code,<span class="keyword">year</span>,<span class="keyword">month</span>,saleroom ) <span class="keyword">RANK</span>   </span><br><span class="line"><span class="keyword">FROM</span> t_sale</span><br></pre></td></tr></table></figure></p>
+<p>现在RANK 就是1,2,3,3,3,6,有了这个字段,就很容易得到前三名的销售员了.<br>新问题:销售额50000块在深圳,2007年5月能排到第几?<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span>    </span><br><span class="line">      <span class="keyword">RANK</span>(<span class="string">'SHENZHEN'</span>,<span class="number">2007</span>,<span class="number">5</span>,<span class="number">50000</span>)  <span class="keyword">WITHIN</span> <span class="keyword">GROUP</span>    </span><br><span class="line">      (<span class="keyword">ORDER</span> <span class="keyword">BY</span> area_code,<span class="keyword">year</span>,<span class="keyword">month</span>,saleroom) <span class="keyword">Rank</span>    </span><br><span class="line"><span class="keyword">FROM</span> T_SALE</span><br></pre></td></tr></table></figure></p>
+<p>上面这个SQL就可以搞定了.要注意的是,Rank()里的参数必须为常数,或常值表达式,里面参数的个数,类型也要和order by后字段的类型相对应.<br>上面就是Rank函数的两个用法.另外还有一个<code>dense_rank()</code>,它的用法和<code>rank()</code>一样,只是计算等级的方式不同.例如上面的1,2,3,3,3,6.用dense_rank() 就是1,2,3,3,3,4.</p>
+<hr>
+<h4 id="over函数"><a href="#over函数" class="headerlink" title="over函数"></a>over函数</h4><blockquote>
+<p><a href="http://database.51cto.com/art/201005/197847.htm" rel="external nofollow noopener noreferrer" target="_blank">Oracle over() 函数的实际用法</a></p>
+</blockquote>
+<p><code>over()</code> 函数是对分析函数的一种条件解释，直接点就是 给分析函数加条件吧。</p>
+<p>在网上看见比较常用的就是 与 <code>sum()</code>、<code>rank()</code> 函数使用。接下来就用分析下两种函数结合over的用法。</p>
+<p>以下测试使用scott用户下的emp表数据。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> a.empno <span class="keyword">as</span> 员工编号</span><br><span class="line">,a.ename <span class="keyword">as</span> 员工姓名</span><br><span class="line">,a.deptno <span class="keyword">as</span> 部门编号</span><br><span class="line">,a.sal <span class="keyword">as</span> 薪酬</span><br><span class="line">,<span class="keyword">sum</span>(sal) <span class="keyword">over</span> (<span class="keyword">partition</span> <span class="keyword">by</span> deptno) 按部门求薪酬总和</span><br><span class="line"><span class="keyword">from</span> scott.emp a;</span><br></pre></td></tr></table></figure></p>
+<table>
+<thead>
+<tr>
+<th>部门编号</th>
+<th>员工姓名</th>
+<th>员工编码</th>
+<th>薪酬</th>
+<th>按部门求薪酬总和</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7934</td>
+<td>MILLER</td>
+<td>10</td>
+<td>1300</td>
+<td>8750</td>
+</tr>
+<tr>
+<td>7782</td>
+<td>CLARK</td>
+<td>10</td>
+<td>2450</td>
+<td>8750</td>
+</tr>
+<tr>
+<td>7839</td>
+<td>KING</td>
+<td>10</td>
+<td>5000</td>
+<td>8750</td>
+</tr>
+<tr>
+<td>7369</td>
+<td>SMITH</td>
+<td>20</td>
+<td>800</td>
+<td>10875</td>
+</tr>
+</tbody>
+</table>
+<p>可以从结果上看到sum()函数对部门区分进行了求和统计。其中“partition by”官方点的说法叫做”分区”，其实就是统计的范围条件</p>
+<hr>
+<h4 id="SQL-oracle-取得分组后最大值记录"><a href="#SQL-oracle-取得分组后最大值记录" class="headerlink" title="SQL(oracle) 取得分组后最大值记录"></a>SQL(oracle) 取得分组后最大值记录</h4><blockquote>
+<p><a href="http://blog.csdn.net/rfb0204421/article/details/7546724" rel="external nofollow noopener noreferrer" target="_blank">SQL(oracle) 取得分组后最大值记录</a></p>
+</blockquote>
+<p><code>row_number() OVER (PARTITION BY COL1 ORDER BY COL2)</code>表示根据COL1分组，在分组内部根据 COL2排序，而此函数计算的值就表示每组内部排序后的顺序编号（组内连续的唯一的).<br>与<code>rownum</code>的区别在于：使用<code>rownum</code>进行排序的时候是先对结果集加入伪列<code>rownum</code>然后再进行排序，而此函数在包含排序从句后是先排序再计算行号码</p>
+<ul>
+<li><code>row_number()</code>和<code>rownum</code>差不多，功能更强一点（可以在各个分组内从1开时排序）．</li>
+<li><code>rank()</code>是跳跃排序，有两个第二名时接下来就是第四名（同样是在各个分组内）．</li>
+<li><code>dense_rank()</code>是连续排序，有两个第二名时仍然跟着第三名。相比之下<code>row_number</code>是没有重复值的</li>
+<li><code>lag（arg1,arg2,arg3)</code>: arg1是从其他行返回的表达式;arg2是希望检索的当前行分区的偏移量。是一个正的偏移量，时一个往回检索以前的行的数目。arg3是在arg2表示的数目超出了分组的范围时返回的值。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> row_number() <span class="keyword">over</span>(<span class="keyword">order</span> <span class="keyword">by</span> sale/cnt <span class="keyword">desc</span>) <span class="keyword">as</span> <span class="keyword">sort</span>, sale/cnt</span><br><span class="line"><span class="keyword">from</span> (</span><br><span class="line"><span class="keyword">select</span> <span class="number">-60</span> <span class="keyword">as</span> sale,<span class="number">3</span> <span class="keyword">as</span> cnt <span class="keyword">from</span> dual <span class="keyword">union</span></span><br><span class="line"><span class="keyword">select</span> <span class="number">24</span> <span class="keyword">as</span> sale,<span class="number">6</span> <span class="keyword">as</span> cnt <span class="keyword">from</span> dual <span class="keyword">union</span></span><br><span class="line"><span class="keyword">select</span> <span class="number">50</span> <span class="keyword">as</span> sale,<span class="number">5</span> <span class="keyword">as</span> cnt <span class="keyword">from</span> dual <span class="keyword">union</span></span><br><span class="line"><span class="keyword">select</span> <span class="number">-20</span> <span class="keyword">as</span> sale,<span class="number">2</span> <span class="keyword">as</span> cnt <span class="keyword">from</span> dual <span class="keyword">union</span></span><br><span class="line"><span class="keyword">select</span> <span class="number">40</span> <span class="keyword">as</span> sale,<span class="number">8</span> <span class="keyword">as</span> cnt <span class="keyword">from</span> dual</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>执行结果:</p>
+<table>
+<thead>
+<tr>
+<th>SORT</th>
+<th>SALE/CNT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>10</td>
+</tr>
+<tr>
+<td>2</td>
+<td>5</td>
+</tr>
+<tr>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>4</td>
+<td>-10</td>
+</tr>
+<tr>
+<td>5</td>
+<td>-20</td>
+</tr>
+</tbody>
+</table>
+<p>查询员工的工资,按部门排序<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ename,sal,row_number() <span class="keyword">over</span> (<span class="keyword">partition</span> <span class="keyword">by</span> deptno <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span>) <span class="keyword">as</span> sal_order <span class="keyword">from</span> scott.emp;</span><br></pre></td></tr></table></figure></p>
+<p>执行结果:</p>
+<table>
+<thead>
+<tr>
+<th>ENAME</th>
+<th>SAL</th>
+<th>SAL_ORDER</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KING</td>
+<td>5000</td>
+<td>1</td>
+</tr>
+<tr>
+<td>CLARK</td>
+<td>2450</td>
+<td>2</td>
+</tr>
+<tr>
+<td>MILLER</td>
+<td>1300</td>
+<td>3</td>
+</tr>
+<tr>
+<td>SCOTT</td>
+<td>3000</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>并列排名<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> deptno,sal,<span class="keyword">dense_rank</span>() <span class="keyword">over</span>(<span class="keyword">partition</span> <span class="keyword">by</span> deptno <span class="keyword">order</span> <span class="keyword">by</span> sal) <span class="keyword">as</span> dense_rank_order <span class="keyword">from</span> scott.emp <span class="keyword">order</span> <span class="keyword">by</span> deptn;</span><br></pre></td></tr></table></figure></p>
+<p>执行结果:</p>
+<table>
+<thead>
+<tr>
+<th>DEPTNO</th>
+<th>SAL</th>
+<th>DENSE_RANK_ORDER</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30</td>
+<td>950</td>
+<td>1</td>
+</tr>
+<tr>
+<td>30</td>
+<td>1250</td>
+<td>2</td>
+</tr>
+<tr>
+<td>30</td>
+<td>1250</td>
+<td>2</td>
+</tr>
+<tr>
+<td>30</td>
+<td>1500</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="listagg、lag及lead函数"><a href="#listagg、lag及lead函数" class="headerlink" title="listagg、lag及lead函数"></a>listagg、lag及lead函数</h4><blockquote>
+<p><a href="http://blog.sina.com.cn/s/blog_4cef5c7b01016efp.html" rel="external nofollow noopener noreferrer" target="_blank">oracle listagg函数、lag函数、lead函数实例</a></p>
+</blockquote>
+<p><strong>listagg</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">listagg (measure_expr[,'delimiter']) <span class="keyword">with</span> <span class="keyword">group</span> (order_by_clause ) [<span class="keyword">over</span> query_parition_clause]</span><br></pre></td></tr></table></figure></p>
+<p><code>listagg</code>的作用是将分组范围内的所有行特定列的记录加以合并成行。函数签名中的<code>measure_expr</code>为分组中每个列的表达式，而<code>delimiter</code>为合并分割符。如果<code>delimiter</code>不设置的话，就表示无分割符。中间<code>within group</code>后面的<code>order_by_clause</code>表示的是进行合并中要遵守的排序顺序。而后面的<code>over</code>子句表明<code>listagg</code>是具有分析函数analyze funcation特性的。具体采用listagg有三个场景。</p>
+<ul>
+<li><p>当无分组的single-list情况下<br>如果要获取到deptno为30的所有员工横行记录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; select * from emp <span class="built_in">where</span> deptno=30;</span><br><span class="line"></span><br><span class="line">EMPNO ENAME     JOB        MGR HIREDATE         SAL     COMM DEPTNO</span><br><span class="line">----- ---------- --------- ----- ----------- --------- --------- ------</span><br><span class="line"> 7499 ALLEN     SALESMAN  7698 1981-2-20    1600.00   300.00    30</span><br><span class="line"></span><br><span class="line"> 7521 WARD      SALESMAN  7698 1981-2-22    1250.00   500.00    30</span><br><span class="line"></span><br><span class="line"> 7654 MARTIN    SALESMAN  7698 1981-9-28    1250.00  1400.00    30</span><br><span class="line"></span><br><span class="line"> 7698 BLAKE     MANAGER   7839 1981-5-1     2850.00              30</span><br><span class="line"></span><br><span class="line"> 7844 TURNER    SALESMAN  7698 1981-9-8     1500.00     0.00    30</span><br><span class="line"></span><br><span class="line"> 7900 JAMES     CLERK     7698 1981-12-3     950.00              30</span><br><span class="line"></span><br><span class="line">6 rows selected</span><br><span class="line"></span><br><span class="line">--按照empno进行排序</span><br><span class="line"></span><br><span class="line">SQL&gt; select listagg(ename,<span class="string">' , '</span>) within group (order byempno) from emp <span class="built_in">where</span> deptno=30;</span><br><span class="line"></span><br><span class="line">LISTAGG(ENAME,<span class="string">','</span>)WITHINGROUP(</span><br><span class="line">------------------------------------------------------------</span><br><span class="line">ALLEN , WARD , MARTIN , BLAKE , TURNER , JAMES</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在有分组条件下的listagg使用<br>如果要使用分组统计各个部门的所有员工列表。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; select deptno, listagg(ename,<span class="string">' ,'</span>) within group (order by empno) from emp group by deptno;</span><br><span class="line"></span><br><span class="line">DEPTNO LISTAGG(ENAME,<span class="string">','</span>)WITHINGROUP(</span><br><span class="line">------ -------------------------------------</span><br><span class="line">   10 CLARK ,KING ,MILLER</span><br><span class="line"></span><br><span class="line">   20 SMITH ,JONES ,SCOTT ,ADAMS ,FORD</span><br><span class="line"></span><br><span class="line">   30 ALLEN ,WARD ,MARTIN ,BLAKE ,TURNER ,JAMES</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用over分组情况<br>如果要统计所有工作十年以上员工和他们相同部门的员工信息，就需要在listagg的基础上加入over分析函数子句</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">select deptno, ename, </span><br><span class="line">       listagg(ename, <span class="string">' , '</span>) within group (order by empno) </span><br><span class="line">       over (partition by deptno) as emp_list </span><br><span class="line">from emp </span><br><span class="line"><span class="built_in">where</span> hiredate&lt;=add_months(sysdate,-10*12);</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">DEPTNO ENAME     EMP_LIST</span><br><span class="line"></span><br><span class="line">------ ------</span><br><span class="line"></span><br><span class="line">   10 CLARK     CLARK , KING , MILLER</span><br><span class="line"></span><br><span class="line">   10 KING      CLARK , KING , MILLER</span><br><span class="line"></span><br><span class="line">   10 MILLER    CLARK , KING , MILLER</span><br><span class="line"></span><br><span class="line">   20 SMITH     SMITH , JONES , SCOTT , ADAMS , FORD</span><br><span class="line"></span><br><span class="line">   20 JONES     SMITH , JONES , SCOTT , ADAMS , FORD</span><br><span class="line"></span><br><span class="line">   20 SCOTT     SMITH , JONES , SCOTT , ADAMS , FORD</span><br><span class="line"></span><br><span class="line">   20 ADAMS     SMITH , JONES , SCOTT , ADAMS , FORD</span><br><span class="line"></span><br><span class="line">   20 FORD      SMITH , JONES , SCOTT , ADAMS , FORD</span><br><span class="line"></span><br><span class="line">   30 ALLEN     ALLEN , WARD , MARTIN , BLAKE , TURNER , JAMES</span><br><span class="line"></span><br><span class="line">   30 WARD      ALLEN , WARD , MARTIN , BLAKE , TURNER , JAMES</span><br><span class="line"></span><br><span class="line">   30 MARTIN    ALLEN , WARD , MARTIN , BLAKE , TURNER , JAMES</span><br><span class="line"></span><br><span class="line">   30 BLAKE     ALLEN , WARD , MARTIN , BLAKE , TURNER , JAMES</span><br><span class="line"></span><br><span class="line">   30 TURNER    ALLEN , WARD , MARTIN , BLAKE , TURNER , JAMES</span><br><span class="line"></span><br><span class="line">   30 JAMES     ALLEN , WARD , MARTIN , BLAKE , TURNER , JAMES</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">14 rows selected</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>lag函数“取到上个月的销售额”</strong><br>我们在进行销售数据统计汇总时候，经常遇到这样的需求：“对比上月（上季度同月份或者上年度同月份），我们的销售变化情况如何？”。我们的销售数据通常是对应单月信息，如下所示。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; select * from sales_qual;</span><br><span class="line"></span><br><span class="line">MONT        QUALITIES PRICE</span><br><span class="line">---------- ----------- ------</span><br><span class="line">2011-01          1000 23.40</span><br><span class="line"></span><br><span class="line">2011-02          1020 23.40</span><br><span class="line"></span><br><span class="line">2011-03          1030 33.40</span><br><span class="line"></span><br><span class="line">2011-04          1035 10.30</span><br></pre></td></tr></table></figure></p>
+<p>如果要获取到之前月份的信息，没有SQL专门函数就意味着需要使用PL/SQL代码进行反复的迭代获取。现在，我们可以使用lag函数来轻易实现这个功能。<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lag(value_expr [,offset [, default] ) &#123; respect | ignore &#125; nulls ] over ([query_parition_clause] order_by_clause)</span><br><span class="line"></span><br><span class="line">lag(value_expr [ &#123; respect | ignore &#125; nulls] [,offset [,default] ]) over ([query_parition_clause] order_by_clause)</span><br></pre></td></tr></table></figure></p>
+<p><code>lag</code>函数是一个典型的分析函数。它提供了在不使用自连接的情况下，访问多个数据行的能力。在返回多个结果行的时候，<code>lag</code>函数可以访问到向上特定<code>offset</code>偏移行的数据。<br><code>value_expr</code>就是访问到向上数据行进行的操作。<code>offset</code>是返回偏移的函数，默认值为<strong>1</strong>。<code>over</code>中，可以定义内部分析的顺序列。</p>
+<p>如果我们要获取到对应上个月的销售数据，SQL语句如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> mont,qualities, </span><br><span class="line">       lag(qualities,<span class="number">1</span>) <span class="keyword">over</span> (<span class="keyword">order</span> <span class="keyword">by</span> mont) <span class="keyword">as</span> <span class="string">"Next Month Qual"</span></span><br><span class="line"><span class="keyword">from</span> sales_qual</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> mont;</span><br><span class="line"></span><br><span class="line">MONT        QUALITIES Next Month Qual</span><br><span class="line"><span class="comment">---------- ----------- ---------------</span></span><br><span class="line">2011-01          1000</span><br><span class="line"></span><br><span class="line">2011-02          1020           1000</span><br><span class="line"></span><br><span class="line">2011-03          1030           1020</span><br><span class="line"></span><br><span class="line">2011-04          1035           1030</span><br></pre></td></tr></table></figure></p>
+<p>之后对销量变化率的处理就方便了，可以进行增长率比对等操作。那么，如果是上一年度或者上一季度的数据呢？我们只需要调节<code>offset</code>，从1变化为12或者3就可以了。</p>
+<p>最后，对<code>ignore/respect nulls</code>子句的使用是什么呢？该子句的作用是确定当<code>value_exp</code>r表达式计算出的数值为空null的时候，该列如何进行计算。<code>ignore nulls</code>的作用就是忽略上面计算为空的行，采用上上行row的计算结果。<code>respect nulls</code>的作用是直接反映为null。<code>respect nulls</code>为默认值。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sales_qual;</span><br><span class="line"></span><br><span class="line">MONT        QUALITIES PRICE</span><br><span class="line"><span class="comment">---------- ----------- ------</span></span><br><span class="line">2011-04          1035 10.30</span><br><span class="line"></span><br><span class="line">2011-05                12.30</span><br><span class="line"></span><br><span class="line">2011-06               </span><br><span class="line"></span><br><span class="line">6 rows selected</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> mont,qualities, </span><br><span class="line">       lag(qualities,<span class="number">1</span>)<span class="keyword">ignore</span> nullsover (<span class="keyword">order</span> <span class="keyword">by</span> mont) <span class="keyword">as</span> <span class="string">"Next Month Qual"</span></span><br><span class="line"><span class="keyword">from</span> sales_qual</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> mont;</span><br><span class="line"></span><br><span class="line">MONT        QUALITIES Next Month Qual</span><br><span class="line"><span class="comment">---------- ----------- ---------------</span></span><br><span class="line">2011-04          1035           1030</span><br><span class="line"></span><br><span class="line">2011-05                          1035</span><br><span class="line"></span><br><span class="line">2011-06                          1035</span><br><span class="line"></span><br><span class="line">6 rows selected</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> mont,qualities, </span><br><span class="line">       lag(qualities,<span class="number">1</span>) <span class="keyword">respect</span> <span class="keyword">nulls</span> <span class="keyword">over</span> (<span class="keyword">order</span> <span class="keyword">by</span> mont) <span class="keyword">as</span> <span class="string">"Next Month Qual"</span></span><br><span class="line"><span class="keyword">from</span> sales_qual</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> mont;</span><br><span class="line"></span><br><span class="line">MONT        QUALITIES Next Month Qual</span><br><span class="line"><span class="comment">---------- ----------- ---------------</span></span><br><span class="line">2011-04          1035           1030</span><br><span class="line"></span><br><span class="line">2011-05                          1035</span><br><span class="line"></span><br><span class="line">2011-06               </span><br><span class="line"></span><br><span class="line">6 rows selected</span><br></pre></td></tr></table></figure></p>
+<p><strong>lead函数获取下一个月销售量</strong><br>有<code>lag</code>的获取上个<code>offset</code>处理行的函数，就有<code>lead</code>函数处理下一个处理行的函数。lead函数实际上就是<code>lag</code>的逆向过程。<br>相关各项参数与<code>lag</code>函数的相同。区别就在于<code>lead</code>函数获取的是排序后结果集合的后<code>offset</code>数据行记录。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> mont,qualities, </span><br><span class="line">       <span class="keyword">lead</span>(qualities,<span class="number">1</span>) <span class="keyword">over</span> (<span class="keyword">order</span> <span class="keyword">by</span> mont) <span class="keyword">as</span> <span class="string">"Next Month Qual"</span></span><br><span class="line"><span class="keyword">from</span> sales_qual</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> mont;</span><br><span class="line"></span><br><span class="line">MONT        QUALITIES Next Month Qual</span><br><span class="line"><span class="comment">---------- ----------- ---------------</span></span><br><span class="line">2011-01          1000           1020</span><br><span class="line"></span><br><span class="line">2011-02          1020           1030</span><br><span class="line"></span><br><span class="line">2011-03          1030           1035</span><br><span class="line"></span><br><span class="line">2011-04          1035</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/date/" rel="tag"># date</a>
+          
+            <a href="/tags/sql/" rel="tag"># sql</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/mysql-func/" rel="next" title="MySQL函数命令">
+                <i class="fa fa-chevron-left"></i> MySQL函数命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/redis-setting/" rel="prev" title="Redis 相关配置">
+                Redis 相关配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" rel="external nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Shepard">
+            
+              <p class="site-author-name" itemprop="name">Shepard</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/51azxc" target="_blank" title="GitHub" rel="external nofollow noopener noreferrer">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#查看oracle版本"><span class="nav-number">1.</span> <span class="nav-text">查看oracle版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#insert···select···union语句"><span class="nav-number">2.</span> <span class="nav-text">insert···select···union语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#merge-into用法"><span class="nav-number">3.</span> <span class="nav-text">merge into用法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按分隔符截取字符串"><span class="nav-number">4.</span> <span class="nav-text">按分隔符截取字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#trunc函数"><span class="nav-number">5.</span> <span class="nav-text">trunc函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#trim函数"><span class="nav-number">6.</span> <span class="nav-text">trim函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NULL相关"><span class="nav-number">7.</span> <span class="nav-text">NULL相关</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#日期函数"><span class="nav-number">8.</span> <span class="nav-text">日期函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rank函数"><span class="nav-number">9.</span> <span class="nav-text">rank函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#over函数"><span class="nav-number">10.</span> <span class="nav-text">over函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SQL-oracle-取得分组后最大值记录"><span class="nav-number">11.</span> <span class="nav-text">SQL(oracle) 取得分组后最大值记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#listagg、lag及lead函数"><span class="nav-number">12.</span> <span class="nav-text">listagg、lag及lead函数</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shepard</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow noopener noreferrer">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow noopener noreferrer">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://shepard-blog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://51azxc.github.io/oracle-func/';
+          this.page.identifier = 'oracle-func/';
+          this.page.title = 'Oracle函数命令';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://shepard-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

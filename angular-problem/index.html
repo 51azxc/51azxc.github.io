@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Ruthie:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Angular,Angular-Material,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="收集一些平时使用Angularjs1.x及Angular Material碰到的问题的解决方法.">
+<meta name="keywords" content="Angular,Angular-Material">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Angular零散知识点收集">
+<meta property="og:url" content="https://51azxc.github.io/angular-problem/index.html">
+<meta property="og:site_name" content="Shepard&#39;s Blog">
+<meta property="og:description" content="收集一些平时使用Angularjs1.x及Angular Material碰到的问题的解决方法.">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-06T10:57:41.904Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Angular零散知识点收集">
+<meta name="twitter:description" content="收集一些平时使用Angularjs1.x及Angular Material碰到的问题的解决方法.">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://51azxc.github.io/angular-problem/">
+
+
+
+
+
+  <title>Angular零散知识点收集 | Shepard's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shepard's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Nothing is true everything is permitted</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://51azxc.github.io/angular-problem/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shepard">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shepard's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Angular零散知识点收集</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-01T16:27:58+00:00">
+                2016-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/Angular/" itemprop="url" rel="index">
+                    <span itemprop="name">Angular</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/angular-problem/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="angular-problem/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>收集一些平时使用Angularjs1.x及Angular Material碰到的问题的解决方法.</p>
+<a id="more"></a>
+<h3 id="Angular-get方法传参"><a href="#Angular-get方法传参" class="headerlink" title="Angular get方法传参"></a>Angular get方法传参</h3><blockquote>
+<p><a href="http://stackoverflow.com/questions/17225088/http-get-parameters-does-not-work" rel="external nofollow noopener noreferrer" target="_blank">$http get parameters does not work</a></p>
+</blockquote>
+<p>道在<code>AngularJS</code>中使用<code>POST</code>方法提交传递参数是:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$http.post(<span class="string">'/api/users/add'</span>, &#123; <span class="attr">user</span>:user &#125;)</span><br></pre></td></tr></table></figure></p>
+<p>如果是<code>GET</code>方法的话则是:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$http.get(<span class="string">'/api/users/add'</span>, &#123;</span><br><span class="line">	params: &#123; <span class="attr">user</span>:user &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="获取url参数而不刷新页面"><a href="#获取url参数而不刷新页面" class="headerlink" title="获取url参数而不刷新页面"></a>获取url参数而不刷新页面</h3><blockquote>
+<p><a href="http://stackoverflow.com/questions/17513093/how-can-i-set-a-query-parameter-in-angularjs-without-doing-a-route" rel="external nofollow noopener noreferrer" target="_blank">How can I set a query parameter in AngularJS without doing a route?</a></p>
+</blockquote>
+<p>当设置了<code>URL</code>发生改变时，默认会刷新页面，如果只是想添加查询数据到<code>url</code>而无需刷新页面，可以通过<code>$routeProvider</code>的属性<code>reloadOnSearch</code>来设置<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$routeProvider.when(<span class="string">'/daylist'</span>, &#123;</span><br><span class="line">	templateUrl: <span class="string">'partials/daylist'</span>,</span><br><span class="line">	controller: <span class="string">'DayListCtrl'</span>,</span><br><span class="line">	reloadOnSearch: <span class="literal">false</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>在<code>Controller</code>中就可以使用<code>$location.search()</code>方法来获取<code>url</code>中的参数，或者设置<code>query</code>参数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:3000/daylist</span><br><span class="line">$location.search(&apos;id&apos;,123) =&gt;</span><br><span class="line">http://localhost:3000/daylist?id=123</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="使用-locationChangeStart替换-routeChangeStart"><a href="#使用-locationChangeStart替换-routeChangeStart" class="headerlink" title="使用$locationChangeStart替换$routeChangeStart"></a>使用<code>$locationChangeStart</code>替换<code>$routeChangeStart</code></h3><blockquote>
+<p><a href="http://stackoverflow.com/questions/16344223/angularjs-cancel-route-change-event" rel="external nofollow noopener noreferrer" target="_blank">AngularJs - cancel route change event</a></p>
+</blockquote>
+<p>在之前我们使用<code>$routeChangeStart</code>来触发路由变化之后的操作，如今需要使用<code>$locationChangeStart</code>来代替,详见<a href="https://github.com/angular/angular.js/issues/2109" rel="external nofollow noopener noreferrer" target="_blank">https://github.com/angular/angular.js/issues/2109</a><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$scope.$on(<span class="string">'$locationChangeStart'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event, next, current</span>)</span>&#123;</span><br><span class="line">  $scope.isSignIn = AuthService.isAuthenticated();</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="处理解析换行符变-lt-br-gt"><a href="#处理解析换行符变-lt-br-gt" class="headerlink" title="处理解析换行符变&lt;br /&gt;"></a>处理解析换行符变<code>&lt;br /&gt;</code></h3><blockquote>
+<p><a href="https://segmentfault.com/q/1010000002891789" rel="external nofollow noopener noreferrer" target="_blank">angularjs处理/n转<br>时候 <br>不会解析的问题</a><br><a href="https://segmentfault.com/a/1190000000639561" rel="external nofollow noopener noreferrer" target="_blank">angular中的ng-bind-html指令和$sce服务</a></p>
+</blockquote>
+<p>使用<code>angularjs</code>时，如果注入的数据中包含了部分特殊字符时，如<code>\n</code>要转成<code>html</code>标签<code>&lt;br&gt;</code>的话，可以使用<code>ng-bind-html</code>标签配合<code>$sce</code>服务来解决。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">ng-bind-html</span>=<span class="string">"test"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>然后在<code>js</code>代码中使用<code>$sce</code>的<code>trustAsHtml</code>方法:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">app.controller(<span class="string">'TestController'</span>, [<span class="string">'$scope'</span>, <span class="string">'$sce'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$scope,$sce</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//将test中的字符串里的换行符转为标签</span></span><br><span class="line">    $scope.test=$sce.trustAsHtml(str.replace(<span class="regexp">/\n/g</span>,<span class="string">"&lt;br/&gt;"</span>));</span><br><span class="line">&#125;]);</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="ui-router子页面如何获取父级页面的url参数"><a href="#ui-router子页面如何获取父级页面的url参数" class="headerlink" title="ui-router子页面如何获取父级页面的url参数"></a><code>ui-router</code>子页面如何获取父级页面的url参数</h3><blockquote>
+<p><a href="http://bubkoo.com/2014/01/02/angular/ui-router/guide/index/" rel="external nofollow noopener noreferrer" target="_blank">学习 ui-router 系列文章索引</a><br><a href="http://stackoverflow.com/questions/21097820/angular-ui-router-how-to-access-parameters-in-nested-named-view-passed-from" rel="external nofollow noopener noreferrer" target="_blank">Angular ui-router - how to access parameters in nested, named view, passed from the parent template?</a></p>
+</blockquote>
+<p><code>ui-router</code>中如果有子页面嵌套在父级页面，如果需要获取到父级页面传入的路由参数，例如<code>/users/1/blogs/1</code>,首先需要在全局配置:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$stateProvider</span><br><span class="line">    .state(<span class="string">'user'</span>,&#123;</span><br><span class="line">		url: <span class="string">'/users/:userId'</span>,</span><br><span class="line">		templateUrl: <span class="string">'/static/partials/user.html'</span>,</span><br><span class="line">		controller: <span class="string">'userCtrl'</span></span><br><span class="line">	&#125;)</span><br><span class="line">	.state(<span class="string">'user.blog'</span>,&#123;</span><br><span class="line">		url: <span class="string">'/users/:userId/blogs/:blogId'</span>,</span><br><span class="line">		templateUrl: <span class="string">'/static/partials/blog.html'</span>,</span><br><span class="line">		controller: <span class="string">'userBlogCtrl'</span></span><br><span class="line">	&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>然后在<code>html</code>中可以这样调用:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">ui-sref</span>=<span class="string">"user.blog(&#123; userId: blog.author.id, page:1 &#125;)"</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>接下来在控制类中通过注入的<code>$stateParams</code>获取对应的属性:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">app.controller(<span class="string">'userBlogCtrl'</span>,</span><br><span class="line">	  [<span class="string">'$scope'</span>, <span class="string">'$stateParams'</span>, <span class="string">'$state'</span>, </span><br><span class="line">		<span class="function"><span class="keyword">function</span>(<span class="params">$scope, $stateParams, $state</span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log($stateParams.userId);</span><br><span class="line">		<span class="built_in">console</span>.log($stateParams.blogId);</span><br><span class="line">	&#125;]);</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="Angular-Material更改日期选择组件默认格式"><a href="#Angular-Material更改日期选择组件默认格式" class="headerlink" title="Angular Material更改日期选择组件默认格式"></a>Angular Material更改日期选择组件默认格式</h3><blockquote>
+<p><a href="http://stackoverflow.com/questions/32566416/change-format-of-md-datepicker-in-angular-material" rel="external nofollow noopener noreferrer" target="_blank">Change format of md-datepicker in Angular Material</a></p>
+</blockquote>
+<p><code>Angular Material</code>中的日期选择组件<code>$mdDateLocaleProvider</code>选中的日期格式为<code>dd/MM/yyyy</code>,如果想要替换成其他格式(比如<code>yyyy-MM-dd</code>)，可以使用<code>formatDate</code>方法:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">myApp.config([<span class="string">'$mdDateLocaleProvider'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$mdDateLocaleProvider</span>) </span>&#123;</span><br><span class="line">  $mdDateLocaleProvider.formatDate = <span class="function"><span class="keyword">function</span>(<span class="params">date</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (date <span class="keyword">instanceof</span> <span class="built_in">Date</span> &amp;&amp; !<span class="built_in">isNaN</span>(date.valueOf())) &#123;</span><br><span class="line">			<span class="keyword">var</span> y = date.getFullYear().toString();</span><br><span class="line">			<span class="keyword">var</span> m = (date.getMonth()+<span class="number">1</span>).toString();</span><br><span class="line">			<span class="keyword">var</span> d = date.getDate().toString();</span><br><span class="line">			<span class="keyword">return</span> y + <span class="string">'-'</span> + (m[<span class="number">1</span>]?m:<span class="string">"0"</span>+m) + <span class="string">'-'</span> + (d[<span class="number">1</span>]?d:<span class="string">"0"</span>+d);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">''</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;]);</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="Angular-Material对话框传值"><a href="#Angular-Material对话框传值" class="headerlink" title="Angular Material对话框传值"></a>Angular Material对话框传值</h3><blockquote>
+<p><a href="http://stackoverflow.com/questions/31240772/passing-data-to-mddialog" rel="external nofollow noopener noreferrer" target="_blank">Passing data to mdDialog</a></p>
+</blockquote>
+<p><code>$mdDialog</code>中有个属性是<code>locals</code>,通过它可以给对应的控制器传入参数:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$mdDialog.show(&#123;</span><br><span class="line">  templateUrl: <span class="string">'showImg.html'</span>,</span><br><span class="line">  locals: &#123; <span class="attr">imgUrl</span>: url &#125;,</span><br><span class="line">  controller: <span class="function"><span class="keyword">function</span>(<span class="params">$scope, $mdDialog, imgUrl</span>)</span>&#123;</span><br><span class="line">    $scope.imgUrl = imgUrl;</span><br><span class="line">  	$scope.cancel = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  	  $mdDialog.cancel();</span><br><span class="line">  	&#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  clickOutsideToClose:<span class="literal">true</span>,</span><br><span class="line">  targetEvent: ev</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>传入的参数必须以对象形式传入，必须从控制器中注入</p>
+<hr>
+<h3 id="Angularjs与Requirejs集成"><a href="#Angularjs与Requirejs集成" class="headerlink" title="Angularjs与Requirejs集成"></a>Angularjs与Requirejs集成</h3><blockquote>
+<p><a href="http://beginor.github.io/2014/11/17/load-angularjs-with-requirejs.html" rel="external nofollow noopener noreferrer" target="_blank">使用 RequireJS 加载 AngularJS</a><br><a href="https://medium.com/angularjs-meetup-south-london/angular-using-requirejs-amd-528358208f84#.ej72m58z6" rel="external nofollow noopener noreferrer" target="_blank">Angular — Using RequireJs (AMD)</a><br><a href="http://www.ddhigh.com/2015/07/development-angularjs-app-with-requirejs/" rel="external nofollow noopener noreferrer" target="_blank">angularjs集成requirejs</a></p>
+</blockquote>
+<p>首先在页面中引入<code>requirejs</code>：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"/static/bower_components/requirejs/require.js"</span> <span class="attr">data-main</span>=<span class="string">"/static/js/main"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这样<code>requirejs</code>会自动加载<code>main.js</code>,接下来就是配置入口文件<code>main.js</code>：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>.config(&#123;</span><br><span class="line">    <span class="comment">//配置库路径</span></span><br><span class="line">	paths: &#123;</span><br><span class="line">		<span class="string">'angular'</span>: <span class="string">'/static/bower_components/angular/angular'</span>,</span><br><span class="line">		<span class="string">'angular-ui-bootstrap'</span>: <span class="string">'/static/bower_components/angular-bootstrap/ui-bootstrap-tpls'</span>,</span><br><span class="line">		<span class="string">'angular-ui-router'</span>: <span class="string">'/static/bower_components/angular-ui-router/release/angular-ui-router'</span></span><br><span class="line">		<span class="comment">//...</span></span><br><span class="line">	&#125;,</span><br><span class="line">    <span class="comment">//导出全局变量</span></span><br><span class="line">	shim: &#123;</span><br><span class="line">		<span class="string">'angular'</span>: &#123;</span><br><span class="line">			exports: <span class="string">'angular'</span></span><br><span class="line">		&#125;,</span><br><span class="line">		<span class="string">'angular-ui-bootstrap'</span>: &#123;</span><br><span class="line">			deps: [<span class="string">'angular'</span>],</span><br><span class="line">			exports: <span class="string">'angular-ui-bootstrap'</span></span><br><span class="line">		&#125;,</span><br><span class="line">		<span class="string">'angular-ui-router'</span>: &#123;</span><br><span class="line">			deps: [<span class="string">'angular'</span>],</span><br><span class="line">			exports: <span class="string">'angular-ui-router'</span></span><br><span class="line">		&#125;</span><br><span class="line">	    <span class="comment">//...</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//初始化创建ngApp</span></span><br><span class="line"><span class="built_in">require</span>([<span class="string">'angular'</span>, <span class="string">'app'</span>, <span class="string">'router'</span>, <span class="string">'controller'</span>, <span class="string">'service'</span>, <span class="string">'directive'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">angular</span>) </span>&#123;</span><br><span class="line">    angular.bootstrap(<span class="built_in">document</span>, [<span class="string">'app'</span>]);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>接下来是遵循<strong>AMD</strong>规范的<code>app.js</code>：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">define(<span class="string">'app'</span>, [<span class="string">'angular'</span>, <span class="string">'angular-ui-bootstrap'</span>, <span class="string">'angular-ui-router'</span>], </span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">angular</span>)</span>&#123;</span><br><span class="line"><span class="meta">	'use strict'</span>;</span><br><span class="line">	<span class="keyword">return</span> angular.module(<span class="string">'app'</span>, [<span class="string">'ui.bootstrap'</span>, <span class="string">'ui.router'</span>]);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>这样，其他的模块就可以使用<code>app</code>了。<br>接下来是路由管理工具<code>router.js</code>:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">define([<span class="string">'app'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">app</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> app.run([<span class="string">'$rootScope'</span>, <span class="string">'$location'</span>, <span class="string">'$state'</span>, <span class="string">'$stateParams'</span>,</span><br><span class="line">		<span class="function"><span class="keyword">function</span>(<span class="params">$rootScope, $location, $state, $stateParams, AuthService, Restangular</span>)</span>&#123;</span><br><span class="line">			$rootScope.$on(<span class="string">'$stateChangeStart'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event, toState, toParams, fromState, fromParams</span>)</span>&#123;</span><br><span class="line">				<span class="keyword">if</span> (toState.data.requireLogin) &#123;</span><br><span class="line">					$location.path(<span class="string">'/'</span>);</span><br><span class="line">				&#125;;</span><br><span class="line">			&#125;);</span><br><span class="line">		&#125;])</span><br><span class="line">		.config(<span class="function"><span class="keyword">function</span>(<span class="params">$stateProvider, $urlRouterProvider</span>)</span>&#123;</span><br><span class="line">			$urlRouterProvider.otherwise(<span class="string">'/'</span>);</span><br><span class="line">			$stateProvider</span><br><span class="line">				.state(<span class="string">'home'</span>,&#123;</span><br><span class="line">					url: <span class="string">'/'</span>,</span><br><span class="line">					templateUrl: <span class="string">'/static/partials/home.html'</span>,</span><br><span class="line">					data: &#123; <span class="attr">requireLogin</span>: <span class="literal">false</span> &#125;</span><br><span class="line">				&#125;);</span><br><span class="line">		&#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>在<code>controller.js</code>中也可以使用<code>app</code>这个根模块了:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">define([<span class="string">'app'</span>], <span class="function"><span class="keyword">function</span>(<span class="params">app</span>) </span>&#123;</span><br><span class="line"><span class="meta">    'use strict'</span>;</span><br><span class="line">    app.controller(<span class="string">'appCtrl'</span>,</span><br><span class="line">        [<span class="string">'$scope'</span>, <span class="string">'$location'</span>, <span class="string">'$http'</span>,</span><br><span class="line">        <span class="function"><span class="keyword">function</span>(<span class="params">$scope, $location, $http</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>其余<code>service.js</code>,<code>directive.js</code>也类似。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Angular/" rel="tag"># Angular</a>
+          
+            <a href="/tags/Angular-Material/" rel="tag"># Angular-Material</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/spring-data-jpa-query/" rel="next" title="Spring Data JPA自定义查询">
+                <i class="fa fa-chevron-left"></i> Spring Data JPA自定义查询
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/angular-form/" rel="prev" title="Angular表单部分知识点">
+                Angular表单部分知识点 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" rel="external nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Shepard">
+            
+              <p class="site-author-name" itemprop="name">Shepard</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/51azxc" target="_blank" title="GitHub" rel="external nofollow noopener noreferrer">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Angular-get方法传参"><span class="nav-number">1.</span> <span class="nav-text">Angular get方法传参</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取url参数而不刷新页面"><span class="nav-number">2.</span> <span class="nav-text">获取url参数而不刷新页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-locationChangeStart替换-routeChangeStart"><span class="nav-number">3.</span> <span class="nav-text">使用$locationChangeStart替换$routeChangeStart</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理解析换行符变-lt-br-gt"><span class="nav-number">4.</span> <span class="nav-text">处理解析换行符变&lt;br /&gt;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ui-router子页面如何获取父级页面的url参数"><span class="nav-number">5.</span> <span class="nav-text">ui-router子页面如何获取父级页面的url参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Angular-Material更改日期选择组件默认格式"><span class="nav-number">6.</span> <span class="nav-text">Angular Material更改日期选择组件默认格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Angular-Material对话框传值"><span class="nav-number">7.</span> <span class="nav-text">Angular Material对话框传值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Angularjs与Requirejs集成"><span class="nav-number">8.</span> <span class="nav-text">Angularjs与Requirejs集成</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shepard</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow noopener noreferrer">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow noopener noreferrer">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://shepard-blog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://51azxc.github.io/angular-problem/';
+          this.page.identifier = 'angular-problem/';
+          this.page.title = 'Angular零散知识点收集';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://shepard-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

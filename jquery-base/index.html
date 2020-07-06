@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Ruthie:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="css,ajax,date,jQuery,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="收集一些平时使用jQuery碰到的问题解决方法及相关知识点。">
+<meta name="keywords" content="css,ajax,date,jQuery">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jQuery零散知识点整理">
+<meta property="og:url" content="https://51azxc.github.io/jquery-base/index.html">
+<meta property="og:site_name" content="Shepard&#39;s Blog">
+<meta property="og:description" content="收集一些平时使用jQuery碰到的问题解决方法及相关知识点。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-06T10:57:41.908Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jQuery零散知识点整理">
+<meta name="twitter:description" content="收集一些平时使用jQuery碰到的问题解决方法及相关知识点。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://51azxc.github.io/jquery-base/">
+
+
+
+
+
+  <title>jQuery零散知识点整理 | Shepard's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shepard's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Nothing is true everything is permitted</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://51azxc.github.io/jquery-base/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shepard">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shepard's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">jQuery零散知识点整理</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-05-11T17:29:10+00:00">
+                2015-05-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/jQuery/" itemprop="url" rel="index">
+                    <span itemprop="name">jQuery</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/jquery-base/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="jquery-base/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>收集一些平时使用jQuery碰到的问题解决方法及相关知识点。</p>
+<a id="more"></a>
+<h3 id="手风琴特效"><a href="#手风琴特效" class="headerlink" title="手风琴特效"></a>手风琴特效</h3><blockquote>
+<p><a href="http://roshanbh.com.np/2008/06/accordion-menu-using-jquery.html" rel="external nofollow noopener noreferrer" target="_blank">Making accordion menu using jquery</a></p>
+</blockquote>
+<p>html<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"firstpane"</span> <span class="attr">class</span>=<span class="string">"menu_list"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"menu_head"</span>&gt;</span>Header-1<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"menu_body"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>Link-1<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"menu_head"</span>&gt;</span>Header-2<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"menu_body"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>Link-1<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"menu_head"</span>&gt;</span>Header-3<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"menu_body"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>Link-1<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>css<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.menu_list</span> &#123;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">150px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.menu_head</span> &#123;</span><br><span class="line">	<span class="attribute">padding</span>: <span class="number">5px</span> <span class="number">10px</span>;</span><br><span class="line">	<span class="attribute">cursor</span>: pointer;</span><br><span class="line">	<span class="attribute">position</span>: relative;</span><br><span class="line">	<span class="attribute">margin</span>:<span class="number">1px</span>;</span><br><span class="line">       <span class="attribute">font-weight</span>:bold;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.menu_body</span> &#123;</span><br><span class="line">	<span class="attribute">display</span>:none;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.menu_body</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>:block;</span><br><span class="line">  <span class="attribute">color</span>:<span class="number">#006699</span>;</span><br><span class="line">  <span class="attribute">background-color</span>:<span class="number">#EFEFEF</span>;</span><br><span class="line">  <span class="attribute">padding-left</span>:<span class="number">10px</span>;</span><br><span class="line">  <span class="attribute">font-weight</span>:bold;</span><br><span class="line">  <span class="attribute">text-decoration</span>:none;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.menu_body</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#000000</span>;</span><br><span class="line">  <span class="attribute">text-decoration</span>:underline;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>js(需要引入jquery文件)<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//点击事件，如果需要移动鼠标出效果则是mouseover方法</span></span><br><span class="line">$(<span class="string">"#firstpane p.menu_head"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $(<span class="keyword">this</span>).next(<span class="string">"div.menu_body"</span>).slideToggle(<span class="number">300</span>).siblings(<span class="string">"div.menu_body"</span>).slideUp(<span class="string">"slow"</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="jquery跳出each循环"><a href="#jquery跳出each循环" class="headerlink" title="jquery跳出each循环"></a>jquery跳出each循环</h3><blockquote>
+<p><a href="http://www.cnblogs.com/abllyboy/archive/2011/03/11/1981437.html" rel="external nofollow noopener noreferrer" target="_blank">Jquery跳出each循环</a></p>
+</blockquote>
+<p>jquery each循环中，<code>return false</code>则是<code>break</code>功能，<code>return true</code>则是<code>continue</code>功能</p>
+<hr>
+<h3 id="判断div是否隐藏"><a href="#判断div是否隐藏" class="headerlink" title="判断div是否隐藏"></a>判断<code>div</code>是否隐藏</h3><blockquote>
+<p>来自 <a href="http://blog.csdn.net/ddxkjddx/article/details/5766603" rel="external nofollow noopener noreferrer" target="_blank">jquery判断div是否隐藏实例</a></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"#div_id"</span>).is(<span class="string">":visible"</span>);<span class="comment">//是否显示</span></span><br><span class="line">$(<span class="string">"#div_id"</span>).is(<span class="string">":hidden"</span>);<span class="comment">//是否隐藏</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="选择非只读的控件"><a href="#选择非只读的控件" class="headerlink" title="选择非只读的控件"></a>选择非只读的控件</h3><blockquote>
+<p>来自 <a href="http://stackoverflow.com/questions/3708764/jquery-not-readonly-selector" rel="external nofollow noopener noreferrer" target="_blank">jQuery “not readonly” selector</a></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"input[type=text]:not([readonly])"</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="比较日期大小"><a href="#比较日期大小" class="headerlink" title="比较日期大小"></a>比较日期大小</h3><blockquote>
+<p>来自 <a href="http://blog.csdn.net/sxdtzhaoxinguo/article/details/11291291" rel="external nofollow noopener noreferrer" target="_blank">【jQuery日期处理】两个时间大小的比较</a></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkDate</span>(<span class="params">val</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> d1 = <span class="keyword">new</span> <span class="built_in">Date</span>(val);</span><br><span class="line">	<span class="keyword">var</span> d2 = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">	<span class="keyword">if</span> (d1 &lt; d2) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="jquery-post方法提交json数据不能被解析"><a href="#jquery-post方法提交json数据不能被解析" class="headerlink" title="jquery post方法提交json数据不能被解析"></a>jquery post方法提交json数据不能被解析</h3><blockquote>
+<p><a href="http://blog.csdn.net/pzp_118/article/details/8423925" rel="external nofollow noopener noreferrer" target="_blank">使用jQuery POST提交数据返回的JSON是字符串不能解析为JSON对象</a></p>
+</blockquote>
+<p><code>$.post</code>方法最后一个参数指定返回数据类型，写明json即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$.post(url,data,function()&#123;&#125;,&apos;json&apos;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="jquery提交post数据在firefox正常在chrome和ie下乱码解决"><a href="#jquery提交post数据在firefox正常在chrome和ie下乱码解决" class="headerlink" title="jquery提交post数据在firefox正常在chrome和ie下乱码解决"></a>jquery提交post数据在firefox正常在chrome和ie下乱码解决</h3><blockquote>
+<p>来自 <a href="http://blog.i5a6.com/973.html" rel="external nofollow noopener noreferrer" target="_blank">jquery提交post数据在firefox正常在chrome和ie下乱码解决</a></p>
+</blockquote>
+<p>1.使用<code>$.ajaxSetup</code>指定字符集为”UTF-8”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$.ajaxSetup(&#123;</span><br><span class="line">  contentType: &quot;application/x-www-form-urlencoded; charset=utf-8&quot;</span><br><span class="line">&#125;);</span><br><span class="line">$.post(url,data,function()&#123;&#125;,&apos;json&apos;);</span><br></pre></td></tr></table></figure></p>
+<p>2.在<code>$.ajax</code>方法中使用<code>contentType</code>指定字符集<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">  url:url,</span><br><span class="line">  type:&quot;POST&quot;,</span><br><span class="line">  data:data,</span><br><span class="line">  contentType:&quot;application/x-www-form-urlencoded; charset=utf-8&quot;,</span><br><span class="line">  dataType:&quot;json&quot;,</span><br><span class="line">  success: function()&#123;&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="JQuery-ajax向后台传递数组"><a href="#JQuery-ajax向后台传递数组" class="headerlink" title="JQuery ajax向后台传递数组"></a>JQuery ajax向后台传递数组</h3><blockquote>
+<p><a href="http://empirel.iteye.com/blog/1763010" rel="external nofollow noopener noreferrer" target="_blank">JQuery Ajax向后台传递数组</a></p>
+</blockquote>
+<p>前端传送是，最好指定参数名带数组的标识<code>[]</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">  url:url,</span><br><span class="line">  type:&quot;POST&quot;,</span><br><span class="line">  data:&#123;&quot;aa[]&quot;:new Array&#125;</span><br><span class="line">  success: function()&#123;&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>后台接收时，使用<code>getParameterValues</code>方法即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String[] aa = request.getParameterValues();</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="jQuery中prop-方法和attr-方法的区别"><a href="#jQuery中prop-方法和attr-方法的区别" class="headerlink" title="jQuery中prop()方法和attr()方法的区别"></a>jQuery中<code>prop()</code>方法和<code>attr()</code>方法的区别</h3><blockquote>
+<p><a href="http://lemmychrist.blog.163.com/blog/static/98732963201391485225489/" rel="external nofollow noopener noreferrer" target="_blank">jQuery中prop()方法和attr()方法的区别</a></p>
+</blockquote>
+<p><code>prop()</code>方法是jQuery1.6以后出现的方法，与<code>attr()</code>方法接近，都是对组件自身一些属性操作的方法，对于<code>async</code>,<code>autofocus</code>,<code>checked</code>,<code>location</code>,<code>multiple</code>,<code>readOnly</code>,<code>selected</code>这些属性可以使用<code>prop()</code>方法，其余的建议用<code>attr()</code>方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;input id=&quot;c1&quot; type=&quot;checkbox&quot; checked&gt;</span><br><span class="line">&lt;input id=&quot;c2&quot; type=&quot;checkbox&quot;&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">$(function()&#123;</span><br><span class="line">  //获取选中状态</span><br><span class="line">  $(&quot;#c1&quot;).prop(&quot;checked&quot;); //返回true</span><br><span class="line">  $(&quot;#c2&quot;).prop(&quot;checked&quot;); //返回false</span><br><span class="line">  $(&quot;#c1&quot;).attr(&quot;checked&quot;); //返回checked</span><br><span class="line">  $(&quot;#c2&quot;).attr(&quot;checked&quot;); //返回undefined</span><br><span class="line">  </span><br><span class="line">  //对选中进行操作</span><br><span class="line">  $(&quot;#c1&quot;).prop(&quot;checked&quot;,true); //取消用false</span><br><span class="line">  $(&quot;#c1&quot;).attr(&quot;checked&quot;,&quot;true&quot;);</span><br><span class="line">  //取消选中</span><br><span class="line">  $(&quot;#c1&quot;).removeAttr(&quot;checked&quot;);</span><br><span class="line">&#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>对于html5新属性<code>data-*</code>，如果使用<code>prop</code>则可以取值但无法赋值，<code>attr</code>则可以赋值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;text&quot; id=&quot;t1&quot; data-test=&quot;t&quot;&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">$(function()&#123;</span><br><span class="line">  //取值</span><br><span class="line">  $(&quot;#t1&quot;).prop(&quot;data-test&quot;); //返回t</span><br><span class="line">  $(&quot;#t1&quot;).attr(&quot;data-test&quot;); //返回t</span><br><span class="line">  $(&quot;#t1&quot;).data(&quot;test&quot;); //返回t</span><br><span class="line">  </span><br><span class="line">  //赋值</span><br><span class="line">  $(&quot;#c1&quot;).attr(&quot;data-test&quot;,&quot;tt&quot;); </span><br><span class="line">&#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="jQuery-javascript获得网页的高度和宽度"><a href="#jQuery-javascript获得网页的高度和宽度" class="headerlink" title="jQuery,javascript获得网页的高度和宽度"></a>jQuery,javascript获得网页的高度和宽度</h3><blockquote>
+<p><a href="http://blog.csdn.net/ljw520204/article/details/6925775" rel="external nofollow noopener noreferrer" target="_blank">jQuery,javascript获得网页的高度和宽度</a></p>
+</blockquote>
+<p><strong>javascript</strong><br>网页可见区域宽： <code>document.body.clientWidth</code><br>网页可见区域高： <code>document.body.clientHeight</code><br>网页可见区域宽： <code>document.body.offsetWidth</code> (包括边线的宽)<br>网页可见区域高： <code>document.body.offsetHeight</code> (包括边线的高)<br>网页正文全文宽： <code>document.body.scrollWidth</code><br>网页正文全文高： <code>document.body.scrollHeight</code><br>网页被卷去的高： <code>document.body.scrollTop</code><br>网页被卷去的左： <code>document.body.scrollLeft</code><br>网页正文部分上： <code>window.screenTop</code><br>网页正文部分左： <code>window.screenLeft</code><br>屏幕分辨率的高： <code>window.screen.height</code><br>屏幕分辨率的宽： <code>window.screen.width</code><br>屏幕可用工作区高度： <code>window.screen.availHeight</code><br>屏幕可用工作区宽度： <code>window.screen.availWidth</code></p>
+<p><strong>jquery</strong><br>获取浏览器显示区域的高度 ： <code>$(window).height()</code>;<br>获取浏览器显示区域的宽度 ：<code>$(window).width()</code>;<br>获取页面的文档高度 ：<code>$(document).height()</code>;<br>获取页面的文档宽度 ：<code>$(document).width()</code>;<br>获取滚动条到顶部的垂直高度 ：<code>$(document).scrollTop()</code>;<br>获取滚动条到左边的垂直宽度 ：<code>$(document).scrollLeft()</code>; </p>
+<p>计算元素位置和偏移量<br><code>offset</code>方法是一个很有用的方法，它返回包装集中第一个元素的偏移信息。默认情况下是相对body的偏移信息。结果包含 top和left两个属性。<br><code>offset(options, results)</code><br><code>options.relativeTo</code>　　指定相对计算偏移位置的祖先元素。这个元素应该是relative或absolute定位。省略则相对body。<br><code>options.scroll</code>　　是否把 滚动条计算在内，默认TRUE<br><code>options.padding</code>　　是否把padding计算在内，默认false<br><code>options.margin</code> 　　是否把margin计算在内，默认true<br><code>options.border</code>　　是否把边框计算在内，默认true </p>
+<hr>
+<h3 id="jQuery元素追加和删除"><a href="#jQuery元素追加和删除" class="headerlink" title="jQuery元素追加和删除"></a>jQuery元素追加和删除</h3><blockquote>
+<p><a href="http://www.cnblogs.com/william-lin/archive/2012/08/12/2635402.html" rel="external nofollow noopener noreferrer" target="_blank">Jquery元素追加和删除</a></p>
+</blockquote>
+<p><strong>追加元素</strong><br><code>append()</code>: 向每个匹配的元素内追加内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;&lt;/ul&gt;</span><br><span class="line"></span><br><span class="line">$(&quot;ul&quot;).append(&quot;&lt;li&gt;AA&lt;/li&gt;&quot;);</span><br><span class="line"></span><br><span class="line">&lt;ul&gt;</span><br><span class="line">  &lt;li&gt;AA&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure></p>
+<p><code>appendTo()</code>: 该方法和append()相反<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul&gt;&lt;/ul&gt;</span><br><span class="line"></span><br><span class="line">$(&quot;&lt;li&gt;AA&lt;/li&gt;&quot;).appendTo (&quot;ul&quot;);</span><br><span class="line"></span><br><span class="line">&lt;ul&gt;</span><br><span class="line">  &lt;li&gt;AA&lt;/li&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure></p>
+<p><code>prepend()</code>:向每个匹配的元素内部前置内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;aa&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">$(&quot;p&quot;).prepend(&quot;&lt;b&gt;bb&lt;/b&gt;&quot;);</span><br><span class="line"></span><br><span class="line">&lt;p&gt;&lt;b&gt;bb&lt;/b&gt;aa&lt;/p&gt;</span><br></pre></td></tr></table></figure></p>
+<p><code>prependTo()</code>:该方法和prepend()相反<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;aa&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">$(&lt;b&gt;bb&lt;/b&gt;&quot;).prependTo(&quot;p&quot;);</span><br><span class="line"></span><br><span class="line">&lt;p&gt;&lt;b&gt;bb&lt;/b&gt;aa&lt;/p&gt;</span><br></pre></td></tr></table></figure></p>
+<p><code>after()</code>:在每个匹配的元素<strong>之后</strong>插入内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;aa&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">$(&quot;p&quot;).after(&quot;&lt;b&gt;bb&lt;/b&gt;&quot;);</span><br><span class="line"></span><br><span class="line">&lt;p&gt;aa&lt;/p&gt;&lt;b&gt;bb&lt;/b&gt;</span><br></pre></td></tr></table></figure></p>
+<p><code>insertAfter()</code>:该方法和after()相反<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;aa&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">$(&lt;b&gt;bb&lt;/b&gt;&quot;).insertAfter(&quot;p&quot;);</span><br><span class="line"></span><br><span class="line">&lt;p&gt;aa&lt;/p&gt;&lt;b&gt;bb&lt;/b&gt;</span><br></pre></td></tr></table></figure></p>
+<p><code>before()</code>:在每个匹配的元素<strong>之前</strong>插入内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;aa&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">$(&quot;p&quot;).before(&quot;&lt;b&gt;bb&lt;/b&gt;&quot;);</span><br><span class="line"></span><br><span class="line">&lt;b&gt;bb&lt;/b&gt;&lt;p&gt;aa&lt;/p&gt;</span><br></pre></td></tr></table></figure></p>
+<p><code>insertBefore()</code>:该方法和before()相反<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;aa&lt;/p&gt;</span><br><span class="line"></span><br><span class="line">$(&lt;b&gt;bb&lt;/b&gt;&quot;).insertBefore(&quot;p&quot;);</span><br><span class="line"></span><br><span class="line">&lt;b&gt;bb&lt;/b&gt;&lt;p&gt;aa&lt;/p&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>删除元素</strong><br><code>remove()</code>:删除元素<br><code>empty()</code>:清空元素文本内容，元素本身还存在</p>
+<hr>
+<h3 id="jquery选择器"><a href="#jquery选择器" class="headerlink" title="jquery选择器"></a>jquery选择器</h3><blockquote>
+<p><a href="http://www.cnblogs.com/zhangziqiu/archive/2009/05/03/jQuery-Learn-2.html" rel="external nofollow noopener noreferrer" target="_blank">从零开始学习jQuery (二) 万能的选择器</a></p>
+</blockquote>
+<p><strong>1. 基础选择器 Basics</strong></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+<th>举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#id</td>
+<td>根据元素id选择</td>
+<td><code>$(&quot;#tid&quot;)</code> 选择ID为tid的元素</td>
+</tr>
+<tr>
+<td>element</td>
+<td>根据元素的名称选择</td>
+<td><code>$(&quot;a&quot;)</code> 选择所有<code>&lt;a&gt;</code>元素</td>
+</tr>
+<tr>
+<td><code>.class</code></td>
+<td>根据元素的css类选择</td>
+<td><code>$(&quot;.imgClass&quot;)</code>选择所用CSS类为imgClass的元素</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>选择所有元素</td>
+<td><code>$(&quot;*&quot;)</code>选择页面所有元素</td>
+</tr>
+<tr>
+<td>selector1, selector2</td>
+<td>可以将几个选择器用”,”分隔开然后再拼成一个选择器字符串.会同时选中这几个选择器匹配的内容.</td>
+<td><code>$(&quot;#tid, a, .imgClass&quot;)</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>2.层次选择器 Hierarchy</strong></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+<th>举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ancestor descendant</td>
+<td>使用”form input”的形式选中form中的所有input元素.即ancestor(祖先)为from, descendant(子孙)为input.</td>
+<td><code>$(&quot;#tid input&quot;)</code> 选择ID为tid的元素中所有的input元素</td>
+</tr>
+<tr>
+<td>parent &gt; child</td>
+<td>选择parent的直接子节点child.  child必须包含在parent中并且父类是parent元素.</td>
+<td><code>$(&quot;.myList&gt;li&quot;)</code>选择CSS类为myList元素中的直接子节点<code>&lt;li&gt;</code>对象</td>
+</tr>
+<tr>
+<td>prev + next</td>
+<td>prev和next是两个同级别的元素. 选中在prev元素后面的next元素</td>
+<td><code>$(&quot;#tid+img&quot;)</code>选在id为hibiscus元素后面的img对象</td>
+</tr>
+<tr>
+<td>prev ~ siblings</td>
+<td>选择prev后面的根据siblings过滤的元素.siblings是过滤器</td>
+<td><code>$(&quot;#someDiv~[title]&quot;)</code>选择id为someDiv的对象后面所有带有title属性的元素</td>
+</tr>
+</tbody>
+</table>
+<p><strong>3.基本过滤器 Basic Filters</strong></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+<th>举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:first</code></td>
+<td>匹配找到的第一个元素</td>
+<td>查找表格的第一行:<code>$(&quot;tr:first&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:last</code></td>
+<td>匹配找到的最后一个元素</td>
+<td>查找表格的最后一行:<code>$(&quot;tr:last&quot;)</code></td>
+</tr>
+<tr>
+<td><code>not(selector)</code></td>
+<td>去除所有与给定选择器匹配的元素</td>
+<td>查找所有未选中的 input 元素: <code>$(&quot;input:not(:checked)&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:even</code></td>
+<td>匹配所有索引值为偶数的元素，从 0 开始计数</td>
+<td>查找表格的偶数行:<code>$(&quot;tr:even&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:odd</code></td>
+<td>匹配所有索引值为奇数的元素，从 0 开始计数</td>
+<td>查找表格的奇数行:<code>$(&quot;tr:odd&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:eq(index)</code></td>
+<td>匹配一个给定索引值的元素,index从 0 开始计数</td>
+<td>查找第二行:<code>$(&quot;tr:eq(1)&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:gt(index)</code></td>
+<td>匹配所有大于给定索引值的元素,index从 0 开始计数</td>
+<td>查找第二第三行，即索引值是1和2，也就是比0大:<code>$(&quot;tr:gt(0)&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:lt(index)</code></td>
+<td>匹配所有小于给定索引值的元素,index从 0 开始计数</td>
+<td>查找第一第二行，即索引值是0和1，也就是比2小:<code>$(&quot;tr:lt(2)&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:header</code></td>
+<td>选择所有h1,h2,h3一类的header标签</td>
+<td>给页面内所有标题加上背景色: <code>$(&quot;:header&quot;).css(&quot;background&quot;, &quot;#EEE&quot;);</code></td>
+</tr>
+<tr>
+<td><code>:animated</code></td>
+<td>匹配所有正在执行动画效果的元素</td>
+<td>查找不执行动画效果的div元素: <code>$(&quot;div:not(:animated)&quot;)</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>4. 内容过滤器 Content Filters</strong></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+<th>举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:contains(text)</code></td>
+<td>匹配包含给定文本的元素</td>
+<td>查找所有包含 “John” 的 div 元素:<code>$(&quot;div:contains(&#39;John&#39;)&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:empty</code></td>
+<td>匹配所有不包含子元素或者文本的空元素</td>
+<td>查找所有不包含子元素或者文本的空元素:<code>$(&quot;td:empty&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:has(selector)</code></td>
+<td>匹配含有选择器所匹配的元素的元素</td>
+<td>给所有包含 p 元素的 div 元素添加一个 text 类: <code>$(&quot;div:has(p)&quot;).addClass(&quot;test&quot;);</code></td>
+</tr>
+<tr>
+<td><code>:parent</code></td>
+<td>匹配含有子元素或者文本的元素</td>
+<td>查找所有含有子元素或者文本的 td 元素:<code>$(&quot;td:parent&quot;)</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>5.可见性过滤器  Visibility Filters</strong></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+<th>举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:hidden</code></td>
+<td>匹配所有的不可见元素</td>
+<td>查找所有不可见的 tr 元素:<code>$(&quot;tr:hidden&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:visible</code></td>
+<td>匹配所有的可见元素</td>
+<td>查找所有可见的 tr 元素:<code>$(&quot;tr:visible&quot;)</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>6.属性过滤器 Attribute Filters</strong></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+<th>举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[attribute]</code></td>
+<td>匹配包含给定属性的元素</td>
+<td>查找所有含有 id 属性的 div 元素: <code>$(&quot;div[id]&quot;)</code></td>
+</tr>
+<tr>
+<td><code>[attribute=value]</code></td>
+<td>匹配给定的属性是某个特定值的元素</td>
+<td>查找所有 name 属性是 a 的 input 元素: <code>$(&quot;input[name=&#39;a&#39;]&quot;)</code></td>
+</tr>
+<tr>
+<td><code>[attribute!=value]</code></td>
+<td>匹配给定的属性不是某个特定值的元素</td>
+<td>查找所有 name 属性不是 a 的 input 元素: <code>$(&quot;input[name!=&#39;a&#39;]&quot;)</code></td>
+</tr>
+<tr>
+<td><code>[attribute^=value]</code></td>
+<td>匹配给定的属性是以某些值开始的元素</td>
+<td>查找所有 name 属性是以 a 开头的 input 元素 <code>$(&quot;input[name^=&#39;a&#39;]&quot;)</code></td>
+</tr>
+<tr>
+<td><code>[attribute$=value]</code></td>
+<td>匹配给定的属性是以某些值结尾的元素</td>
+<td>查找所有 name 属性是以 a 结尾的 input 元素 <code>$(&quot;input[name$=&#39;a&#39;]&quot;)</code></td>
+</tr>
+<tr>
+<td><code>[attribute*=value]</code></td>
+<td>匹配给定的属性是以包含某些值的元素</td>
+<td>查找所有 name 属性是包含 a 的 input 元素 <code>$(&quot;input[name*=&#39;a&#39;]&quot;)</code></td>
+</tr>
+<tr>
+<td>[attributeFilter1][attributeFilter2]</td>
+<td>复合属性选择器，需要同时满足多个条件时使用。</td>
+<td>找到所有含有 id 属性，并且它的 name 属性是以 man 结尾的:<code>$(&quot;input[id][name$=&#39;man&#39;]&quot;)</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>7.子元素过滤器 Child Filters</strong></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+<th>举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:nth-child(index/even/odd/equation)</td>
+<td>匹配其父元素下的第N个子或奇偶元素</td>
+<td>在每个 ul 查找第 2 个li: <code>$(&quot;ul li:nth-child(2)&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:first-child</code></td>
+<td>匹配第一个子元素</td>
+<td>在每个 ul 中查找第一个 li: <code>$(&quot;ul li:first-child&quot;</code>)</td>
+</tr>
+<tr>
+<td><code>:last-child</code></td>
+<td>匹配最后一个子元素</td>
+<td>在每个 ul 中查找最后一个 li: <code>$(&quot;ul li:last-child&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:only-child</code></td>
+<td>如果某个元素是父元素中唯一的子元素，那将会被匹配。如果父元素中含有其他元素，那将不会被匹配。</td>
+<td>在 ul 中查找是唯一子元素的 li:<code>$(&quot;ul li:only-child&quot;)</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>8.表单选择器 Forms</strong></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+<th>举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:input</code></td>
+<td>匹配所有 input, textarea, select 和 button 元素</td>
+<td><code>$(&quot;:input&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:text</code></td>
+<td>匹配所有的文本框</td>
+<td><code>$(&quot;:text&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:password</code></td>
+<td>匹配所有密码框</td>
+<td><code>$(&quot;:password&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:radio</code></td>
+<td>匹配所有单选按钮</td>
+<td><code>$(&quot;:radio&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:checkbox</code></td>
+<td>匹配所有的复选按钮</td>
+<td><code>$(&quot;:checkbox&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:submit</code></td>
+<td>匹配所有提交按钮</td>
+<td><code>$(&quot;:submit&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:image</code></td>
+<td>匹配所有图像域</td>
+<td><code>$(&quot;:image&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:reset</code></td>
+<td>匹配所有重置按钮</td>
+<td><code>$(&quot;:reset&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:button</code></td>
+<td>匹配所有按钮</td>
+<td><code>$(&quot;:button&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:file</code></td>
+<td>匹配所有文件域</td>
+<td><code>$(&quot;:file&quot;)</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>9.表单过滤器 Form Filters</strong></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+<th>举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:enabled</code></td>
+<td>匹配所有可用元素</td>
+<td>查找所有可用的input元素: <code>$(&quot;input:enabled&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:disabled</code></td>
+<td>匹配所有不可用元素</td>
+<td>查找所有不可用的input元素:<code>$(&quot;input:disabled&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:checked</code></td>
+<td>匹配所有选中的被选中元素(复选框、单选框等，不包括select中的option)</td>
+<td>查找所有选中的复选框元素:<code>$(&quot;input:checked&quot;)</code></td>
+</tr>
+<tr>
+<td><code>:selected</code></td>
+<td>匹配所有选中的option元素</td>
+<td>查找所有选中的选项元素:<code>$(&quot;select option:selected&quot;)</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="jQuery事件"><a href="#jQuery事件" class="headerlink" title="jQuery事件"></a>jQuery事件</h3><h4 id="jquery使用on函数绑定hover事件"><a href="#jquery使用on函数绑定hover事件" class="headerlink" title="jquery使用on函数绑定hover事件"></a>jquery使用on函数绑定hover事件</h4><blockquote>
+<p><a href="http://stackoverflow.com/questions/9827095/is-it-possible-to-use-jquery-on-and-hover" rel="external nofollow noopener noreferrer" target="_blank">Is it possible to use jQuery .on and hover?</a><br><a href="http://segmentfault.com/q/1010000000319439" rel="external nofollow noopener noreferrer" target="_blank">jQuery 使用 .on( ) 无法绑定 hover，jQuery 2.0 如何给生成的内容绑定 hover？</a></p>
+</blockquote>
+<p>jQuery的<code>.on()</code>方法不能绑定<code>hover</code>事件，配合<code>mouseenter</code>及<code>mouseleave</code>事件可达到效果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;.selector&quot;).on(&#123;</span><br><span class="line">    mouseenter: function () &#123;</span><br><span class="line">        //stuff to do on mouse enter</span><br><span class="line">    &#125;,</span><br><span class="line">    mouseleave: function () &#123;</span><br><span class="line">        //stuff to do on mouse leave</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="jquery回车键事件"><a href="#jquery回车键事件" class="headerlink" title="jquery回车键事件"></a>jquery回车键事件</h4><blockquote>
+<p>[基于jquery的button默认enter事件(回车事件)。]<a href="http://www.jb51.net/article/27170.htm" rel="external nofollow noopener noreferrer" target="_blank">http://www.jb51.net/article/27170.htm</a>)<br><a href="http://blog.csdn.net/wym3587/article/details/6938292" rel="external nofollow noopener noreferrer" target="_blank">jquery中如何实现按回车触发按钮事件</a></p>
+</blockquote>
+<p>按回车键触发按钮点击事件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;body&quot;).keydown(function() &#123;</span><br><span class="line">  if (event.keyCode == &quot;13&quot;) &#123;//keyCode=13是回车键</span><br><span class="line">    $(&apos;#btnSumit&apos;).click();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="按tab键跳过readonly的输入框"><a href="#按tab键跳过readonly的输入框" class="headerlink" title="按tab键跳过readonly的输入框"></a>按tab键跳过readonly的输入框</h4><blockquote>
+<p><a href="http://bbs.csdn.net/topics/340016321" rel="external nofollow noopener noreferrer" target="_blank">怎样实现按TAB键后跳过readonly的文本框</a></p>
+</blockquote>
+<p>给<code>readonly</code>属性的输入框指定<code>tabindex</code>属性为 -1 即可实现按tab键时跳过readonly的输入框<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(&quot;input[type=text][readonly]&quot;).attr(&quot;tabindex&quot;,-1);</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="head-insertBefore-script-head-firstChild"><a href="#head-insertBefore-script-head-firstChild" class="headerlink" title="head.insertBefore( script, head.firstChild );"></a>head.insertBefore( script, head.firstChild );</h3><blockquote>
+<p><a href="http://blog.csdn.net/diligentcatrich/article/details/5903554" rel="external nofollow noopener noreferrer" target="_blank">多次Jquery引发head.insertBefore( script, head.firstChild ); </a></p>
+</blockquote>
+<p>多次载入jquery是指在一个页面里引用jquery，而在DIV中载入的那个页面中就不要再引用jquery了。如果引用则会触发head.insertBefore( script, head.firstChild );的错误。</p>
+<hr>
+<h3 id="TypeError-invalid-‘in’-operand-obj"><a href="#TypeError-invalid-‘in’-operand-obj" class="headerlink" title="TypeError: invalid ‘in’ operand obj"></a>TypeError: invalid ‘in’ operand obj</h3><blockquote>
+<p><a href="http://blog.csdn.net/lwx2615/article/details/9668777" rel="external nofollow noopener noreferrer" target="_blank">有关TypeError: invalid ‘in’ operand obj的错误</a></p>
+</blockquote>
+<p>使用each解析json时候，如果会报错TypeError: invalid ‘in’ operand obj则需要调用<code>$.parseJSON</code>方法<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">  type: <span class="string">"POST"</span>,</span><br><span class="line">  url: url,</span><br><span class="line">  dataype: <span class="string">"json"</span>,</span><br><span class="line">  success: <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">    obj= $.parseJSON(data);</span><br><span class="line">    $.each( obj, <span class="function"><span class="keyword">function</span>(<span class="params">key, val</span>) </span>&#123;</span><br><span class="line">      </span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>官网对parseJSON的描述是：<em>Takes a well-formed JSON string and returns the resulting JavaScript object.</em></p>
+<hr>
+<h3 id="解决JQuery-trim-函数ie下报错的问题"><a href="#解决JQuery-trim-函数ie下报错的问题" class="headerlink" title="解决JQuery.trim()函数ie下报错的问题"></a>解决JQuery.trim()函数ie下报错的问题</h3><blockquote>
+<p><a href="http://vsp.iteye.com/blog/1262441" rel="external nofollow noopener noreferrer" target="_blank">解决JQuery.trim()函数ie下报错的问题</a></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这种写法在firefox下有效，但是在ie下无效</span></span><br><span class="line"><span class="built_in">console</span>.log($(<span class="string">"input"</span>).val().trim()!=<span class="string">""</span>);</span><br><span class="line"><span class="comment">//ie的写法</span></span><br><span class="line">alert($.trim($(<span class="string">"input"</span>).val())!=<span class="string">""</span>);</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="x-editable更改默认的空白字段的填充文字"><a href="#x-editable更改默认的空白字段的填充文字" class="headerlink" title="x-editable更改默认的空白字段的填充文字"></a>x-editable更改默认的空白字段的填充文字</h3><blockquote>
+<p><a href="http://stackoverflow.com/questions/19494605/x-editable-twitter-bootstrap-how-to-change-the-empty-value" rel="external nofollow noopener noreferrer" target="_blank">x-editable (twitter bootstrap): how to change the empty value?</a></p>
+</blockquote>
+<p>使用属性<code>emptytext</code>修改<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emptytext: <span class="string">'space'</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="jQuery-handleError-is-not-a-function"><a href="#jQuery-handleError-is-not-a-function" class="headerlink" title="jQuery.handleError is not a function"></a>jQuery.handleError is not a function</h3><blockquote>
+<p><a href="http://hi.baidu.com/wangsen911/item/5ddf775744c44d01e7c4a51a" rel="external nofollow noopener noreferrer" target="_blank">jquery.form 无刷新上传文件报错(jQuery.handleError is not a function)，gb2312下中文乱码问题</a></p>
+</blockquote>
+<p>jQuery.handleError is not a function 原因是：</p>
+<p>1.handlerError只在jquery-1.4.2之前的版本中存在，jquery-1.6 和1.7中都没有这个函数了。</p>
+<p>2.如果返回的dataType: “json”, 是json格式的，则还需要添加httpData方法。</p>
+<p>因此在jquery高级版本中将这个函数添加上 ，问题解决。</p>
+<p>需要添加的代码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">; (<span class="function"><span class="keyword">function</span> (<span class="params">$</span>) </span>&#123;</span><br><span class="line">jQuery.extend(&#123;</span><br><span class="line">    handleError: <span class="function"><span class="keyword">function</span> (<span class="params">s, xhr, status, e</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (s.error) &#123;</span><br><span class="line">            s.error.call(s.context || s, xhr, status, e);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (s.global) &#123;</span><br><span class="line">            (s.context ? jQuery(s.context) : jQuery.event).trigger(<span class="string">"ajaxError"</span>, [xhr, s, e]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    httpData: <span class="function"><span class="keyword">function</span> (<span class="params">xhr, type, s</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> ct = xhr.getResponseHeader(<span class="string">"content-type"</span>),</span><br><span class="line">xml = type == <span class="string">"xml"</span> || !type &amp;&amp; ct &amp;&amp; ct.indexOf(<span class="string">"xml"</span>) &gt;= <span class="number">0</span>,</span><br><span class="line">data = xml ? xhr.responseXML : xhr.responseText;</span><br><span class="line">        <span class="keyword">if</span> (xml &amp;&amp; data.documentElement.tagName == <span class="string">"parsererror"</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="string">"parsererror"</span>;</span><br><span class="line">        <span class="keyword">if</span> (s &amp;&amp; s.dataFilter)</span><br><span class="line">            data = s.dataFilter(data, type);</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> data === <span class="string">"string"</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (type == <span class="string">"script"</span>)</span><br><span class="line">                jQuery.globalEval(data);</span><br><span class="line">            <span class="keyword">if</span> (type == <span class="string">"json"</span>)</span><br><span class="line">                data = <span class="built_in">window</span>[<span class="string">"eval"</span>](<span class="string">"("</span> + data + <span class="string">")"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>中文乱码问题则是 在gb2312字符编码格式下 需要修改js源码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">$.fn.param=<span class="function"><span class="keyword">function</span>(<span class="params"> a </span>) </span>&#123;</span><br><span class="line">   <span class="keyword">var</span> encode=<span class="function"><span class="keyword">function</span>(<span class="params">v</span>)</span>&#123;<span class="comment">//如果包含中文就escape,避免重复escape)</span></span><br><span class="line">     <span class="keyword">return</span> <span class="regexp">/[^\x00-\xff]/g</span>.test(v)?<span class="built_in">escape</span>(v):v;</span><br><span class="line">    &#125;</span><br><span class="line">   <span class="keyword">var</span> s = [];</span><br><span class="line">   <span class="comment">// If an array was passed in, assume that it is an array</span></span><br><span class="line">   <span class="comment">// of form elements</span></span><br><span class="line">   <span class="keyword">if</span> ( a.constructor == <span class="built_in">Array</span> || a.jquery )</span><br><span class="line">    <span class="comment">// Serialize the form elements</span></span><br><span class="line">    jQuery.each( a, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">     s.push( encode(<span class="keyword">this</span>.name) + <span class="string">"="</span> + encode( <span class="keyword">this</span>.value ) );</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Otherwise, assume that it's an object of key/value pairs</span></span><br><span class="line">   <span class="keyword">else</span></span><br><span class="line">    <span class="comment">// Serialize the key/values</span></span><br><span class="line">    <span class="keyword">for</span> ( <span class="keyword">var</span> j <span class="keyword">in</span> a )</span><br><span class="line">     <span class="comment">// If the value is an array then the key names need to be repeated</span></span><br><span class="line">     <span class="keyword">if</span> ( a[j] &amp;&amp; a[j].constructor == <span class="built_in">Array</span> )</span><br><span class="line">      jQuery.each( a[j], <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">       s.push( encode(j) + <span class="string">"="</span> + encode( <span class="keyword">this</span> ) );</span><br><span class="line">      &#125;);</span><br><span class="line">     <span class="keyword">else</span></span><br><span class="line">      s.push( encode(j) + <span class="string">"="</span> + encode( a[j] ) );</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Return the resulting serialization</span></span><br><span class="line">   <span class="keyword">return</span> s.join(<span class="string">"&amp;"</span>).replace(<span class="regexp">/%20/g</span>, <span class="string">"+"</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="Spring-Jackson-AjaxFileUpload-没有执行回调函数的解决办法"><a href="#Spring-Jackson-AjaxFileUpload-没有执行回调函数的解决办法" class="headerlink" title="Spring Jackson AjaxFileUpload 没有执行回调函数的解决办法"></a>Spring Jackson AjaxFileUpload 没有执行回调函数的解决办法</h3><blockquote>
+<p><a href="http://www.iteye.com/topic/1118960" rel="external nofollow noopener noreferrer" target="_blank">Spring Jackson AjaxFileUpload 没有执行回调函数的解决办法</a></p>
+</blockquote>
+<p>修改ajaxfileupload的源码<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( type == <span class="string">"json"</span> )</span><br><span class="line">  <span class="built_in">eval</span>( <span class="string">"data = "</span> + data );</span><br></pre></td></tr></table></figure></p>
+<p>这一句修改为<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( type == <span class="string">"json"</span> )</span><br><span class="line">  data=<span class="built_in">eval</span>(<span class="string">"("</span>+data.replace(<span class="string">"&lt;pre&gt;"</span>,<span class="string">""</span>).replace(<span class="string">"&lt;/pre&gt;"</span>,<span class="string">""</span>)+<span class="string">")"</span>);</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="ajaxFileUpload-plugin上传文件-chrome、Firefox中出现SyntaxError-unexpected-token-lt"><a href="#ajaxFileUpload-plugin上传文件-chrome、Firefox中出现SyntaxError-unexpected-token-lt" class="headerlink" title="ajaxFileUpload plugin上传文件 chrome、Firefox中出现SyntaxError:unexpected token &lt;"></a>ajaxFileUpload plugin上传文件 chrome、Firefox中出现<code>SyntaxError:unexpected token &lt;</code></h3><blockquote>
+<p><a href="http://liwx2000.iteye.com/blog/1540321" rel="external nofollow noopener noreferrer" target="_blank">ajaxFileUpload plugin上传文件 chrome、Firefox中出现<code>SyntaxError:unexpected token &lt;</code></a></p>
+</blockquote>
+<p>因为Server端的Response上加上了<code>contentType=&quot;application/json&quot;</code>。但有时后端这么做是必须的，所以修改ajaxFileUpload源码，将<code>&lt;pre&gt;&lt;/pre&gt;</code>标签去掉<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">uploadHttpData: <span class="function"><span class="keyword">function</span>(<span class="params"> r, type </span>) </span>&#123;  </span><br><span class="line">  <span class="keyword">var</span> data = !type;  </span><br><span class="line">  data = type == <span class="string">"xml"</span> || data ? r.responseXML : r.responseText;  </span><br><span class="line">  <span class="comment">// If the type is "script", eval it in global context  </span></span><br><span class="line">  <span class="keyword">if</span> ( type == <span class="string">"script"</span> )  </span><br><span class="line">      jQuery.globalEval( data );  </span><br><span class="line">  <span class="comment">// Get the JavaScript object, if JSON is used.  </span></span><br><span class="line">  <span class="keyword">if</span> ( type == <span class="string">"json"</span> ) &#123;  </span><br><span class="line">        <span class="comment">////////////以下为新增代码///////////////  </span></span><br><span class="line">        data = r.responseText;  </span><br><span class="line">        <span class="keyword">var</span> start = data.indexOf(<span class="string">"&gt;"</span>);  </span><br><span class="line">        <span class="keyword">if</span>(start != <span class="number">-1</span>) &#123;  </span><br><span class="line">          <span class="keyword">var</span> end = data.indexOf(<span class="string">"&lt;"</span>, start + <span class="number">1</span>);  </span><br><span class="line">          <span class="keyword">if</span>(end != <span class="number">-1</span>) &#123;  </span><br><span class="line">            data = data.substring(start + <span class="number">1</span>, end);  </span><br><span class="line">          &#125;  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="comment">///////////以上为新增代码///////////////  </span></span><br><span class="line">        <span class="built_in">eval</span>( <span class="string">"data = "</span> + data);  </span><br><span class="line">  &#125;  </span><br><span class="line">  <span class="comment">// evaluate scripts within html  </span></span><br><span class="line">  <span class="keyword">if</span> ( type == <span class="string">"html"</span> )  </span><br><span class="line">      jQuery(<span class="string">"&lt;div&gt;"</span>).html(data).evalScripts();  </span><br><span class="line">  <span class="keyword">return</span> data;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/css/" rel="tag"># css</a>
+          
+            <a href="/tags/ajax/" rel="tag"># ajax</a>
+          
+            <a href="/tags/date/" rel="tag"># date</a>
+          
+            <a href="/tags/jQuery/" rel="tag"># jQuery</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/js-base/" rel="next" title="JavaScript 相关知识点整理">
+                <i class="fa fa-chevron-left"></i> JavaScript 相关知识点整理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/jquery-form/" rel="prev" title="jQuery 部分插件整理">
+                jQuery 部分插件整理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" rel="external nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Shepard">
+            
+              <p class="site-author-name" itemprop="name">Shepard</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/51azxc" target="_blank" title="GitHub" rel="external nofollow noopener noreferrer">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#手风琴特效"><span class="nav-number">1.</span> <span class="nav-text">手风琴特效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jquery跳出each循环"><span class="nav-number">2.</span> <span class="nav-text">jquery跳出each循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#判断div是否隐藏"><span class="nav-number">3.</span> <span class="nav-text">判断div是否隐藏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择非只读的控件"><span class="nav-number">4.</span> <span class="nav-text">选择非只读的控件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比较日期大小"><span class="nav-number">5.</span> <span class="nav-text">比较日期大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jquery-post方法提交json数据不能被解析"><span class="nav-number">6.</span> <span class="nav-text">jquery post方法提交json数据不能被解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jquery提交post数据在firefox正常在chrome和ie下乱码解决"><span class="nav-number">7.</span> <span class="nav-text">jquery提交post数据在firefox正常在chrome和ie下乱码解决</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JQuery-ajax向后台传递数组"><span class="nav-number">8.</span> <span class="nav-text">JQuery ajax向后台传递数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery中prop-方法和attr-方法的区别"><span class="nav-number">9.</span> <span class="nav-text">jQuery中prop()方法和attr()方法的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery-javascript获得网页的高度和宽度"><span class="nav-number">10.</span> <span class="nav-text">jQuery,javascript获得网页的高度和宽度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery元素追加和删除"><span class="nav-number">11.</span> <span class="nav-text">jQuery元素追加和删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jquery选择器"><span class="nav-number">12.</span> <span class="nav-text">jquery选择器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery事件"><span class="nav-number">13.</span> <span class="nav-text">jQuery事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#jquery使用on函数绑定hover事件"><span class="nav-number">13.1.</span> <span class="nav-text">jquery使用on函数绑定hover事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jquery回车键事件"><span class="nav-number">13.2.</span> <span class="nav-text">jquery回车键事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按tab键跳过readonly的输入框"><span class="nav-number">13.3.</span> <span class="nav-text">按tab键跳过readonly的输入框</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#head-insertBefore-script-head-firstChild"><span class="nav-number">14.</span> <span class="nav-text">head.insertBefore( script, head.firstChild );</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TypeError-invalid-‘in’-operand-obj"><span class="nav-number">15.</span> <span class="nav-text">TypeError: invalid ‘in’ operand obj</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决JQuery-trim-函数ie下报错的问题"><span class="nav-number">16.</span> <span class="nav-text">解决JQuery.trim()函数ie下报错的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#x-editable更改默认的空白字段的填充文字"><span class="nav-number">17.</span> <span class="nav-text">x-editable更改默认的空白字段的填充文字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery-handleError-is-not-a-function"><span class="nav-number">18.</span> <span class="nav-text">jQuery.handleError is not a function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-Jackson-AjaxFileUpload-没有执行回调函数的解决办法"><span class="nav-number">19.</span> <span class="nav-text">Spring Jackson AjaxFileUpload 没有执行回调函数的解决办法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ajaxFileUpload-plugin上传文件-chrome、Firefox中出现SyntaxError-unexpected-token-lt"><span class="nav-number">20.</span> <span class="nav-text">ajaxFileUpload plugin上传文件 chrome、Firefox中出现SyntaxError:unexpected token &lt;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shepard</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow noopener noreferrer">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow noopener noreferrer">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://shepard-blog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://51azxc.github.io/jquery-base/';
+          this.page.identifier = 'jquery-base/';
+          this.page.title = 'jQuery零散知识点整理';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://shepard-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

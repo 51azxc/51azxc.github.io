@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Ruthie:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="sql,backup,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="MySQL免安装版配置 MySQL Win免安装版配置MySQL-5.6.13免安装版配置方法安装 mysql-5.7.5-m15-winx64  修改文件目录下的my-default.ini为my.ini1234567891011121314151617181920212223242526272829303132333435363738394041[mysqld]basedir = D:/mys">
+<meta name="keywords" content="sql,backup">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL基本配置">
+<meta property="og:url" content="https://51azxc.github.io/mysql-setting/index.html">
+<meta property="og:site_name" content="Shepard&#39;s Blog">
+<meta property="og:description" content="MySQL免安装版配置 MySQL Win免安装版配置MySQL-5.6.13免安装版配置方法安装 mysql-5.7.5-m15-winx64  修改文件目录下的my-default.ini为my.ini1234567891011121314151617181920212223242526272829303132333435363738394041[mysqld]basedir = D:/mys">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-06T10:57:41.908Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL基本配置">
+<meta name="twitter:description" content="MySQL免安装版配置 MySQL Win免安装版配置MySQL-5.6.13免安装版配置方法安装 mysql-5.7.5-m15-winx64  修改文件目录下的my-default.ini为my.ini1234567891011121314151617181920212223242526272829303132333435363738394041[mysqld]basedir = D:/mys">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://51azxc.github.io/mysql-setting/">
+
+
+
+
+
+  <title>MySQL基本配置 | Shepard's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shepard's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Nothing is true everything is permitted</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://51azxc.github.io/mysql-setting/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shepard">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shepard's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">MySQL基本配置</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-05-05T11:27:30+00:00">
+                2015-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Database/" itemprop="url" rel="index">
+                    <span itemprop="name">Database</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Database/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/mysql-setting/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="mysql-setting/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="MySQL免安装版配置"><a href="#MySQL免安装版配置" class="headerlink" title="MySQL免安装版配置"></a>MySQL免安装版配置</h3><blockquote>
+<p><a href="http://blog.csdn.net/zhouqi_2011/article/details/8751636" rel="external nofollow noopener noreferrer" target="_blank">MySQL Win免安装版配置</a><br><a href="http://blog.csdn.net/q98842674/article/details/12094777" rel="external nofollow noopener noreferrer" target="_blank">MySQL-5.6.13免安装版配置方法</a><br><a href="http://www.cnblogs.com/wenthink/p/MySQLInstall.html" rel="external nofollow noopener noreferrer" target="_blank">安装 mysql-5.7.5-m15-winx64</a></p>
+</blockquote>
+<p>修改文件目录下的<code>my-default.ini</code>为<code>my.ini</code><br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"></span><br><span class="line"><span class="attr">basedir</span> = D:/mysql</span><br><span class="line"><span class="attr">datadir</span> = D:/mysql/data</span><br><span class="line"><span class="attr">port</span> = <span class="number">3306</span></span><br><span class="line"><span class="attr">server_id</span> = <span class="number">1</span></span><br><span class="line"><span class="attr">log-error</span> = <span class="string">"D:/mysql/log/mysql_error_log.err"</span></span><br><span class="line"><span class="comment"># 服务端使用的字符集</span></span><br><span class="line"><span class="attr">character-set-server</span> = utf8</span><br><span class="line"><span class="comment"># mysql服务器支持的最大并发连接数（用户数）</span></span><br><span class="line"><span class="attr">max_connections</span> = <span class="number">100</span></span><br><span class="line"><span class="comment"># 设置table高速缓存的数量</span></span><br><span class="line"><span class="attr">table_open_cache</span> = <span class="number">256</span></span><br><span class="line"><span class="comment"># 查询缓存大小，用于缓存SELECT查询结果</span></span><br><span class="line"><span class="attr">query_cache_size</span> = <span class="number">1</span>M</span><br><span class="line"><span class="comment"># 内存中的每个临时表允许的最大大小</span></span><br><span class="line"><span class="attr">tmp_table_size</span> = <span class="number">32</span>M</span><br><span class="line"><span class="comment"># 缓存的最大线程数</span></span><br><span class="line"><span class="attr">thread_cache_size</span> = <span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># InnoDB</span></span><br><span class="line"><span class="attr">innodb_data_home_dir</span> = D:/mysql/data</span><br><span class="line"><span class="comment"># 事务相关参数</span></span><br><span class="line"><span class="comment"># 如果值为1,则InnoDB在每次commit都会将事务日志写入磁盘（磁盘IO消耗较大），这样保证了完全的ACID特性。</span></span><br><span class="line"><span class="comment"># 如果值为0,则表示事务日志写入内存log和内存log写入磁盘的频率都为1次/秒。</span></span><br><span class="line"><span class="comment"># 如果值为2,则表示事务日志在每次commit都写入内存log，但内存log写入磁盘的频率为1次/秒。</span></span><br><span class="line"><span class="attr">innodb_flush_log_at_trx_commit</span> = <span class="number">1</span></span><br><span class="line"><span class="comment"># InnoDB日志数据缓冲大小</span></span><br><span class="line"><span class="attr">innodb_log_buffer_size</span> = <span class="number">2</span>M</span><br><span class="line"><span class="comment"># InnoDB使用缓冲池来缓存索引和行数据。该值设置的越大，则磁盘IO越少。</span></span><br><span class="line"><span class="attr">innodb_buffer_pool_size</span> = <span class="number">128</span>M</span><br><span class="line"><span class="comment"># 每一个InnoDB事务日志的大小</span></span><br><span class="line"><span class="attr">innodb_log_file_size</span> = <span class="number">32</span>M</span><br><span class="line"><span class="comment"># InnoDB内核最大并发线程数</span></span><br><span class="line"><span class="attr">innodb_thread_concurrency</span> = <span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="attr">join_buffer_size</span> = <span class="number">128</span>M</span><br><span class="line"><span class="attr">sort_buffer_size</span> = <span class="number">2</span>M</span><br><span class="line"><span class="attr">read_rnd_buffer_size</span> = <span class="number">2</span>M</span><br><span class="line"><span class="attr">explicit_defaults_for_timestamp</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">sql-mode</span> = STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION</span><br></pre></td></tr></table></figure></p>
+<p>改后保存，进入命令行工具，定位到mysql目录下的bin目录里，在命令行输入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqld --install MySQL --defaults-file=<span class="string">"D:/mysql/my.ini"</span></span><br></pre></td></tr></table></figure></p>
+<p>即可注册MySQL服务为系统服务，然后通过<code>net stary MySQL</code>启动，或者使用<code>service.msc</code>命令启动服务管理界面启动MySQL服务</p>
+<ul>
+<li>5.7版本之后首先输入命令<code>mysqld --initialize-insecure</code>初始化</li>
+</ul>
+<hr>
+<h3 id="密码设置"><a href="#密码设置" class="headerlink" title="密码设置"></a>密码设置</h3><blockquote>
+<p><a href="http://blog.csdn.net/renxianzuo/article/details/6026765" rel="external nofollow noopener noreferrer" target="_blank">Mysql 免安装版 root@localhost 密码设置</a></p>
+</blockquote>
+<p>使用<code>set password</code>命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root</span><br><span class="line">SET PASSWORD FOR <span class="string">'root'</span>@<span class="string">'localhost'</span> = PASSWORD(<span class="string">'newpass'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>使用mysqladmin<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root password <span class="string">"newpass"</span></span><br></pre></td></tr></table></figure></p>
+<p>如果root已经设置过密码，采用如下方法<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root password oldpass <span class="string">"newpass"</span></span><br></pre></td></tr></table></figure></p>
+<p>编辑user表<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root</span><br><span class="line">use mysql;</span><br><span class="line">UPDATE user SET Password = PASSWORD(<span class="string">'newpass'</span>) WHERE user = <span class="string">'root'</span>;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure></p>
+<p>5.7之后，上述语句无效，应为<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER <span class="string">'root'</span>@<span class="string">'localhost'</span> IDENTIFIED BY <span class="string">'new_password'</span>;</span><br></pre></td></tr></table></figure></p>
+<p>终极办法<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root mysql</span><br><span class="line">UPDATE user SET password=PASSWORD(<span class="string">"new password"</span>) WHERE user=<span class="string">'root'</span>;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="数据备份"><a href="#数据备份" class="headerlink" title="数据备份"></a>数据备份</h3><h4 id="全量备份"><a href="#全量备份" class="headerlink" title="全量备份"></a>全量备份</h4><blockquote>
+<p><a href="http://blog.csdn.net/younkerjqb/article/details/12193245" rel="external nofollow noopener noreferrer" target="_blank">windows mysql 自动备份的几种方法</a></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rem *******************************Code Start*****************************</span><br><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">set</span> <span class="string">"Ymd=%date:~,4%%date:~5,2%%date:~8,2%"</span></span><br><span class="line">C:\MySQL\bin\mysqldump --opt -u root --password=123456 bbs &gt; D:\db_backup\bbs_%Ymd%.sql</span><br><span class="line"></span><br><span class="line">@<span class="built_in">echo</span> on</span><br><span class="line">rem *******************************Code End*****************************</span><br></pre></td></tr></table></figure>
+<p>将以上脚本代码保存为bat文件<br>然后使用Windows的“计划任务”定时执行该脚本即可<br>注意要备份的路径必须存在<br>通过<code>%date:~5,2%</code>来组合得出当前日期，组合的效果为<strong>yyyymmdd</strong>,date命令得到的日期格式默认为<strong>yyyy-mm-dd</strong>(如果不是此格式可以通过pause命令来暂停命令行窗口看通过<code>%date:~,20%</code>得到的当前计算机日期格式)，所以通<code>过%date:~5,2%</code>即可得到日期中的第五个字符开始的两个字符，例如今天为2015-05-04,通过<code>%date:~5,2%</code>则可以得到05。（日期的字符串的下标是从0开始的）</p>
+<hr>
+<h4 id="增量备份"><a href="#增量备份" class="headerlink" title="增量备份"></a>增量备份</h4><blockquote>
+<p><a href="http://blog.csdn.net/jueblog/article/details/9909669" rel="external nofollow noopener noreferrer" target="_blank">【SQL】MySQL之使用mysqlbinlog进行增量备份及恢复详解</a></p>
+</blockquote>
+<p>在<code>my.ini</code>中添加如下语句<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">log-bin</span>=<span class="string">"C:/Program Files/mysql-5.6.22-winx64/logbin/log"</span></span><br><span class="line"><span class="attr">expire_logs_days</span>=<span class="number">7</span></span><br></pre></td></tr></table></figure></p>
+<p><code>log-bin</code>为记录日志的文件路径，最后的<code>/log</code>为文件名<br><code>expire_log_days</code>为指定间隔多少日后删除所有的日志文件<br>重启mysql服务后，在指定文件夹logbin下可以发现有log.index,log.000001这样的文件。其中log.index为备份文件的索引，指明有哪些备份文件,其他的为备份文件，存放用户对数据库的所有操作<br>log.index的文件内容如下<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C:\Program Files\mysql-5.6.22-winx64\logbin\log.000001</span><br><span class="line">C:\Program Files\mysql-5.6.22-winx64\logbin\log.000002</span><br><span class="line">C:\Program Files\mysql-5.6.22-winx64\logbin\log.000003</span><br></pre></td></tr></table></figure></p>
+<p>通过<code>mysqlbinlog</code>程序可以看到日志文件的内容<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog <span class="string">"C:\Program Files\mysql-5.6.22-winx64\logbin\log.000001"</span></span><br></pre></td></tr></table></figure></p>
+<p>按时间导出其中的内容<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog --start-datetime=<span class="string">"2015-05-04 00:00:00"</span> --stop-datetime=<span class="string">"2015-05-04 23:59:59"</span> juelog.000001 -r test.sql</span><br></pre></td></tr></table></figure></p>
+<p>这样可以把处于时间段的所有操作记录导入到test.sql文件中，test.sql文件在mysqlbinlog同级目录。<br><code>--start-datetime</code>与<code>--stop-datetime</code>是可选参数</p>
+<p><strong>按位置进行恢复</strong><br>清空表后输入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog --stop-position=<span class="string">"行数"</span> log.000001 | mysql -u root -p</span><br></pre></td></tr></table></figure></p>
+<p>输入密码后即可恢复数据</p>
+<p><strong>总结</strong><br>Mysql数据库会以二进制形式，自动把用户对mysql数据库的操作，记录到备份文件中。<br>当用户希望恢复的时候，可以使用备份文件，来进行相应的恢复。<br>备份文件中会记录创建表的语句、删除表的语句、insert语句、delect语句、update语句等，而不会记录select语句。<br>增量备份记录的内容包括：</p>
+<ol>
+<li>操作语句本身。</li>
+<li>操作的时间。</li>
+<li>操作的位置。</li>
+</ol>
+<hr>
+<h3 id="MySQL-5-6-中-TIMESTAMP-的变化"><a href="#MySQL-5-6-中-TIMESTAMP-的变化" class="headerlink" title="MySQL 5.6 中 TIMESTAMP 的变化"></a>MySQL 5.6 中 TIMESTAMP 的变化</h3><blockquote>
+<p><a href="http://www.williamsang.com/archives/818.html" rel="external nofollow noopener noreferrer" target="_blank">MySQL 5.6 中 TIMESTAMP 的变化</a></p>
+</blockquote>
+<p>在my.ini中的<code>[mysqld]</code>节点下添加<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">explicit_defaults_for_timestamp</span>=<span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
+<p>重启MySQL后错误消失，这时<strong>TIMESTAMP</strong>的行为如下：</p>
+<ul>
+<li><strong>TIMESTAMP</strong>如果没有显示声明<strong>NOT NULL</strong>，是允许<strong>NULL</strong>值的，可以直接设置改列为<strong>NULL</strong>，而没有默认填充行为。</li>
+<li><strong>TIMESTAMP</strong>不会默认分配<code>DEFAULT CURRENT_TIMESTAMP</code>和<code>ON UPDATE CURRENT_TIMESTAMP</code>属性。</li>
+<li>声明为<strong>NOT NULL</strong>且没有默认子句的TIMESTAMP列是没有默认值的。往数据表中插入列，又没有给<strong>TIMESTAMP</strong>列赋值时，如果是严格SQL模式，会抛出一个错误，如果严格SQL模式没有启用，该列会赋值为’0000-00-00 00:00:00′，同时出现一个警告。（这和MySQL处理其他时间类型数据一样，如DATETIME）</li>
+</ul>
+<hr>
+<h3 id="CommunicationsException异常处理"><a href="#CommunicationsException异常处理" class="headerlink" title="CommunicationsException异常处理"></a>CommunicationsException异常处理</h3><blockquote>
+<p>来自 <a href="http://flex4.blog.163.com/blog/static/2116401192012113104932833/" rel="external nofollow noopener noreferrer" target="_blank">com.mysql.jdbc.exceptions.jdbc4.CommunicationsException</a></p>
+</blockquote>
+<p>mysql5将其连接的等待时间(wait_timeout)缺省为8小时.如果在wait_timeout秒期间内，数据库连接(java.sql.Connection)一直处于等待状态，mysql5就将该连接关闭。这时，你的JavaEE应用的连接池仍然合法地持有该连接的引用。当用该连接来进行数据库操作时，就碰到上述错误。<br>解决这个错误需要在my.ini配置文件中<code>[mysqld]</code>节点下配置<code>wait_timeout</code>将超时时间改为自己需要的时间<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">wait_timeout</span>=<span class="number">1814400</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="Mac下的MySQL卸载"><a href="#Mac下的MySQL卸载" class="headerlink" title="Mac下的MySQL卸载"></a>Mac下的MySQL卸载</h3><blockquote>
+<p><a href="http://stackoverflow.com/questions/1436425/how-do-you-uninstall-mysql-from-mac-os-x" rel="external nofollow noopener noreferrer" target="_blank">How do you uninstall MySQL from Mac OS X?</a><br><a href="https://gist.github.com/vitorbritto/0555879fe4414d18569d" rel="external nofollow noopener noreferrer" target="_blank">Remove MySQL completely from Mac OSX</a></p>
+</blockquote>
+<p>运行终端，输入下列命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo rm /usr/<span class="built_in">local</span>/mysql</span><br><span class="line">sudo rm -rf /usr/<span class="built_in">local</span>/mysql*</span><br><span class="line">sudo rm -rf /Library/StartupItems/MySQLCOM</span><br><span class="line">sudo rm -rf /Library/PreferencePanes/MySQL*</span><br><span class="line">rm -rf ~/Library/PreferencePanes/MySQL*</span><br><span class="line">sudo rm -rf /Library/Receipts/mysql*</span><br><span class="line">sudo rm -rf /Library/Receipts/MySQL*</span><br><span class="line">sudo rm -rf /var/db/receipts/com.mysql.*</span><br><span class="line">sudo rm -rf /private/var/db/receipts/*mysql*</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/sql/" rel="tag"># sql</a>
+          
+            <a href="/tags/backup/" rel="tag"># backup</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/java-log4j/" rel="next" title="log4j配置">
+                <i class="fa fa-chevron-left"></i> log4j配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/mysql-func/" rel="prev" title="MySQL函数命令">
+                MySQL函数命令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" rel="external nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Shepard">
+            
+              <p class="site-author-name" itemprop="name">Shepard</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/51azxc" target="_blank" title="GitHub" rel="external nofollow noopener noreferrer">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL免安装版配置"><span class="nav-number">1.</span> <span class="nav-text">MySQL免安装版配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#密码设置"><span class="nav-number">2.</span> <span class="nav-text">密码设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据备份"><span class="nav-number">3.</span> <span class="nav-text">数据备份</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#全量备份"><span class="nav-number">3.1.</span> <span class="nav-text">全量备份</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#增量备份"><span class="nav-number">3.2.</span> <span class="nav-text">增量备份</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL-5-6-中-TIMESTAMP-的变化"><span class="nav-number">4.</span> <span class="nav-text">MySQL 5.6 中 TIMESTAMP 的变化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CommunicationsException异常处理"><span class="nav-number">5.</span> <span class="nav-text">CommunicationsException异常处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mac下的MySQL卸载"><span class="nav-number">6.</span> <span class="nav-text">Mac下的MySQL卸载</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shepard</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow noopener noreferrer">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow noopener noreferrer">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://shepard-blog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://51azxc.github.io/mysql-setting/';
+          this.page.identifier = 'mysql-setting/';
+          this.page.title = 'MySQL基本配置';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://shepard-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

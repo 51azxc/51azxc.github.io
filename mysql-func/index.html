@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Ruthie:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="date,string,sql,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="MySQL函数Every derived table must have its own alias 关于子查询 Every derived table must have its own alias 的错误  在子查询中必须给查询的结果一个别名，不然会报上述错误1select * from (select * from table1) as t  SELECT INTO 和 INSERT INT">
+<meta name="keywords" content="date,string,sql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL函数命令">
+<meta property="og:url" content="https://51azxc.github.io/mysql-func/index.html">
+<meta property="og:site_name" content="Shepard&#39;s Blog">
+<meta property="og:description" content="MySQL函数Every derived table must have its own alias 关于子查询 Every derived table must have its own alias 的错误  在子查询中必须给查询的结果一个别名，不然会报上述错误1select * from (select * from table1) as t  SELECT INTO 和 INSERT INT">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-06T10:57:41.908Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL函数命令">
+<meta name="twitter:description" content="MySQL函数Every derived table must have its own alias 关于子查询 Every derived table must have its own alias 的错误  在子查询中必须给查询的结果一个别名，不然会报上述错误1select * from (select * from table1) as t  SELECT INTO 和 INSERT INT">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://51azxc.github.io/mysql-func/">
+
+
+
+
+
+  <title>MySQL函数命令 | Shepard's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shepard's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Nothing is true everything is permitted</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://51azxc.github.io/mysql-func/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shepard">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shepard's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">MySQL函数命令</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-05-05T11:32:10+00:00">
+                2015-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Database/" itemprop="url" rel="index">
+                    <span itemprop="name">Database</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Database/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/mysql-func/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="mysql-func/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="MySQL函数"><a href="#MySQL函数" class="headerlink" title="MySQL函数"></a>MySQL函数</h3><h4 id="Every-derived-table-must-have-its-own-alias"><a href="#Every-derived-table-must-have-its-own-alias" class="headerlink" title="Every derived table must have its own alias"></a>Every derived table must have its own alias</h4><blockquote>
+<p><a href="http://bbs.9izhan.com/thread-11660-1-1.html" rel="external nofollow noopener noreferrer" target="_blank">关于子查询 Every derived table must have its own alias 的错误</a></p>
+</blockquote>
+<p>在子查询中必须给查询的结果一个别名，不然会报上述错误<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> (<span class="keyword">select</span> * <span class="keyword">from</span> table1) <span class="keyword">as</span> t</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="SELECT-INTO-和-INSERT-INTO-SELECT-两种表复制语句"><a href="#SELECT-INTO-和-INSERT-INTO-SELECT-两种表复制语句" class="headerlink" title="SELECT INTO 和 INSERT INTO SELECT 两种表复制语句"></a>SELECT INTO 和 INSERT INTO SELECT 两种表复制语句</h4><blockquote>
+<p>来自<a href="http://www.cnblogs.com/freshman0216/archive/2008/08/15/1268316.html" rel="external nofollow noopener noreferrer" target="_blank">SELECT INTO 和 INSERT INTO SELECT 两种表复制语句</a></p>
+</blockquote>
+<p><code>insert into select</code>要求目标表Table2必须存在，由于目标表Table2已经存在，所以我们除了插入源表Table1的字段外，还可以插入常量。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> Table2(field1,field2,...) <span class="keyword">select</span> value1,value2,... <span class="keyword">from</span> Table1</span><br></pre></td></tr></table></figure></p>
+<p><code>select into</code>要求目标表Table2不存在，因为在插入时会自动创建表Table2，并将Table1中指定字段数据复制到Table2中。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> vale1, value2 <span class="keyword">into</span> Table2 <span class="keyword">from</span> Table1</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="mysql-update查询结果"><a href="#mysql-update查询结果" class="headerlink" title="mysql update查询结果"></a>mysql update查询结果</h4><blockquote>
+<p><a href="http://blog.sina.com.cn/s/blog_3c62c21f01013qch.html" rel="external nofollow noopener noreferrer" target="_blank">mysql update不能直接使用select的结果</a></p>
+</blockquote>
+<p><strong>SQL Server</strong>中可以直接使用结果集更新<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> table1 <span class="keyword">set</span> a.field = (<span class="keyword">select</span> <span class="keyword">field</span> <span class="keyword">from</span> table2)</span><br></pre></td></tr></table></figure></p>
+<p>在<strong>MySQL</strong>中上述语句是行不通的，如果需要完成上述效果，需要使用<code>inner join</code><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> table1 a <span class="keyword">inner</span> <span class="keyword">join</span> table2 b <span class="keyword">set</span> a.field1 = b.field1 <span class="keyword">where</span> a.field2 = b.field2</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="mysql查询区分大小写"><a href="#mysql查询区分大小写" class="headerlink" title="mysql查询区分大小写"></a>mysql查询区分大小写</h4><blockquote>
+<p>来自<a href="http://www.cnblogs.com/trying/p/3669101.html" rel="external nofollow noopener noreferrer" target="_blank">mysql查询区分大小写</a></p>
+</blockquote>
+<p>Mysql默认查询是不分大小写的，可以在SQL语句中加入<code>binary</code>来区分大小写；<br><strong>BINARY</strong>不是函数，是类型转换运算符，它用来强制它后面的字符串为一个二进制字符串，可以理解为在字符串比较的时候区分大小写<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table1 a <span class="keyword">where</span> a.id = <span class="built_in">BINARY</span> <span class="string">'a'</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="MySQL行转列"><a href="#MySQL行转列" class="headerlink" title="MySQL行转列"></a>MySQL行转列</h4><h5 id="case-when-语句"><a href="#case-when-语句" class="headerlink" title="case when 语句"></a>case when 语句</h5><blockquote>
+<p><a href="http://database.51cto.com/art/201010/229082.htm" rel="external nofollow noopener noreferrer" target="_blank">mysql中case when语句的使用示例</a></p>
+</blockquote>
+<p>基本用法<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> filed1,</span><br><span class="line">  <span class="keyword">case</span> </span><br><span class="line">    <span class="keyword">when</span> filed2 = <span class="string">'a'</span> <span class="keyword">then</span> <span class="string">'a'</span></span><br><span class="line">    <span class="keyword">when</span> filed2 = <span class="string">'b'</span> <span class="keyword">then</span> <span class="string">'b'</span></span><br><span class="line">    <span class="keyword">else</span> <span class="string">'c'</span> </span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">from</span> table1;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> filed1,</span><br><span class="line">  <span class="keyword">case</span> field2</span><br><span class="line">    <span class="keyword">when</span> <span class="string">'a'</span> <span class="keyword">then</span> <span class="string">'a'</span></span><br><span class="line">    <span class="keyword">when</span> <span class="string">'b'</span> <span class="keyword">then</span> <span class="string">'b'</span></span><br><span class="line">    <span class="keyword">else</span> <span class="string">'c'</span> </span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">from</span> table1;</span><br></pre></td></tr></table></figure>
+<p>复合?<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> filed1,filed2</span><br><span class="line">  <span class="keyword">case</span> </span><br><span class="line">    <span class="keyword">when</span> filed1 = <span class="string">'a'</span> <span class="keyword">then</span> <span class="string">'a'</span></span><br><span class="line">      <span class="keyword">when</span> filed2 = <span class="string">'b'</span> <span class="keyword">then</span> <span class="string">'b'</span></span><br><span class="line">      <span class="keyword">else</span> <span class="string">'c'</span> </span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">from</span> table1;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h5 id="if-sum语句"><a href="#if-sum语句" class="headerlink" title="if sum语句"></a>if sum语句</h5><blockquote>
+<p><a href="http://blog.csdn.net/cdy102688/article/details/14006515" rel="external nofollow noopener noreferrer" target="_blank">mysql行转列(if + sum) </a></p>
+</blockquote>
+<p>mysql行转列可以使用<code>sum</code>与<code>if</code>函数配合完成<br>所用数据如下</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>type</th>
+<th>score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>chinese</td>
+<td>80</td>
+</tr>
+<tr>
+<td>a</td>
+<td>math</td>
+<td>70</td>
+</tr>
+<tr>
+<td>b</td>
+<td>chinese</td>
+<td>90</td>
+</tr>
+<tr>
+<td>b</td>
+<td>math</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>, </span><br><span class="line">  <span class="keyword">sum</span>(<span class="keyword">if</span>(<span class="keyword">type</span>=<span class="string">'chinese'</span>,score,<span class="number">0</span>)) <span class="keyword">as</span> chinese, </span><br><span class="line">  <span class="keyword">sum</span>(<span class="keyword">if</span>(<span class="keyword">type</span>=<span class="string">'math'</span>,score,<span class="number">0</span>)) <span class="keyword">as</span> math</span><br><span class="line"><span class="keyword">from</span> table1</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">name</span></span><br></pre></td></tr></table></figure>
+<p>结果如下</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>chinese</th>
+<th>math</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>80</td>
+<td>70</td>
+</tr>
+<tr>
+<td>b</td>
+<td>90</td>
+<td>100</td>
+</tr>
+</tbody>
+</table>
+<p><strong>总结</strong>：if主要是用来创建新列，并将非对应学科的分数写为0，用sum或max配合group by保证取出的值是学科对应的值，这样就可以完成行转列了</p>
+<hr>
+<h4 id="多行记录合并成一行"><a href="#多行记录合并成一行" class="headerlink" title="多行记录合并成一行"></a>多行记录合并成一行</h4><blockquote>
+<p><a href="http://blog.sina.com.cn/s/blog_51a493580101jsaw.html" rel="external nofollow noopener noreferrer" target="_blank">Oracle和Mysql中将多行记录合并为一行</a></p>
+</blockquote>
+<p>MySQL使用函数<code>group_concat</code><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> </span><br><span class="line">  field1,</span><br><span class="line">  field2,</span><br><span class="line">  <span class="keyword">group_concat</span>(field3 <span class="keyword">order</span> <span class="keyword">by</span> field3 separator <span class="string">"|"</span>) </span><br><span class="line"><span class="keyword">from</span> table1 </span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> field1</span><br></pre></td></tr></table></figure></p>
+<p>这里的<code>separator</code>指定分隔符为”|”</p>
+<p>Oracle使用函数<code>WMSYS.WM_CONCAT</code><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span></span><br><span class="line">  field1,</span><br><span class="line">  WMSYS.WM_CONCAT(field2) <span class="keyword">as</span> field2</span><br><span class="line"><span class="keyword">from</span> table1</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> field1</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="获取小数点后两位"><a href="#获取小数点后两位" class="headerlink" title="获取小数点后两位"></a>获取小数点后两位</h4><blockquote>
+<p><a href="http://www.jb51.net/article/44378.htm" rel="external nofollow noopener noreferrer" target="_blank">mysql格式化小数保留小数点后两位</a><br><a href="http://www.nowamagic.net/librarys/veda/detail/2044" rel="external nofollow noopener noreferrer" target="_blank">MySQL CAST与CONVERT 函数的用法</a><br><a href="http://zhidao.baidu.com/link?url=LePIQDrUswcVQX2PYliFLJ2_5haop43H30D1MDO0Z-LCHDMo9S1NaFJhqoqqengUSNbuzJIsbEekGQM1HyUfWa" rel="external nofollow noopener noreferrer" target="_blank">mysql数据库，结果保留4位小数，小数点后四位</a></p>
+</blockquote>
+<ul>
+<li>使用<code>format</code>函数<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">format</span>(<span class="number">12345.678</span>,<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>返回结果为 12,345.68<br>此函数整数部分超过三位的时候以逗号分割，并且返回的结果是string类型的。</p>
+<ul>
+<li>使用<code>truncate</code>函数<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">truncate</span>(<span class="number">12345.678</span>,<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>返回结果为 12345.67<br>此函数并不能达到四舍五入的效果</p>
+<ul>
+<li>使用<code>convert</code>函数<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">convert</span>(<span class="number">12345.678</span>,<span class="built_in">decimal</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>返回结果为 12346<br>此函数为转换格式，将所选数字转换为浮点数类型，接收参数主要有 <strong>二进制</strong><code>BINARY</code>,<strong>字符型</strong><code>CHAR()</code>,<strong>日期</strong><code>DATE</code>,<strong>时间</strong><code>TIME</code>,<strong>日期时间型</strong><code>DATETIME</code>,<strong>浮点数</strong><code>DECIMAL</code>,<strong>整数</strong><code>SIGNED</code><strong>,无符号整数</strong><code>UNSIGNED</code>.</p>
+<ul>
+<li>使用<code>round</code>函数<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">round</span>(<span class="number">12345.678</span>,<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>返回结果为 12345.68<br>符合预期</p>
+<hr>
+<h4 id="NULL与空值的区别"><a href="#NULL与空值的区别" class="headerlink" title="NULL与空值的区别"></a><strong>NULL</strong>与空值的区别</h4><blockquote>
+<p><a href="http://my.oschina.net/junn/blog/161769" rel="external nofollow noopener noreferrer" target="_blank">Mysql探究之null与not null</a></p>
+</blockquote>
+<p>首先，我们要搞清楚“空值” 和 “NULL” 的概念： </p>
+<ol>
+<li>空值是不占用空间的</li>
+<li>mysql中的<strong>NULL</strong>其实是占用空间的</li>
+</ol>
+<p><strong>NOT NULL</strong>的字段是不能插入“NULL”的，只能插入“空值”(即<code>&#39;&#39;</code>)<br><strong>NULL</strong> 其实并不是空值，而是要占用空间，所以mysql在进行比较的时候，<strong>NULL</strong> 会参与字段比较，所以对效率有一部分影响,而且对表索引时不会存储<strong>NULL</strong>值的，所以如果索引的字段可以为<strong>NULL</strong>，索引的效率会下降很多</p>
+<p>判断不为空<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table1 <span class="keyword">where</span> field1 &lt;&gt; <span class="string">''</span></span><br></pre></td></tr></table></figure></p>
+<p>判断不为<strong>NULL</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table1 <span class="keyword">where</span> field1 <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">null</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="IFNULL-NULLIF与ISNULL的区别"><a href="#IFNULL-NULLIF与ISNULL的区别" class="headerlink" title="IFNULL,NULLIF与ISNULL的区别"></a><strong>IFNULL</strong>,<strong>NULLIF</strong>与<strong>ISNULL</strong>的区别</h4><blockquote>
+<p><a href="http://www.cnblogs.com/JuneZhang/archive/2010/08/26/1809306.html" rel="external nofollow noopener noreferrer" target="_blank">MySql 里的IFNULL、NULLIF和ISNULL用法</a></p>
+</blockquote>
+<ul>
+<li><code>ifnull(expr1,expr2)</code>: 如果<code>expr1</code>不为<strong>NULL</strong>时，返回<code></code>expr1<code>,否则返回</code>expr2`</li>
+<li><code>nullif(expr1,expr2)</code>: 如果<code>expr1=expr2</code>，则返回<strong>NULL</strong>,否则返回<code>expr1</code></li>
+<li><code>isnull(expr)</code>: 如果<code>expr</code>为<strong>NULL</strong>，则返回1，否则返回0</li>
+</ul>
+<hr>
+<h4 id="操作字符串函数"><a href="#操作字符串函数" class="headerlink" title="操作字符串函数"></a>操作字符串函数</h4><blockquote>
+<p>来自<a href="http://www.jb51.net/article/27458.htm" rel="external nofollow noopener noreferrer" target="_blank">Mysql字符串截取函数SUBSTRING的用法说明</a></p>
+</blockquote>
+<ul>
+<li><code>left(被截取字符串，截取长度)</code>： 从左开始截取字符串</li>
+<li><code>right(被截取字符串，截取长度)</code>: 从右开始截取字符串</li>
+<li><code>substring(被截取字段，[从第几位开始截取]，截取长度)</code>: 截取字符串，中括号内的参数为可选，如果为负数则是从字符串右边开始计数</li>
+<li><code>substring_index(被截取字段，关键字，关键字出现的次数)</code>: 按关键字截取字符串,如果关键字出现的次数为负数，则是从字符串右边开始计数</li>
+</ul>
+<hr>
+<h4 id="日期函数"><a href="#日期函数" class="headerlink" title="日期函数"></a>日期函数</h4><blockquote>
+<p>来自<br><a href="http://www.cnblogs.com/zeroone/archive/2010/05/05/1727659.html" rel="external nofollow noopener noreferrer" target="_blank">MySQL日期时间函数大全</a><br><a href="http://blog.sina.com.cn/s/blog_68f4b9f201013vql.html" rel="external nofollow noopener noreferrer" target="_blank">mysql相似于oracle的to_char() to_date()方法</a><br><a href="http://blog.163.com/i_yuhan/blog/static/19834210020124174495366/" rel="external nofollow noopener noreferrer" target="_blank">MYSQL如何计算两个日期间隔天数</a></p>
+</blockquote>
+<ul>
+<li><code>DAYOFWEEK(date)</code>: 返回日期date是星期几(1=星期天···7=星期六,ODBC标准)</li>
+<li><code>WEEKDAY(date)</code>: 返回日期date是星期几(0=星期一···6= 星期天)</li>
+<li><code>DAYOFMONTH(date)</code>: 返回date是一月中的第几日(在1到31范围内) </li>
+<li><code>DAYOFYEAR(date)</code>: 返回date是一年中的第几日(在1到366范围内)</li>
+<li><code>DAYNAME(date)</code>: 返回date是星期几(按英文名返回)</li>
+<li><code>MONTHNAME(date)</code>: 返回date是几月(按英文名返回)</li>
+<li><code>QUARTER(date)</code>: 返回date是一年的第几个季度</li>
+<li><code>WEEK(date,first)</code>: 返回date是一年的第几周(first默认值0,first取值1表示周一是周的开始,0从周日开始)</li>
+<li><code>YEAR(date)</code>: 返回date的年份</li>
+<li><code>MONTH(date)</code>: 返回date中的月份</li>
+<li><code>HOUR(time)</code>: 返回time的小时数(范围是0到23)</li>
+<li><code>MINUTE(time)</code>: 返回time的分钟数(范围是0到59)</li>
+<li><code>SECOND(time)</code>: 返回time的秒数(范围是0到59)</li>
+<li><code>PERIOD_ADD(P,N)</code>: 增加N个月到时期P并返回(P的格式YYMM或YYYYMM)</li>
+<li><code>PERIOD_DIFF(P1,P2)</code>: 返回在时期P1和P2之间月数(P1和P2的格式YYMM或YYYYMM) (<code>P1&lt;P2为负数</code>)</li>
+<li><code>DATE_ADD(date,INTERVAL expr type)</code>,<br><code>DATE_SUB(date,INTERVAL expr type)</code>,<br><code>ADDDATE(date,INTERVAL expr type)</code>,<br><code>SUBDATE(date,INTERVAL expr type)</code>: 对日期时间进行加减法运算。<code>ADDDATE()</code>和<code>SUBDATE()</code>是<code>DATE_ADD()</code>和<code>DATE_SUB()</code>的同义词,date是一个DATETIME或DATE值,expr对date进行加减法的一个表达式字符串,type指明表达式expr应该如何被解释，例如<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">date_add</span>(<span class="string">'2015-05-04'</span>, <span class="built_in">INTERVAL</span> <span class="number">-1</span> <span class="keyword">DAY</span>)</span><br><span class="line"><span class="comment">--返回结果2015-05-03</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">date_add</span>(<span class="string">'2015-05-04'</span>, <span class="built_in">INTERVAL</span> <span class="string">'1 2:3:4'</span> DAY_SECOND)</span><br><span class="line"><span class="comment">--返回结果2015-05-05 02:03:04</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">date_add</span>(<span class="string">'2015-05-04'</span>, <span class="built_in">INTERVAL</span> <span class="string">'2:3'</span> MINUTE_SECOND)</span><br><span class="line"><span class="comment">--返回结果2015-05-04 00:02:03</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">date_add</span>(<span class="string">'2015-05-04'</span>, <span class="built_in">INTERVAL</span> <span class="string">'-1 10'</span> DAY_HOUR)</span><br><span class="line"><span class="comment">--返回结果2015-05-02 14:00:00</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>type</th>
+<th>意义</th>
+<th>expr</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SECOND</td>
+<td>秒</td>
+<td>SECONDS</td>
+</tr>
+<tr>
+<td>MINUTE</td>
+<td>分</td>
+<td>MINUTES</td>
+</tr>
+<tr>
+<td>HOUR</td>
+<td>时</td>
+<td>HOURS</td>
+</tr>
+<tr>
+<td>DAY</td>
+<td>天</td>
+<td>DAYS</td>
+</tr>
+<tr>
+<td>MONTH</td>
+<td>月</td>
+<td>MONTHS</td>
+</tr>
+<tr>
+<td>YEAR</td>
+<td>年</td>
+<td>YEARS</td>
+</tr>
+<tr>
+<td>MINUTE_SECOND</td>
+<td>分钟:秒</td>
+<td>“MINUTES:SECONDS”</td>
+</tr>
+<tr>
+<td>HOUR_MINUTE</td>
+<td>小时:分钟</td>
+<td>“HOURS:MINUTES”</td>
+</tr>
+<tr>
+<td>DAY_HOUR</td>
+<td>天和小时</td>
+<td>“DAYS HOURS”</td>
+</tr>
+<tr>
+<td>YEAR_MONTH</td>
+<td>年和月</td>
+<td>“YEARS-MONTHS”</td>
+</tr>
+<tr>
+<td>HOUR_SECOND</td>
+<td>小时, 分钟</td>
+<td>“HOURS:MINUTES:SECONDS”</td>
+</tr>
+<tr>
+<td>DAY_MINUTE</td>
+<td>天, 小时, 分钟</td>
+<td>“DAYS HOURS:MINUTES”</td>
+</tr>
+<tr>
+<td>DAY_SECOND</td>
+<td>天, 小时, 分钟, 秒</td>
+<td>“DAYS HOURS:MINUTES:SECONDS”</td>
+</tr>
+</tbody>
+</table>
+<p><code>expr</code>中允许任何标点做分隔符,如果所有是<code>DATE</code>值时结果是一个<code>DATE</code>值,否则结果是一个<code>DATETIME</code>值<br>如果type关键词不完整,则MySQL从右端取值,<code>DAY_SECOND</code>因为缺少小时分钟等于<code>MINUTE_SECOND</code><br>如果增加<code>MONTH</code>、<code>YEAR_MONTH</code>或<code>YEAR</code>,天数大于结果月份的最大天数则使用最大天数</p>
+<ul>
+<li><code>TO_DAYS(date)</code>: 返回日期date是西元0年至今多少天(不计算1582年以前)</li>
+<li><code>FROM_DAYS(N)</code>:　给出西元0年至今多少天返回DATE值(不计算1582年以前)</li>
+<li><code>STR_TO_DATE(date,format)</code>: 将date字符串转成date格式</li>
+<li><code>DATE_FORMAT(date,format)</code>: 根据format字符串格式化date值</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>标识符</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%M</td>
+<td>月名字(January……December)</td>
+</tr>
+<tr>
+<td>%W</td>
+<td>星期名字(Sunday……Saturday)</td>
+</tr>
+<tr>
+<td>%D</td>
+<td>有英语前缀的月份的日期(1st, 2nd, 3rd, 等等）</td>
+</tr>
+<tr>
+<td>%Y</td>
+<td>年, 数字, 4 位</td>
+</tr>
+<tr>
+<td>%y</td>
+<td>年, 数字, 2 位</td>
+</tr>
+<tr>
+<td>%a</td>
+<td>缩写的星期名字(Sun···Sat)</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>月份中的天数, 数字(00···31)</td>
+</tr>
+<tr>
+<td>%e</td>
+<td>月份中的天数, 数字(0……31)</td>
+</tr>
+<tr>
+<td>%m</td>
+<td>月, 数字(01……12)</td>
+</tr>
+<tr>
+<td>%c</td>
+<td>月, 数字(1……12)</td>
+</tr>
+<tr>
+<td>%b</td>
+<td>缩写的月份名字(Jan……Dec)</td>
+</tr>
+<tr>
+<td>%j</td>
+<td>一年中的天数(001……366)</td>
+</tr>
+<tr>
+<td>%H</td>
+<td>小时(00……23)</td>
+</tr>
+<tr>
+<td>%k</td>
+<td>小时(0……23)</td>
+</tr>
+<tr>
+<td>%h</td>
+<td>小时(01……12)</td>
+</tr>
+<tr>
+<td>%I</td>
+<td>小时(01……12)</td>
+</tr>
+<tr>
+<td>%l</td>
+<td>小时(1……12)</td>
+</tr>
+<tr>
+<td>%i</td>
+<td>分钟, 数字(00……59)</td>
+</tr>
+<tr>
+<td>%r</td>
+<td>时间,12 小时(hh:mm:ss [AP]M)</td>
+</tr>
+<tr>
+<td>%T</td>
+<td>时间,24 小时(hh:mm:ss)</td>
+</tr>
+<tr>
+<td>%S</td>
+<td>秒(00……59)</td>
+</tr>
+<tr>
+<td>%s</td>
+<td>秒(00……59)</td>
+</tr>
+<tr>
+<td>%p</td>
+<td>AM或PM</td>
+</tr>
+<tr>
+<td>%w</td>
+<td>一个星期中的天数(0=Sunday···6=Saturday）</td>
+</tr>
+<tr>
+<td>%U</td>
+<td>星期(0……52), 这里星期天是星期的第一天</td>
+</tr>
+<tr>
+<td>%u</td>
+<td>星期(0……52), 这里星期一是星期的第一天</td>
+</tr>
+<tr>
+<td>%%</td>
+<td>字符%</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">date_format</span>(<span class="string">'2015-05-04 17:13:40'</span>,<span class="string">'%W %M %Y %H:%i:%s'</span>)</span><br><span class="line"><span class="comment">--返回结果 Monday May 2015 17:13:40</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>TIME_FORMAT(time,format)</code>: 和<code>DATE_FORMAT()</code>类似,但<code>TIME_FORMAT</code>只处理小时、分钟和秒(其余符号产生一个NULL值或0)</li>
+<li><code>CURDATE()</code>与<code>CURRENT_DATE()</code>: 以’YYYY-MM-DD’或YYYYMMDD格式返回当前日期值(根据返回值所处上下文是字符串或数字) </li>
+<li><code>CURTIME()</code>与<code>CURRENT_TIME()</code>:以’HH:MM:SS’或HHMMSS格式返回当前时间值(根据返回值所处上下文是字符串或数字) </li>
+<li><code>NOW()</code>,<code>SYSDATE()</code>与<code>CURRENT_TIMESTAMP()</code>: 以’YYYY-MM-DD HH:MM:SS’或YYYYMMDDHHMMSS格式返回当前日期时间(根据返回值所处上下文是字符串或数字) </li>
+<li><code>UNIX_TIMESTAMP()</code>与<code>UNIX_TIMESTAMP(date)</code>: 返回一个Unix时间戳(从’1970-01-01 00:00:00’GMT开始的秒数,date默认值为当前时间)</li>
+<li><code>FROM_UNIXTIME(unix_timestamp)</code>: 以’YYYY-MM-DD HH:MM:SS’或YYYYMMDDHHMMSS格式返回时间戳的值</li>
+<li><code>FROM_UNIXTIME(unix_timestamp,format)</code>: 以format字符串格式返回时间戳的值</li>
+<li><code>SEC_TO_TIME(seconds)</code>: 以’HH:MM:SS’或HHMMSS格式返回秒数转成的TIME值</li>
+<li><code>TIME_TO_SEC(time)</code>: 返回time值有多少秒</li>
+<li><code>datediff(date1,date2)</code>: 计算两个日期之间间隔的天数</li>
+</ul>
+<hr>
+<h4 id="MySQL批量更新数据，有则更新，无则插入"><a href="#MySQL批量更新数据，有则更新，无则插入" class="headerlink" title="MySQL批量更新数据，有则更新，无则插入"></a>MySQL批量更新数据，有则更新，无则插入</h4><blockquote>
+<p><a href="http://lobert.iteye.com/blog/1604122" rel="external nofollow noopener noreferrer" target="_blank">ON DUPLICATE KEY UPDATE重复插入时更新</a></p>
+</blockquote>
+<p><code>insert on duplicate key update</code><br>在<code>INSERT</code>语句中指定了<code>ON DUPLICATE KEY UPDATE</code>，并且插入行后会导致在一个<code>UNIQUE</code>索引或<code>PRIMARY KEY</code>中出现重复值，则执行旧行<code>UPDATE</code><br>您可以在<code>UPDATE</code>子句中使用<code>VALUES(col_name)</code>函数从<code>INSERT...UPDATE</code>语句的INSERT部分引用列值。换句话说，如果没有发生重复关键字冲突，则<code>UPDATE</code>子句中的<code>VALUES(col_name)</code>可以引用被插入的<code>col_name</code>的值。本函数特别适用于多行插入。<code>VALUES()</code>函数只在<code>INSERT...UPDATE</code>语句中有意义，其它时候会返回NULL。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">table</span> (a,b,c) <span class="keyword">VALUES</span> (<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>),(<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>) <span class="keyword">ON</span> <span class="keyword">DUPLICATE</span> <span class="keyword">KEY</span> <span class="keyword">UPDATE</span> c=<span class="keyword">VALUES</span>(a)+<span class="keyword">VALUES</span>(b);</span><br></pre></td></tr></table></figure></p>
+<p><code>replace</code><br>我们在使用数据库时可能会经常遇到这种情况。如果一个表在一个字段上建立了唯一索引，当我们再向这个表中使用已经存在的键值插入一条记录，那将会抛出一个主键冲突的错误。当然，我们可能想用新记录的值来覆盖原来的记录值。如果使用传统的做法，必须先使用DELETE语句删除原先的记录，然后再使用INSERT插入新的记录。而在MySQL中为我们提供了一种新的解决方案，这就是<code>REPLACE</code>语句。<strong>使用REPLACE插入一条记录时，如果不重复，REPLACE就和INSERT的功能一样，如果有重复记录，REPLACE就使用新记录的值来替换原来的记录值。</strong><br>使用REPLACE的最大好处就是可以将DELETE和INSERT合二为一，形成一个原子操作。这样就可以不必考虑在同时使用<strong>DELETE</strong>和<strong>INSERT</strong>时添加事务等复杂操作了。<br>在使用REPLACE时，表中必须有唯一索引，而且这个索引所在的字段不能允许空值，否则REPLACE就和INSERT完全一样的。<br>在执行REPLACE后，系统返回了所影响的行数，如果返回1，说明在表中并没有重复的记录，如果返回2，说明有一条重复记录，系统自动先调用了DELETE删除这条记录，然后再记录用INSERT来插入这条记录。如果返回的值大于2，那说明有多个唯一索引，有多条记录被删除和插入。<br>REPLACE的语法和INSERT非常的相似，如下面的REPLACE语句是插入或更新一条记录。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">REPLACE</span> <span class="keyword">INTO</span> <span class="keyword">users</span> (<span class="keyword">id</span>,<span class="keyword">name</span>,age) <span class="keyword">VALUES</span>(<span class="number">123</span>, <span class="string">'a'</span>, <span class="number">10</span>);</span><br></pre></td></tr></table></figure></p>
+<p>REPLACE也可以使用SET语句<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">REPLACE</span> <span class="keyword">INTO</span> <span class="keyword">users</span> <span class="keyword">SET</span> <span class="keyword">id</span> = <span class="number">123</span>, <span class="keyword">name</span> = <span class="string">'a'</span>, age = <span class="number">10</span>;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>####中文排序</p>
+<blockquote>
+<p><a href="http://www.jb51.net/article/28876.htm" rel="external nofollow noopener noreferrer" target="_blank">让MySQL支持中文排序的实现方法</a></p>
+</blockquote>
+<p>使用<code>CONVERT</code>来转换字符集<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> mytable <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">CONVERT</span>(chineseColumnName <span class="keyword">USING</span> gbk);</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/date/" rel="tag"># date</a>
+          
+            <a href="/tags/string/" rel="tag"># string</a>
+          
+            <a href="/tags/sql/" rel="tag"># sql</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/mysql-setting/" rel="next" title="MySQL基本配置">
+                <i class="fa fa-chevron-left"></i> MySQL基本配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/oracle-func/" rel="prev" title="Oracle函数命令">
+                Oracle函数命令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" rel="external nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Shepard">
+            
+              <p class="site-author-name" itemprop="name">Shepard</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/51azxc" target="_blank" title="GitHub" rel="external nofollow noopener noreferrer">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL函数"><span class="nav-number">1.</span> <span class="nav-text">MySQL函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Every-derived-table-must-have-its-own-alias"><span class="nav-number">1.1.</span> <span class="nav-text">Every derived table must have its own alias</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SELECT-INTO-和-INSERT-INTO-SELECT-两种表复制语句"><span class="nav-number">1.2.</span> <span class="nav-text">SELECT INTO 和 INSERT INTO SELECT 两种表复制语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mysql-update查询结果"><span class="nav-number">1.3.</span> <span class="nav-text">mysql update查询结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mysql查询区分大小写"><span class="nav-number">1.4.</span> <span class="nav-text">mysql查询区分大小写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL行转列"><span class="nav-number">1.5.</span> <span class="nav-text">MySQL行转列</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#case-when-语句"><span class="nav-number">1.5.1.</span> <span class="nav-text">case when 语句</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#if-sum语句"><span class="nav-number">1.5.2.</span> <span class="nav-text">if sum语句</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多行记录合并成一行"><span class="nav-number">1.6.</span> <span class="nav-text">多行记录合并成一行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取小数点后两位"><span class="nav-number">1.7.</span> <span class="nav-text">获取小数点后两位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NULL与空值的区别"><span class="nav-number">1.8.</span> <span class="nav-text">NULL与空值的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IFNULL-NULLIF与ISNULL的区别"><span class="nav-number">1.9.</span> <span class="nav-text">IFNULL,NULLIF与ISNULL的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#操作字符串函数"><span class="nav-number">1.10.</span> <span class="nav-text">操作字符串函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#日期函数"><span class="nav-number">1.11.</span> <span class="nav-text">日期函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL批量更新数据，有则更新，无则插入"><span class="nav-number">1.12.</span> <span class="nav-text">MySQL批量更新数据，有则更新，无则插入</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shepard</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow noopener noreferrer">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow noopener noreferrer">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://shepard-blog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://51azxc.github.io/mysql-func/';
+          this.page.identifier = 'mysql-func/';
+          this.page.title = 'MySQL函数命令';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://shepard-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

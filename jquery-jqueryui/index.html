@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Ruthie:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="jQuery,jQueryUI,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="收集平时使用jQuery UI控件碰到的一些问题与知识点。">
+<meta name="keywords" content="jQuery,jQueryUI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jQuery UI控件知识点整理">
+<meta property="og:url" content="https://51azxc.github.io/jquery-jqueryui/index.html">
+<meta property="og:site_name" content="Shepard&#39;s Blog">
+<meta property="og:description" content="收集平时使用jQuery UI控件碰到的一些问题与知识点。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-06T10:57:41.908Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jQuery UI控件知识点整理">
+<meta name="twitter:description" content="收集平时使用jQuery UI控件碰到的一些问题与知识点。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://51azxc.github.io/jquery-jqueryui/">
+
+
+
+
+
+  <title>jQuery UI控件知识点整理 | Shepard's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shepard's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Nothing is true everything is permitted</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://51azxc.github.io/jquery-jqueryui/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shepard">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shepard's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">jQuery UI控件知识点整理</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-04-23T16:16:11+00:00">
+                2015-04-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScript</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/jQuery/" itemprop="url" rel="index">
+                    <span itemprop="name">jQuery</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/jquery-jqueryui/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="jquery-jqueryui/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>收集平时使用jQuery UI控件碰到的一些问题与知识点。</p>
+<a id="more"></a>
+<h3 id="jQuery-UI-Dialog"><a href="#jQuery-UI-Dialog" class="headerlink" title="jQuery UI Dialog"></a>jQuery UI Dialog</h3><h4 id="修改按钮位置"><a href="#修改按钮位置" class="headerlink" title="修改按钮位置"></a>修改按钮位置</h4><blockquote>
+<p><a href="http://stackoverflow.com/questions/17278132/jquery-dialog-button-positions" rel="external nofollow noopener noreferrer" target="_blank">Jquery dialog button - positions</a></p>
+</blockquote>
+<p>当出现了三个以上的按钮要放在<code>buttons</code>内，可以使用css来修改按钮的位置<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.ui-dialog-buttonset button:first-child &#123;</span><br><span class="line">   right:<span class="number">30</span>px; </span><br><span class="line">   position: absolute;</span><br><span class="line">   top: <span class="number">42</span>px;</span><br><span class="line">&#125;</span><br><span class="line">.ui-dialog-buttonset&#123;</span><br><span class="line">    position:relative;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="在dialog中载入其他页面"><a href="#在dialog中载入其他页面" class="headerlink" title="在dialog中载入其他页面"></a>在dialog中载入其他页面</h4><blockquote>
+<p><a href="http://stackoverflow.com/questions/1608249/how-to-load-a-page-with-jquery-ui-dialog" rel="external nofollow noopener noreferrer" target="_blank">how to load a page with jquery ui dialog</a></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// initialize dialog</span></span><br><span class="line"><span class="keyword">var</span> dialog1 = $(<span class="string">"#dialog"</span>).dialog(&#123; <span class="attr">autoOpen</span>: <span class="literal">false</span>,</span><br><span class="line">  height: <span class="number">600</span>,</span><br><span class="line">  width: <span class="number">350</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// load content and open dialog</span></span><br><span class="line">dialog1.load(<span class="string">'path/to/otherPage'</span>).dialog(<span class="string">'open'</span>);</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="jquery-ui-Dialog-cannot-call-methods-on-dialog-prior-to-initialization"><a href="#jquery-ui-Dialog-cannot-call-methods-on-dialog-prior-to-initialization" class="headerlink" title="jquery ui Dialog: cannot call methods on dialog prior to initialization"></a>jquery ui Dialog: cannot call methods on dialog prior to initialization</h4><blockquote>
+<p><a href="http://stackoverflow.com/questions/13520139/jquery-ui-dialog-cannot-call-methods-on-dialog-prior-to-initialization" rel="external nofollow noopener noreferrer" target="_blank">jquery ui Dialog: cannot call methods on dialog prior to initialization</a></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> theDialog = $(<span class="string">"#divDialog"</span>).dialog(opt);</span><br><span class="line">theDialog.dialog(<span class="string">"open"</span>);</span><br></pre></td></tr></table></figure>
+<p>That’s because the dialog is not stored in $(‘#divDialog’), but on a new div that is created on the fly and returned by the .dialog(opt) function.</p>
+<hr>
+<h4 id="设置按钮不可用"><a href="#设置按钮不可用" class="headerlink" title="设置按钮不可用"></a>设置按钮不可用</h4><blockquote>
+<p><a href="http://blog.csdn.net/li_gf/article/details/7594628" rel="external nofollow noopener noreferrer" target="_blank">如何设置Jquery UI dialog 中的button为disable变灰或者更改button样式</a></p>
+</blockquote>
+<p><code>.ui-dialog-buttonpane</code>为dialog给button加上的样式，通过这个就可以找到相应的button并且对其设置属性了<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//button的value为Yes</span></span><br><span class="line">$(<span class="string">'.ui-dialog-buttonpane'</span>).find(<span class="string">'button:contains("Yes")'</span>).attr(<span class="string">"disabled"</span>, <span class="string">"disabled"</span>);</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="去掉关闭符号"><a href="#去掉关闭符号" class="headerlink" title="去掉关闭符号"></a>去掉关闭符号</h4><blockquote>
+<p><a href="http://www.myexception.cn/web/906430.html" rel="external nofollow noopener noreferrer" target="_blank">怎么去掉jquery dialog右下角的“叉”号</a><br><a href="http://www.myexception.cn/web/600923.html" rel="external nofollow noopener noreferrer" target="_blank">Jquery UI dialog 关闭按钮化除</a></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'a.ui-dialog-titlebar-close'</span>).hide();</span><br></pre></td></tr></table></figure>
+<p>或者<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**去除jquery ui close按钮**/</span></span><br><span class="line"><span class="selector-class">.my-dialog</span> <span class="selector-class">.ui-dialog-titlebar-close</span>&#123;</span><br><span class="line">  <span class="attribute">display</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$( <span class="string">"#login"</span> ).dialog(&#123;</span><br><span class="line">  <span class="comment">/**去除jquery ui close按钮**/</span></span><br><span class="line">  dialogClass: <span class="string">"my-dialog"</span>,</span><br><span class="line">  title:<span class="string">'用户登录'</span>,</span><br><span class="line">  modal:<span class="literal">true</span>,</span><br><span class="line">  ···</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="jQuery-Datepicker"><a href="#jQuery-Datepicker" class="headerlink" title="jQuery Datepicker"></a>jQuery Datepicker</h3><h4 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h4><blockquote>
+<p><a href="http://www.cnblogs.com/lf6112/archive/2011/05/19/2051126.html" rel="external nofollow noopener noreferrer" target="_blank">JQuery datepicker 用法</a></p>
+</blockquote>
+<p>引入相关的js文件及css文件后直接调用<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  $(<span class="string">"input"</span>).datepicker();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>支持键盘按键有如下功能：<br>page up/down - 上一月、下一月<br>ctrl+page up/down - 上一年、下一年<br>ctrl+home - 当前月或最后一次打开的日期<br>ctrl+left/right - 上一天、下一天<br>ctrl+up/down - 上一周、下一周<br>enter - 确定选择日期<br>ctrl+end - 关闭并清除已选择的日期<br>escape - 关闭并取消选择</p>
+<p>相关方法：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$.datepicker.setDefaults( settings ) <span class="comment">// 全局设置日期选择插件的参数.</span></span><br><span class="line">$.datepicker.formatDate( format, date, settings ) <span class="comment">// 格式化显示的日期字符串</span></span><br><span class="line">$.datepicker.iso8601Week( date ) <span class="comment">// 给出一个日期，确实他是一年中的第几周</span></span><br><span class="line">$.datepicker.parseDate( format, value, settings ) <span class="comment">// 按照指定格式获取日期字符串</span></span><br></pre></td></tr></table></figure></p>
+<p>对应的格式化参数有:<br>d - 每月的第几天 (没有前导零)<br>dd - 每月的第几天 (两位数字)<br>o - 一年中的第几天 (没有前导零)<br>oo - 一年中的第几天 (三位数字)<br>D - day name short<br>DD - day name long<br>m - 月份 (没有前导零)<br>mm - 月份 (两位数字)<br>M - month name short<br>MM - month name long<br>y - 年份 (两位数字)<br>yy - 年份 (四位数字)<br>@ - Unix 时间戳 (从 01/01/1970 开始)<br>‘…’ - 文本<br>‘’ - 单引号<br>ATOM - ‘yy-mm-dd’ (Same as RFC 3339/ISO 8601)<br>COOKIE - ‘D, dd M yy’<br>ISO_8601 - ‘yy-mm-dd’<br>RFC_822 - ‘D, d M y’<br>RFC_850 - ‘DD, dd-M-y’<br>RFC_1036 - ‘D, d M y<br>RFC_1123 - ‘D, d M yy’<br>RFC_2822 - ‘D, d M yy’<br>RSS - ‘D, d M y’<br>TIMESTAMP - ‘@’<br>W3C - ‘yy-mm-dd’</p>
+<p><code>datepicker</code>接收的参数有:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br></pre></td><td class="code"><pre><span class="line">altField : <span class="built_in">String</span> : <span class="string">''</span></span><br><span class="line">  将选择的日期同步到另一个域中，配合altFormat可以显示不同格式的日期字符串。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">altField</span>: <span class="string">'#actualDate'</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> altField = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'altField'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'altField'</span>, <span class="string">'#actualDate'</span>);  </span><br><span class="line"></span><br><span class="line">altFormat : <span class="built_in">String</span> : <span class="string">''</span></span><br><span class="line">  当设置了altField的情况下，显示在另一个域中的日期格式。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">altFormat</span>: <span class="string">'yy-mm-dd'</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> altFormat = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'altFormat'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'altFormat'</span>, <span class="string">'yy-mm-dd'</span>);  </span><br><span class="line"></span><br><span class="line">appendText : <span class="built_in">String</span> : <span class="string">''</span></span><br><span class="line">  在日期插件的所属域后面添加指定的字符串。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">appendText</span>: <span class="string">'(yyyy-mm-dd)'</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> appendText = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'appendText'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'appendText'</span>, <span class="string">'(yyyy-mm-dd)'</span>);  </span><br><span class="line"></span><br><span class="line">buttonImage : <span class="built_in">String</span> : <span class="string">''</span></span><br><span class="line">  设置弹出按钮的图片，如果非空，则按钮的文本将成为alt属性，不直接显示。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">buttonImage</span>: <span class="string">'/images/datepicker.gif'</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> buttonImage = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'buttonImage'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'buttonImage'</span>, <span class="string">'/images/datepicker.gif'</span>);  </span><br><span class="line"></span><br><span class="line">buttonImageOnly : <span class="built_in">Boolean</span> : <span class="literal">false</span></span><br><span class="line">  <span class="built_in">Set</span> to <span class="literal">true</span> to place an image after the field to use <span class="keyword">as</span> the trigger without it appearing on a button.</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">buttonImageOnly</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> buttonImageOnly = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'buttonImageOnly'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'buttonImageOnly'</span>, <span class="literal">true</span>);  </span><br><span class="line"></span><br><span class="line">buttonText : <span class="built_in">String</span> : <span class="string">'...'</span></span><br><span class="line">  设置触发按钮的文本内容。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">buttonText</span>: <span class="string">'Choose'</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> buttonText = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'buttonText'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'buttonText'</span>, <span class="string">'Choose'</span>);  </span><br><span class="line"></span><br><span class="line">changeMonth : <span class="built_in">Boolean</span> : <span class="literal">false</span></span><br><span class="line">  设置允许通过下拉框列表选取月份。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">changeMonth</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> changeMonth = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'changeMonth'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'changeMonth'</span>, <span class="literal">true</span>);  </span><br><span class="line"></span><br><span class="line">changeYear : <span class="built_in">Boolean</span> : <span class="literal">false</span></span><br><span class="line">  设置允许通过下拉框列表选取年份。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">changeYear</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> changeYear = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'changeYear'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'changeYear'</span>, <span class="literal">true</span>);  </span><br><span class="line"></span><br><span class="line">closeTextType: StringDefault: <span class="string">'Done'</span></span><br><span class="line">  设置关闭按钮的文本内容，此按钮需要通过showButtonPanel参数的设置才显示。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">closeText</span>: <span class="string">'X'</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> closeText = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'closeText'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'closeText'</span>, <span class="string">'X'</span>);  </span><br><span class="line"></span><br><span class="line">constrainInput : <span class="built_in">Boolean</span> : <span class="literal">true</span></span><br><span class="line">  如果设置为<span class="literal">true</span>，则约束当前输入的日期格式。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">constrainInput</span>: <span class="literal">false</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> constrainInput = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'constrainInput'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'constrainInput'</span>, <span class="literal">false</span>);  </span><br><span class="line"></span><br><span class="line">currentText : <span class="built_in">String</span> : <span class="string">'Today'</span></span><br><span class="line">  设置当天按钮的文本内容，此按钮需要通过showButtonPanel参数的设置才显示。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">currentText</span>: <span class="string">'Now'</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> currentText = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'currentText'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'currentText'</span>, <span class="string">'Now'</span>);  </span><br><span class="line"></span><br><span class="line">dateFormat : <span class="built_in">String</span> : <span class="string">'mm/dd/yy'</span></span><br><span class="line">  设置日期字符串的显示格式。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">dateFormat</span>: <span class="string">'yy-mm-dd'</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> dateFormat = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'dateFormat'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'dateFormat'</span>, <span class="string">'yy-mm-dd'</span>);  </span><br><span class="line"></span><br><span class="line">dayNames : <span class="built_in">Array</span> : [<span class="string">'Sunday'</span>, <span class="string">'Monday'</span>, <span class="string">'Tuesday'</span>, <span class="string">'Wednesday'</span>, <span class="string">'Thursday'</span>, <span class="string">'Friday'</span>, <span class="string">'Saturday'</span>]</span><br><span class="line">  设置一星期中每天的名称，从星期天开始。此内容用于dateFormat时显示，以及日历中当鼠标移至行头时显示。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">dayNames</span>: [<span class="string">'Dimanche'</span>, <span class="string">'Lundi'</span>, <span class="string">'Mardi'</span>, <span class="string">'Mercredi'</span>, <span class="string">'Jeudi'</span>, <span class="string">'Vendredi'</span>, <span class="string">'Samedi'</span>] &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> dayNames = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'dayNames'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'dayNames'</span>, [<span class="string">'Dimanche'</span>, <span class="string">'Lundi'</span>, <span class="string">'Mardi'</span>, <span class="string">'Mercredi'</span>, <span class="string">'Jeudi'</span>, <span class="string">'Vendredi'</span>, <span class="string">'Samedi'</span>]);  </span><br><span class="line"></span><br><span class="line">dayNamesMin : <span class="built_in">Array</span> : [<span class="string">'Su'</span>, <span class="string">'Mo'</span>, <span class="string">'Tu'</span>, <span class="string">'We'</span>, <span class="string">'Th'</span>, <span class="string">'Fr'</span>, <span class="string">'Sa'</span>]</span><br><span class="line">  设置一星期中每天的缩语，从星期天开始，此内容用于dateFormat时显示，以前日历中的行头显示。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">dayNamesMin</span>: [<span class="string">'Di'</span>, <span class="string">'Lu'</span>, <span class="string">'Ma'</span>, <span class="string">'Me'</span>, <span class="string">'Je'</span>, <span class="string">'Ve'</span>, <span class="string">'Sa'</span>] &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> dayNamesMin = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'dayNamesMin'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'dayNamesMin'</span>, [<span class="string">'Di'</span>, <span class="string">'Lu'</span>, <span class="string">'Ma'</span>, <span class="string">'Me'</span>, <span class="string">'Je'</span>, <span class="string">'Ve'</span>, <span class="string">'Sa'</span>]);  </span><br><span class="line"></span><br><span class="line">dayNamesShort : <span class="built_in">Array</span> : [<span class="string">'Sun'</span>, <span class="string">'Mon'</span>, <span class="string">'Tue'</span>, <span class="string">'Wed'</span>, <span class="string">'Thu'</span>, <span class="string">'Fri'</span>, <span class="string">'Sat'</span>]</span><br><span class="line">  设置一星期中每天的缩语，从星期天开始，此内容用于dateFormat时显示，以前日历中的行头显示。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">dayNamesShort</span>: [<span class="string">'Dim'</span>, <span class="string">'Lun'</span>, <span class="string">'Mar'</span>, <span class="string">'Mer'</span>, <span class="string">'Jeu'</span>, <span class="string">'Ven'</span>, <span class="string">'Sam'</span>] &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> dayNamesShort = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'dayNamesShort'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'dayNamesShort'</span>, [<span class="string">'Dim'</span>, <span class="string">'Lun'</span>, <span class="string">'Mar'</span>, <span class="string">'Mer'</span>, <span class="string">'Jeu'</span>, <span class="string">'Ven'</span>, <span class="string">'Sam'</span>]);  </span><br><span class="line"></span><br><span class="line">defaultDate : <span class="built_in">Date</span>, <span class="built_in">Number</span>, <span class="attr">String</span> : <span class="literal">null</span></span><br><span class="line">  设置默认加载完后第一次显示时选中的日期。可以是<span class="built_in">Date</span>对象，或者是数字（从今天算起，例如+<span class="number">7</span>），或者有效的字符串(<span class="string">'y'</span>代表年, <span class="string">'m'</span>代表月, <span class="string">'w'</span>代表周, <span class="string">'d'</span>代表日, 例如：<span class="string">'+1m +7d'</span>)。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">defaultDate</span>: +<span class="number">7</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> defaultDate = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'defaultDate'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'defaultDate'</span>, +<span class="number">7</span>);  </span><br><span class="line"></span><br><span class="line">duration : <span class="built_in">String</span>, <span class="attr">Number</span> : <span class="string">'normal'</span></span><br><span class="line">  设置日期控件展开动画的显示时间，可选是<span class="string">"slow"</span>, <span class="string">"normal"</span>, <span class="string">"fast"</span>，<span class="string">''</span>代表立刻，数字代表毫秒数。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">duration</span>: <span class="string">'slow'</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> duration = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'duration'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'duration'</span>, <span class="string">'slow'</span>);  </span><br><span class="line"></span><br><span class="line">firstDay : <span class="built_in">Number</span> : <span class="number">0</span></span><br><span class="line">  设置一周中的第一天。星期天为<span class="number">0</span>，星期一为<span class="number">1</span>，以此类推。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">firstDay</span>: <span class="number">1</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> firstDay = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'firstDay'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'firstDay'</span>, <span class="number">1</span>);  </span><br><span class="line"></span><br><span class="line">gotoCurrent : <span class="built_in">Boolean</span> : <span class="literal">false</span></span><br><span class="line">  如果设置为<span class="literal">true</span>，则点击当天按钮时，将移至当前已选中的日期，而不是今天。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">gotoCurrent</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> gotoCurrent = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'gotoCurrent'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'gotoCurrent'</span>, <span class="literal">true</span>);  </span><br><span class="line"></span><br><span class="line">hideIfNoPrevNext : <span class="built_in">Boolean</span> : <span class="literal">false</span></span><br><span class="line">  设置当没有上一个/下一个可选择的情况下，隐藏掉相应的按钮。（默认为不可用）</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">hideIfNoPrevNext</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> hideIfNoPrevNext = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'hideIfNoPrevNext'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'hideIfNoPrevNext'</span>, <span class="literal">true</span>);  </span><br><span class="line"></span><br><span class="line">isRTL : <span class="built_in">Boolean</span> : <span class="literal">false</span></span><br><span class="line">  如果设置为<span class="literal">true</span>，则所有文字是从右自左。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">isRTL</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> isRTL = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'isRTL'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'isRTL'</span>, <span class="literal">true</span>);  </span><br><span class="line"></span><br><span class="line">maxDate : <span class="built_in">Date</span>, <span class="built_in">Number</span>, <span class="attr">String</span> : <span class="literal">null</span></span><br><span class="line">  设置一个最大的可选日期。可以是<span class="built_in">Date</span>对象，或者是数字（从今天算起，例如+<span class="number">7</span>），或者有效的字符串(<span class="string">'y'</span>代表年, <span class="string">'m'</span>代表月, <span class="string">'w'</span>代表周, <span class="string">'d'</span>代表日, 例如：<span class="string">'+1m +7d'</span>)。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">maxDate</span>: <span class="string">'+1m +1w'</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> maxDate = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'maxDate'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'maxDate'</span>, <span class="string">'+1m +1w'</span>);</span><br><span class="line">       $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'maxDate'</span>, <span class="string">'12/25/2012'</span>);  </span><br><span class="line"></span><br><span class="line">minDate : <span class="built_in">Date</span>, <span class="built_in">Number</span>, <span class="attr">String</span> : <span class="literal">null</span></span><br><span class="line">  设置一个最小的可选日期。可以是<span class="built_in">Date</span>对象，或者是数字（从今天算起，例如+<span class="number">7</span>），或者有效的字符串(<span class="string">'y'</span>代表年, <span class="string">'m'</span>代表月, <span class="string">'w'</span>代表周, <span class="string">'d'</span>代表日, 例如：<span class="string">'+1m +7d'</span>)。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">minDate</span>: <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="number">2007</span>, <span class="number">1</span> - <span class="number">1</span>, <span class="number">1</span>) &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> minDate = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'minDate'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'minDate'</span>, <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="number">2007</span>, <span class="number">1</span> - <span class="number">1</span>, <span class="number">1</span>));</span><br><span class="line">       $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'minDate'</span>, <span class="string">'12/25/2012'</span>);  </span><br><span class="line"></span><br><span class="line">monthNames : <span class="built_in">Array</span> : [<span class="string">'January'</span>, <span class="string">'February'</span>, <span class="string">'March'</span>, <span class="string">'April'</span>, <span class="string">'May'</span>, <span class="string">'June'</span>, <span class="string">'July'</span>, <span class="string">'August'</span>, <span class="string">'September'</span>, <span class="string">'October'</span>, <span class="string">'November'</span>, <span class="string">'December'</span>]</span><br><span class="line">  设置所有月份的名称。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(｛monthNames:[<span class="string">'Januar'</span>,<span class="string">'Februar'</span>,<span class="string">'Marts'</span>,<span class="string">'April'</span>,<span class="string">'Maj'</span>,<span class="string">'Juni'</span>,<span class="string">'Juli'</span>,<span class="string">'August'</span>,<span class="string">'September'</span>,<span class="string">'Oktober'</span>,<span class="string">'November'</span>,<span class="string">'December'</span>]&#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> monthNames = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'monthNames'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'monthNames'</span>, [<span class="string">'Januar'</span>,<span class="string">'Februar'</span>,<span class="string">'Marts'</span>,<span class="string">'April'</span>,<span class="string">'Maj'</span>,<span class="string">'Juni'</span>,<span class="string">'Juli'</span>,<span class="string">'August'</span>,<span class="string">'September'</span>,<span class="string">'Oktober'</span>,<span class="string">'November'</span>,<span class="string">'December'</span>]);  </span><br><span class="line"></span><br><span class="line">monthNamesShort : <span class="built_in">Array</span> : [<span class="string">'Jan'</span>, <span class="string">'Feb'</span>, <span class="string">'Mar'</span>, <span class="string">'Apr'</span>, <span class="string">'May'</span>, <span class="string">'Jun'</span>, <span class="string">'Jul'</span>, <span class="string">'Aug'</span>, <span class="string">'Sep'</span>, <span class="string">'Oct'</span>, <span class="string">'Nov'</span>, <span class="string">'Dec'</span>]</span><br><span class="line">  设置所有月份的缩写。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(｛monthNamesShort:[<span class="string">'Jan'</span>,<span class="string">'Feb'</span>,<span class="string">'Mar'</span>,<span class="string">'Apr'</span>,<span class="string">'Maj'</span>,<span class="string">'Jun'</span>,<span class="string">'Jul'</span>,<span class="string">'Aug'</span>,<span class="string">'Sep'</span>,<span class="string">'Okt'</span>,<span class="string">'Nov'</span>,<span class="string">'Dec'</span>]&#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> monthNamesShort = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'monthNamesShort'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'monthNamesShort'</span>, [<span class="string">'Jan'</span>,<span class="string">'Feb'</span>,<span class="string">'Mar'</span>,<span class="string">'Apr'</span>,<span class="string">'Maj'</span>,<span class="string">'Jun'</span>,<span class="string">'Jul'</span>,<span class="string">'Aug'</span>,<span class="string">'Sep'</span>,<span class="string">'Okt'</span>,<span class="string">'Nov'</span>,<span class="string">'Dec'</span>]);  </span><br><span class="line"></span><br><span class="line">navigationAsDateFormat : <span class="built_in">Boolean</span> : <span class="literal">false</span></span><br><span class="line">  如果设置为<span class="literal">true</span>，则formatDate函数将应用到 prevText,nextText和currentText的值中显示，例如显示为月份名称。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">navigationAsDateFormat</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> navigationAsDateFormat = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'navigationAsDateFormat'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'navigationAsDateFormat'</span>, <span class="literal">true</span>);  </span><br><span class="line"></span><br><span class="line">nextText : <span class="built_in">String</span> : <span class="string">'Next'</span></span><br><span class="line">  设置“下个月”链接的显示文字。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">nextText</span>: <span class="string">'Later'</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> nextText = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'nextText'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'nextText'</span>, <span class="string">'Later'</span>);  </span><br><span class="line"></span><br><span class="line">numberOfMonths : <span class="built_in">Number</span>, <span class="attr">Array</span> : <span class="number">1</span></span><br><span class="line">  设置一次要显示多少个月份。如果为整数则是显示月份的数量，如果是数组，则是显示的行与列的数量。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">numberOfMonths</span>: [<span class="number">2</span>, <span class="number">3</span>] &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> numberOfMonths = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'numberOfMonths'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'numberOfMonths'</span>, [<span class="number">2</span>, <span class="number">3</span>]);  </span><br><span class="line"></span><br><span class="line">prevText : <span class="built_in">String</span> : <span class="string">'Prev'</span></span><br><span class="line">  设置“上个月”链接的显示文字。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">prevText</span>: <span class="string">'Earlier'</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> prevText = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'prevText'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'prevText'</span>, <span class="string">'Earlier'</span>);  </span><br><span class="line"></span><br><span class="line">shortYearCutoff : <span class="built_in">String</span>, <span class="attr">Number</span> : <span class="string">'+10'</span></span><br><span class="line">  设置截止年份的值。如果是（<span class="number">0</span><span class="number">-99</span>）的数字则以当前年份开始算起，如果为字符串，则相应的转为数字后再与当前年份相加。当超过截止年份时，则被认为是上个世纪。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">shortYearCutoff</span>: <span class="number">50</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> shortYearCutoff = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'shortYearCutoff'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'shortYearCutoff'</span>, <span class="number">50</span>);  </span><br><span class="line"></span><br><span class="line">showAnim : <span class="built_in">String</span> : <span class="string">'show'</span></span><br><span class="line">  设置显示、隐藏日期插件的动画的名称。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">showAnim</span>: <span class="string">'fold'</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> showAnim = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'showAnim'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'showAnim'</span>, <span class="string">'fold'</span>);  </span><br><span class="line"></span><br><span class="line">showButtonPanel : <span class="built_in">Boolean</span> : <span class="literal">false</span></span><br><span class="line">  设置是否在面板上显示相关的按钮。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">showButtonPanel</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> showButtonPanel = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'showButtonPanel'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'showButtonPanel'</span>, <span class="literal">true</span>);  </span><br><span class="line"></span><br><span class="line">showCurrentAtPos : <span class="built_in">Number</span> : <span class="number">0</span></span><br><span class="line">  设置当多月份显示的情况下，当前月份显示的位置。自顶部/左边开始第x位。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">showCurrentAtPos</span>: <span class="number">3</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> showCurrentAtPos = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'showCurrentAtPos'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'showCurrentAtPos'</span>, <span class="number">3</span>);  </span><br><span class="line"></span><br><span class="line">showMonthAfterYear : <span class="built_in">Boolean</span> : <span class="literal">false</span></span><br><span class="line">  是否在面板的头部年份后面显示月份。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">showMonthAfterYear</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> showMonthAfterYear = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'showMonthAfterYear'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'showMonthAfterYear'</span>, <span class="literal">true</span>);  </span><br><span class="line"></span><br><span class="line">showOn : <span class="built_in">String</span> : <span class="string">'focus'</span></span><br><span class="line">  设置什么事件触发显示日期插件的面板，可选值：focus, button, both</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">showOn</span>: <span class="string">'both'</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> showOn = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'showOn'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'showOn'</span>, <span class="string">'both'</span>);  </span><br><span class="line"></span><br><span class="line">showOptions : Options : &#123;&#125;</span><br><span class="line">  如果使用showAnim来显示动画效果的话，可以通过此参数来增加一些附加的参数设置。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">showOptions</span>: &#123;<span class="attr">direction</span>: <span class="string">'up'</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> showOptions = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'showOptions'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'showOptions'</span>, &#123;<span class="attr">direction</span>: <span class="string">'up'</span>);  </span><br><span class="line"></span><br><span class="line">showOtherMonths : <span class="built_in">Boolean</span> : <span class="literal">false</span></span><br><span class="line">  是否在当前面板显示上、下两个月的一些日期数（不可选）。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">showOtherMonths</span>: <span class="literal">true</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> showOtherMonths = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'showOtherMonths'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'showOtherMonths'</span>, <span class="literal">true</span>);  </span><br><span class="line"></span><br><span class="line">stepMonths : <span class="built_in">Number</span> : <span class="number">1</span></span><br><span class="line">  当点击上/下一月时，一次翻几个月。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">stepMonths</span>: <span class="number">3</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> stepMonths = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'stepMonths'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'stepMonths'</span>, <span class="number">3</span>);  </span><br><span class="line"></span><br><span class="line">yearRange : <span class="built_in">String</span> : <span class="string">'-10:+10'</span></span><br><span class="line">  控制年份的下拉列表中显示的年份数量，可以是相对当前年(-nn:+nn)，也可以是绝对值 (-nnnn:+nnnn)</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">yearRange</span>: <span class="string">'2000:2010'</span> &#125;);</span><br><span class="line">  获取：<span class="keyword">var</span> yearRange = $(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'yearRange'</span>);</span><br><span class="line">  设置：$(<span class="string">'.selector'</span>).datepicker(<span class="string">'option'</span>, <span class="string">'yearRange'</span>, <span class="string">'2000:2010'</span>);</span><br><span class="line">复制代码</span><br><span class="line">beforeShow : <span class="function"><span class="keyword">function</span>(<span class="params">input</span>)</span></span><br><span class="line"><span class="function">  在日期控件显示面板之前，触发此事件，并返回当前触发事件的控件的实例对象。</span></span><br><span class="line"><span class="function">  初始：<span class="title">$</span>(<span class="params"><span class="string">'.selector'</span></span>).<span class="title">datepicker</span>(<span class="params">&#123; beforeShow: function(input</span>) </span>&#123; ... &#125; &#125;);  </span><br><span class="line"></span><br><span class="line">beforeShowDay : <span class="function"><span class="keyword">function</span>(<span class="params">date</span>)</span></span><br><span class="line">  在日期控件显示面板之前，每个面板上的日期绑定时都触发此事件，参数为触发事件的日期。调用函数后，必须返回一个数组：[0]此日期是否可选(true/false)，[1]此日期的CSS样式名称(""表示默认)，[2]当鼠标移至上面出现一段提示的内容。</span><br><span class="line">  初始：$(<span class="string">'.selector'</span>).datepicker(&#123; <span class="attr">beforeShowDay</span>: <span class="function"><span class="keyword">function</span>(<span class="params">date</span>) </span>&#123; ... &#125; &#125;);  </span><br><span class="line"></span><br><span class="line">onChangeMonthYear : <span class="function"><span class="keyword">function</span>(<span class="params">year, month, inst</span>)</span></span><br><span class="line"><span class="function">  当年份或月份改变时触发此事件，参数为改变后的年份月份和当前日期插件的实例。</span></span><br><span class="line"><span class="function">  初始：<span class="title">$</span>(<span class="params"><span class="string">'.selector'</span></span>).<span class="title">datepicker</span>(<span class="params">&#123; onChangeMonthYear: function(year, month, inst</span>) </span>&#123; ... &#125; &#125;);  </span><br><span class="line"></span><br><span class="line">onClose : <span class="function"><span class="keyword">function</span>(<span class="params">dateText, inst</span>)</span></span><br><span class="line"><span class="function">  当日期面板关闭后触发此事件（无论是否有选择日期），参数为选择的日期和当前日期插件的实例。</span></span><br><span class="line"><span class="function">  初始：<span class="title">$</span>(<span class="params"><span class="string">'.selector'</span></span>).<span class="title">datepicker</span>(<span class="params">&#123; onClose: function(dateText, inst</span>) </span>&#123; ... &#125; &#125;);</span><br><span class="line">  </span><br><span class="line">onSelect : <span class="function"><span class="keyword">function</span>(<span class="params">dateText, inst</span>)</span></span><br><span class="line"><span class="function">  当在日期面板选中一个日期后触发此事件，参数为选择的日期和当前日期插件的实例。</span></span><br><span class="line"><span class="function">  <span class="title">$</span>(<span class="params"><span class="string">'.selector'</span></span>).<span class="title">datepicker</span>(<span class="params">&#123; onSelect: function(dateText, inst</span>) </span>&#123; ... &#125; &#125;);</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="中文显示"><a href="#中文显示" class="headerlink" title="中文显示"></a>中文显示</h4><blockquote>
+<p><a href="http://blog.csdn.net/hejinxu/article/details/6085818" rel="external nofollow noopener noreferrer" target="_blank">jQuery UI Datepicker中文显示</a></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">jQuery(<span class="function"><span class="keyword">function</span>(<span class="params">$</span>)</span>&#123;   </span><br><span class="line">     $.datepicker.regional[<span class="string">'zh-CN'</span>] = &#123;   </span><br><span class="line">        clearText: <span class="string">'清除'</span>,   </span><br><span class="line">        clearStatus: <span class="string">'清除已选日期'</span>,   </span><br><span class="line">        closeText: <span class="string">'关闭'</span>,   </span><br><span class="line">        closeStatus: <span class="string">'不改变当前选择'</span>,   </span><br><span class="line">        prevText: <span class="string">'&lt;上月'</span>,   </span><br><span class="line">        prevStatus: <span class="string">'显示上月'</span>,   </span><br><span class="line">        prevBigText: <span class="string">'&lt;&lt;'</span>,   </span><br><span class="line">        prevBigStatus: <span class="string">'显示上一年'</span>,   </span><br><span class="line">        nextText: <span class="string">'下月&gt;'</span>,   </span><br><span class="line">        nextStatus: <span class="string">'显示下月'</span>,   </span><br><span class="line">        nextBigText: <span class="string">'&gt;&gt;'</span>,   </span><br><span class="line">        nextBigStatus: <span class="string">'显示下一年'</span>,   </span><br><span class="line">        currentText: <span class="string">'今天'</span>,   </span><br><span class="line">        currentStatus: <span class="string">'显示本月'</span>,   </span><br><span class="line">        monthNames: [<span class="string">'一月'</span>,<span class="string">'二月'</span>,<span class="string">'三月'</span>,<span class="string">'四月'</span>,<span class="string">'五月'</span>,<span class="string">'六月'</span>, <span class="string">'七月'</span>,<span class="string">'八月'</span>,<span class="string">'九月'</span>,<span class="string">'十月'</span>,<span class="string">'十一月'</span>,<span class="string">'十二月'</span>],   </span><br><span class="line">        monthNamesShort: [<span class="string">'一'</span>,<span class="string">'二'</span>,<span class="string">'三'</span>,<span class="string">'四'</span>,<span class="string">'五'</span>,<span class="string">'六'</span>, <span class="string">'七'</span>,<span class="string">'八'</span>,<span class="string">'九'</span>,<span class="string">'十'</span>,<span class="string">'十一'</span>,<span class="string">'十二'</span>],   </span><br><span class="line">        monthStatus: <span class="string">'选择月份'</span>,   </span><br><span class="line">        yearStatus: <span class="string">'选择年份'</span>,   </span><br><span class="line">        weekHeader: <span class="string">'周'</span>,   </span><br><span class="line">        weekStatus: <span class="string">'年内周次'</span>,   </span><br><span class="line">        dayNames: [<span class="string">'星期日'</span>,<span class="string">'星期一'</span>,<span class="string">'星期二'</span>,<span class="string">'星期三'</span>,<span class="string">'星期四'</span>,<span class="string">'星期五'</span>,<span class="string">'星期六'</span>],   </span><br><span class="line">        dayNamesShort: [<span class="string">'周日'</span>,<span class="string">'周一'</span>,<span class="string">'周二'</span>,<span class="string">'周三'</span>,<span class="string">'周四'</span>,<span class="string">'周五'</span>,<span class="string">'周六'</span>],   </span><br><span class="line">        dayNamesMin: [<span class="string">'日'</span>,<span class="string">'一'</span>,<span class="string">'二'</span>,<span class="string">'三'</span>,<span class="string">'四'</span>,<span class="string">'五'</span>,<span class="string">'六'</span>],   </span><br><span class="line">        dayStatus: <span class="string">'设置 DD 为一周起始'</span>,   </span><br><span class="line">        dateStatus: <span class="string">'选择 m月 d日, DD'</span>,   </span><br><span class="line">        dateFormat: <span class="string">'yy-mm-dd'</span>,   </span><br><span class="line">        firstDay: <span class="number">1</span>,   </span><br><span class="line">        initStatus: <span class="string">'请选择日期'</span>,   </span><br><span class="line">        isRTL: <span class="literal">false</span></span><br><span class="line">    &#125;;   </span><br><span class="line">    $.datepicker.setDefaults($.datepicker.regional[<span class="string">'zh-CN'</span>]);   </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>注意保存时需要把编码方式选为UTF-8.<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">  $.datepicker.setDefaults($.extend(&#123;<span class="attr">showMonthAfterYear</span>: <span class="literal">false</span>&#125;, $.datepicker.regional[<span class="string">''</span>]));  </span><br><span class="line">  $(<span class="string">"#datepicker"</span>).datepicker($.datepicker.regional[<span class="string">'fr'</span>]);</span><br><span class="line">  $(<span class="string">"#locale"</span>).change(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;  </span><br><span class="line">    $(<span class="string">'#datepicker'</span>).datepicker(<span class="string">'option'</span>, $.extend(&#123;<span class="attr">showMonthAfterYear</span>: <span class="literal">false</span>&#125;,  </span><br><span class="line">    $.datepicker.regional[$(<span class="keyword">this</span>).val()]));  </span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="改变datepicker大小"><a href="#改变datepicker大小" class="headerlink" title="改变datepicker大小"></a>改变datepicker大小</h4><blockquote>
+<p><a href="http://hi.baidu.com/wsy555/item/b48f8b2529573dc1a4275a17" rel="external nofollow noopener noreferrer" target="_blank">jquery datepicker日期插件改变大小</a></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"#ui-datepicker-div"</span>).css(<span class="string">'font-size'</span>,<span class="string">'0.9em'</span>)</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="Sortable"><a href="#Sortable" class="headerlink" title="Sortable"></a>Sortable</h3><h4 id="jQuery-UI-sortable-table-handle"><a href="#jQuery-UI-sortable-table-handle" class="headerlink" title="jQuery UI sortable table handle"></a>jQuery UI sortable table handle</h4><blockquote>
+<p>来自<a href="http://stackoverflow.com/questions/4471520/jquery-ui-sortable-table-handle" rel="external nofollow noopener noreferrer" target="_blank">jQuery UI sortable table handle</a></p>
+</blockquote>
+<p>点击<code>table</code>的第一格实现拖拉排序功能<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"table tbody"</span>).sortable(&#123;</span><br><span class="line">    handle: <span class="string">'td:first'</span></span><br><span class="line">&#125;).disableSelection();</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="jqueryUI-Sortable-handling-disableSelection-on-form-inputs"><a href="#jqueryUI-Sortable-handling-disableSelection-on-form-inputs" class="headerlink" title="jqueryUI Sortable: handling .disableSelection() on form inputs"></a>jqueryUI Sortable: handling .disableSelection() on form inputs</h4><blockquote>
+<p><a href="http://stackoverflow.com/questions/4027158/jqueryui-sortable-handling-disableselection-on-form-inputs" rel="external nofollow noopener noreferrer" target="_blank">jqueryUI Sortable: handling .disableSelection() on form inputs</a></p>
+</blockquote>
+<p>当拖拉排序之后，如果table中有输入框的话，就无法输入了，可以去掉<code>disableSelection()</code>，也可以做如下修改：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">"#list"</span>).sortable(&#123;</span><br><span class="line">  stop: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// enable text select on inputs</span></span><br><span class="line">    $(<span class="string">"#list"</span>).find(<span class="string">"input"</span>)</span><br><span class="line">     .bind(<span class="string">'mousedown.ui-disableSelection selectstart.ui-disableSelection'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">      e.stopImmediatePropagation();</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;).disableSelection();</span><br><span class="line"></span><br><span class="line"><span class="comment">// enable text select on inputs</span></span><br><span class="line">$(<span class="string">"#list"</span>).find(<span class="string">"input"</span>)</span><br><span class="line"> .bind(<span class="string">'mousedown.ui-disableSelection selectstart.ui-disableSelection'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</span><br><span class="line">  e.stopImmediatePropagation();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="设置横向菜单"><a href="#设置横向菜单" class="headerlink" title="设置横向菜单"></a>设置横向菜单</h3><blockquote>
+<p><a href="http://www.cnblogs.com/dupeng0811/p/how-to-make-jquery-ui-nav-menu-horizontal.html" rel="external nofollow noopener noreferrer" target="_blank">如何设置Jquery UI Menu 菜单为横向展示</a></p>
+</blockquote>
+<p>添加如下css<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.ui-menu</span><span class="selector-pseudo">:after</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">"."</span>;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">clear</span>: both;</span><br><span class="line">    <span class="attribute">visibility</span>: hidden;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.ui-menu</span> <span class="selector-class">.ui-menu-item</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">float</span>: left;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">width</span>: auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="jQuery-UI-Tabs获取选中的Tab"><a href="#jQuery-UI-Tabs获取选中的Tab" class="headerlink" title="jQuery UI Tabs获取选中的Tab"></a>jQuery UI Tabs获取选中的Tab</h3><blockquote>
+<p><a href="http://www.cnblogs.com/Philoo/archive/2011/09/30/jeasyui_api_tabs.html" rel="external nofollow noopener noreferrer" target="_blank">jQuery EasyUI API 中文文档 - 标签页/选项卡（Tabs）</a></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> pp = $(<span class="string">'#tt'</span>).tabs(<span class="string">'getSelected'</span>);   </span><br><span class="line"><span class="keyword">var</span> tab = pp.panel(<span class="string">'options'</span>).tab;    <span class="comment">// 相应的 tab 对象</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jQuery/" rel="tag"># jQuery</a>
+          
+            <a href="/tags/jQueryUI/" rel="tag"># jQueryUI</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/jetty-flushbonading/" rel="next" title="Jetty相关知识">
+                <i class="fa fa-chevron-left"></i> Jetty相关知识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/java-log4j/" rel="prev" title="log4j配置">
+                log4j配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" rel="external nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Shepard">
+            
+              <p class="site-author-name" itemprop="name">Shepard</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/51azxc" target="_blank" title="GitHub" rel="external nofollow noopener noreferrer">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery-UI-Dialog"><span class="nav-number">1.</span> <span class="nav-text">jQuery UI Dialog</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#修改按钮位置"><span class="nav-number">1.1.</span> <span class="nav-text">修改按钮位置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在dialog中载入其他页面"><span class="nav-number">1.2.</span> <span class="nav-text">在dialog中载入其他页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jquery-ui-Dialog-cannot-call-methods-on-dialog-prior-to-initialization"><span class="nav-number">1.3.</span> <span class="nav-text">jquery ui Dialog: cannot call methods on dialog prior to initialization</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置按钮不可用"><span class="nav-number">1.4.</span> <span class="nav-text">设置按钮不可用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#去掉关闭符号"><span class="nav-number">1.5.</span> <span class="nav-text">去掉关闭符号</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery-Datepicker"><span class="nav-number">2.</span> <span class="nav-text">jQuery Datepicker</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本用法"><span class="nav-number">2.1.</span> <span class="nav-text">基本用法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#中文显示"><span class="nav-number">2.2.</span> <span class="nav-text">中文显示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#改变datepicker大小"><span class="nav-number">2.3.</span> <span class="nav-text">改变datepicker大小</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sortable"><span class="nav-number">3.</span> <span class="nav-text">Sortable</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#jQuery-UI-sortable-table-handle"><span class="nav-number">3.1.</span> <span class="nav-text">jQuery UI sortable table handle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jqueryUI-Sortable-handling-disableSelection-on-form-inputs"><span class="nav-number">3.2.</span> <span class="nav-text">jqueryUI Sortable: handling .disableSelection() on form inputs</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置横向菜单"><span class="nav-number">4.</span> <span class="nav-text">设置横向菜单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery-UI-Tabs获取选中的Tab"><span class="nav-number">5.</span> <span class="nav-text">jQuery UI Tabs获取选中的Tab</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shepard</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow noopener noreferrer">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow noopener noreferrer">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://shepard-blog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://51azxc.github.io/jquery-jqueryui/';
+          this.page.identifier = 'jquery-jqueryui/';
+          this.page.title = 'jQuery UI控件知识点整理';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://shepard-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

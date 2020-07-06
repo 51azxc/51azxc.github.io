@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Ruthie:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="objc,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Objective-C 基础声明变量 Object-C @property 小结IOS，objective_C中用@interface和 @property 方式声明变量的区别iOS开发中常见的语句@synthesize obj=_obj的意义详解iOS中属性与成员变量的区别  @property是什么标识为@property的变量可以自动生成setter与getter方法。声明: 声明格式为@p">
+<meta name="keywords" content="objc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objective-C 基础知识">
+<meta property="og:url" content="https://51azxc.github.io/ios-base/index.html">
+<meta property="og:site_name" content="Shepard&#39;s Blog">
+<meta property="og:description" content="Objective-C 基础声明变量 Object-C @property 小结IOS，objective_C中用@interface和 @property 方式声明变量的区别iOS开发中常见的语句@synthesize obj=_obj的意义详解iOS中属性与成员变量的区别  @property是什么标识为@property的变量可以自动生成setter与getter方法。声明: 声明格式为@p">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-06T10:57:41.908Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Objective-C 基础知识">
+<meta name="twitter:description" content="Objective-C 基础声明变量 Object-C @property 小结IOS，objective_C中用@interface和 @property 方式声明变量的区别iOS开发中常见的语句@synthesize obj=_obj的意义详解iOS中属性与成员变量的区别  @property是什么标识为@property的变量可以自动生成setter与getter方法。声明: 声明格式为@p">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://51azxc.github.io/ios-base/">
+
+
+
+
+
+  <title>Objective-C 基础知识 | Shepard's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shepard's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Nothing is true everything is permitted</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://51azxc.github.io/ios-base/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shepard">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shepard's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Objective-C 基础知识</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-04-22T17:21:51+00:00">
+                2015-04-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/Objective-C/" itemprop="url" rel="index">
+                    <span itemprop="name">Objective-C</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/ios-base/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="ios-base/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Objective-C-基础"><a href="#Objective-C-基础" class="headerlink" title="Objective-C 基础"></a>Objective-C 基础</h3><h4 id="声明变量"><a href="#声明变量" class="headerlink" title="声明变量"></a>声明变量</h4><blockquote>
+<p><a href="http://blog.csdn.net/dfqin/article/details/11669993" rel="external nofollow noopener noreferrer" target="_blank">Object-C @property 小结</a><br><a href="http://www.cnblogs.com/letmefly/archive/2012/07/20/2601338.html" rel="external nofollow noopener noreferrer" target="_blank">IOS，objective_C中用@interface和 @property 方式声明变量的区别</a><br><a href="http://moto0421.iteye.com/blog/1577459" rel="external nofollow noopener noreferrer" target="_blank">iOS开发中常见的语句@synthesize obj=_obj的意义详解</a><br><a href="http://www.cnblogs.com/ygm900/p/3660364.html" rel="external nofollow noopener noreferrer" target="_blank">iOS中属性与成员变量的区别</a></p>
+</blockquote>
+<h5 id="property是什么"><a href="#property是什么" class="headerlink" title="@property是什么"></a><code>@property</code>是什么</h5><p>标识为<code>@property</code>的变量可以自动生成<code>setter</code>与<code>getter</code>方法。<br><strong>声明</strong>: 声明格式为<code>@property (attributes) type propertyName</code><br><strong>实现</strong>: 在.m文件中的implements下，格式为<code>@synthsize name</code>即可。而在xcode4.4以后的版本，系统会自动合成, 等价于自己写了代码“ @synthesize  name = _name;” 。 也就是说如果没有特殊需求，只需要在头文件中声明而无需实现，就可以直接使用了<br><strong>成员变量访问权限</strong>: 头文件中声明的成员变量，默认是<code>protected</code>，.m文件中声明的成员变量，默认是<code>private</code>的。合成属性时，<code>@synthesize  propertyName = _name</code>；如果变量<code>_name</code>没有声明，系统会自动生成该成员变量且为<code>private</code>权限。如<code>果_name</code>已声明，它们会自动合成</p>
+<p>声明一个属性，如果没有声明为只读的，它默认会生成两个方法 <code>- (type)name</code> 和 <code>- (void)setName</code>; 为了可读性等其它原因，也可以改变属性的setter和getter访问名称<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span>  (<span class="keyword">setter</span>=setMyValue, <span class="keyword">getter</span>=getBool) <span class="built_in">NSInteger</span>  value;</span><br></pre></td></tr></table></figure></p>
+<p>这样的话就可以通过 <code>[obj setMyValue:10]</code> 和 <code>[obj getBool]</code>方法业访问成员变量了，此时<code>setValue</code>方法会被覆盖，不再存在</p>
+<p><strong>@property的修饰属性(attributes)</strong></p>
+<ul>
+<li>可读性：<code>readwrite</code> / <code>readonly</code> ，不写的话默认为readwrite，即会合成setter和getter方法</li>
+<li>内存 <code>assign</code> / <code>retain</code> / <code>weak</code> / <code>strong</code> ，在非ARC环境下， assign为默认，引用计数不变；retain引用计数加1；在引用计数环境下，默认为strong，与retain作用相同；从5.0系统后引入了weak，作用与assign相似，不过当所指向对象引用为0时，自动置为nil</li>
+</ul>
+<hr>
+<h4 id="Selector基本概念"><a href="#Selector基本概念" class="headerlink" title="Selector基本概念"></a>Selector基本概念</h4><blockquote>
+<p><a href="http://moto0421.iteye.com/blog/1625204" rel="external nofollow noopener noreferrer" target="_blank">Selector基本概念和操作</a></p>
+</blockquote>
+<p><code>@selector()</code>就是取类方法的编号,他的行为基本可以等同C语言的中函数指针,只不过C语言中，可以把函数名直接赋给一个函数指针，而Objective-C的类不能直接应用函数指针，这样只能做一个@selector语法来取。它的结果是一个SEL类型。这个类型本质是类方法的编号(函数地址)?</p>
+<hr>
+<h4 id="引入头文件关键字-Class-import"><a href="#引入头文件关键字-Class-import" class="headerlink" title="引入头文件关键字@Class/#import"></a>引入头文件关键字<code>@Class</code>/<code>#import</code></h4><blockquote>
+<p><a href="http://blog.csdn.net/pjk1129/article/details/6590282" rel="external nofollow noopener noreferrer" target="_blank">IOS开发技术之──头文件引用（@class/#import/#include）</a><br><a href="http://www.cnblogs.com/martin1009/archive/2012/06/24/2560218.html" rel="external nofollow noopener noreferrer" target="_blank">IOS基础：深入理解Objective-c中@class的含义</a></p>
+</blockquote>
+<p><code>#include</code>:引入C头文件<br><code>#import</code>:引入Objective-C的头文件<br><code>@class</code>:类引用</p>
+<p><code>#import</code>确定一个文件只能被导入一次，这使你在递归包含中不会出现问题.<code>#import</code>比起<code>#include</code>的好处就是不会引起交叉编译.<br><code>#import</code>方式会包含被引用类的所有信息，包括被引用类的变量和方法；<code>@class</code>方式只是告诉编译器在被引用类只是类的声明，具体这个类里有什么信息，这里不需要知道，等实现文件中真正要用到时，才会真正去查看被引用类中信息。<br>使用<code>@class</code>方式由于只需要只要被引用类的名称就可以了，而在实现类由于要用到被引用类中的实体变量和方法，所以需要使用<code>#import</code>来包含被引用类的头文件<br><code>@class</code>是放在<code>interface</code>中的，只是在引用一个类，将这个被引用类作为一个类型，在实现文件中，如果需要引用到被引用类的实体变量或者方法时，还需要使用<code>#import</code>方式引入被引用类</p>
+<hr>
+<h4 id="ivar是什么意思"><a href="#ivar是什么意思" class="headerlink" title="ivar是什么意思"></a>ivar是什么意思</h4><blockquote>
+<p><a href="http://blog.csdn.net/lvxiangan/article/details/18816481" rel="external nofollow noopener noreferrer" target="_blank">ObjectiveC基础－ivar是什么意思</a></p>
+</blockquote>
+<p>Objective-C运行时定义了几种重要的类型。</p>
+<ul>
+<li><strong>class</strong>: 定义Objective-C类</li>
+<li><strong>ivar</strong>: 定义对象的实例变量，包括类型与名字</li>
+<li><strong>protocol</strong>: 定义协议</li>
+<li><strong>objc_property_t</strong>: 定义属性</li>
+<li><strong>method</strong>: 定义对象方法或者类方法。这个类型提供了方法的名字(<em>选择器</em>),参数类型与数量，返回值(合称为<em>方法签名</em>)，以及指向代码的函数指针(<em>方法的实现</em>)</li>
+<li><strong>SEL</strong>: 定义选择器。选择器为方法名唯一的标识</li>
+<li><strong>IMP</strong>: 定义方法的实现。这是一个指向某个函数的指针，该函数接受一个对象，一个选择器以及一个可变参数列表，返回一个对象。</li>
+</ul>
+<hr>
+<h4 id="Objective-C限定词"><a href="#Objective-C限定词" class="headerlink" title="Objective-C限定词"></a>Objective-C限定词</h4><blockquote>
+<p><a href="http://blog.sina.com.cn/s/blog_7aa21f320100qugx.html" rel="external nofollow noopener noreferrer" target="_blank">Objective-C 限定词 long short 等</a><br><a href="http://blog.csdn.net/xpwang168/article/details/8087143" rel="external nofollow noopener noreferrer" target="_blank">objectiveC【语法】修饰符 static extern const</a></p>
+</blockquote>
+<ul>
+<li><p><strong>long</strong>: 如果直接把限定词long放在int声明之前，那么所声明的整型变量在某些计算机上具有扩展的值域。例如<code>long int factorial</code>.这条语句将变量factorial声明为long的整型变量，也就是长整型。就象<code>float</code>和<code>double</code>变量一样，long变量的具体精度是由具体的计算机系统决定的。在许多系统上，<code>int</code>与<code>long int</code>具有相同的值域，而且任何一个都能存储4个字节(1个字节8位)，32位宽(2,147,483,647)的整型值。<code>long</code>在限定整型的时候，实际相当于双精度的<code>short</code>。<br><code>long int</code>类型的常量值可通过在整型常量末尾添加字母L(大小写均可)来形成。单数字和L之间不允许由空格。因为小写的L和数字1容易混淆，建议有用到这种情况，都用大写。要用<code>NSLog</code>显示<code>long int</code>的值，使用字母l做为修饰符并放在整型格式符号i，o和x之前。例如“%lx”表示十六进制格式显示值。<br>当然，我们同样可以把<code>long</code>标识符放在<code>double</code>声明之前。<code>long double</code>常量可写成其尾部带有字母l或L的浮点常量。要显示<code>long double</code>的值，需要使用修饰符L。因此，<code>%Lf</code>用浮点计数法显示<code>long double</code>的值，<code>%Le</code>用科学计数法显示同样的值，而<code>%Lg</code>将告诉<code>NSLo</code>g在<code>%Lf</code>和<code>%Le</code>之间任选一个使用。</p>
+</li>
+<li><p><strong>long long</strong>: 双长整型相当于双精度long，可以用如下形式使用:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">long long int maxAllowedStorage;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这条语句把指定的变量声明为具有特定扩展精度的双长整型变量，该扩展精度保证变量至少8个字节，具有64位的宽度。<code>NSLog</code>字符串不使用单个字母l，而使用两个l来显示<code>long long</code>的整数，例如“<code>%lli</code>”</p>
+<ul>
+<li><p><strong>short</strong>: 把限定词<code>short</code>放在<code>int</code>声明之前时，它告诉Objective-C编译器要声明的特定变量用来存储相当小的整数。之所以使用<code>short</code>变量，主要原因是对节约内存空间的考虑，当程序员需要大量内存而可用的内存量又十分有限时，就可用<code>short</code>变量来解决这个问题。在某些计算机上，<code>short int</code>占用的内存空间是常规<code>int</code>变量所占空间的一半。在任何情况下，确保分配给<code>short int</code>的空间数量不少于2个字节，16位<br><strong>注意</strong>，在Objective-C中，没有其他方法可显式地编写<code>short int</code>型常量。要显示<code>short int</code>变量，可将字母h放在任何普通的整型转换符之前，如<code>%hi</code>，<code>%ho</code>或<code>%hx</code>。换句话说，可用任何整型转换符号来显示<code>short int</code>，因为当它作为参数传递给<code>NSLog</code>例程时，可转换成整数</p>
+</li>
+<li><p><strong>unsigned</strong>: 这个最终限定词就是无符号，可放在int变量之前，当整数变量只用来存储正数的情况下使用最终限定符。以下语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unsigned int counter;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>向编译器声明：变量counter只用来保存正值。通过限制整型变量的使用，使它专门存储正整数，可以扩展整型变量的精度。一般<code>unsigned int</code>可简写为<code>uint</code>。</p>
+<ul>
+<li><p><strong>signed</strong>: <code>signed</code>限定词可明确地告诉编译器特定变量是有符号的。它主要用在char声明前面。</p>
+</li>
+<li><p><strong>const</strong>: 修饰的东西不能被修改。指针类型根据位置的不同可以理解成3种情况:<br>1.常量指针</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化之后不能赋值，指向的对象可以是任意对象，对象可变。</span></span><br><span class="line"><span class="built_in">NSString</span> * <span class="keyword">const</span> pt1;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>2.指向常量的指针<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化之后可以赋值，即指向别的常量，指针本身的值可以修改，指向的值不能修改</span></span><br><span class="line"><span class="keyword">const</span> <span class="built_in">NSString</span> * pt2;</span><br></pre></td></tr></table></figure></p>
+<p>3.指向常量的常量指针<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="built_in">NSString</span> *  <span class="keyword">const</span> pt3;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p><strong>extern</strong>: 等同于c，全局变量的定义</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//x .h 声明</span></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">const</span> <span class="built_in">NSString</span> * AA;</span><br><span class="line"></span><br><span class="line"><span class="comment">//x .m 定义</span></span><br><span class="line"><span class="keyword">const</span> <span class="built_in">NSString</span> * AA = <span class="string">@"abc"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用</span></span><br><span class="line"><span class="meta">#import <span class="meta-string">"x.h"</span></span></span><br><span class="line">或者再次申明</span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">const</span> <span class="built_in">NSString</span> * AA;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>static</strong>: 等同于c，将变量的作用域限定于本文件,<code>static</code>变量属于本类，不同的类对应的是不同的对象;<code>static</code>变量同一个类所有对象中共享，只初始化一次。</p>
+</li>
+</ul>
+<ol>
+<li><code>static const</code>变量同<code>static</code>的结论，只是不能修改了，但是还是不同的对象</li>
+<li><code>extern const</code>变量只有一个对象，标准的常量的定义方法</li>
+<li><code>extern</code>的意思就是这个变量已经定义了，你只负责用就行了</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/objc/" rel="tag"># objc</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/displayTag/" rel="next" title="displayTag 属性">
+                <i class="fa fa-chevron-left"></i> displayTag 属性
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/linux-cmd/" rel="prev" title="linux 相关知识补遗">
+                linux 相关知识补遗 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" rel="external nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Shepard">
+            
+              <p class="site-author-name" itemprop="name">Shepard</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/51azxc" target="_blank" title="GitHub" rel="external nofollow noopener noreferrer">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Objective-C-基础"><span class="nav-number">1.</span> <span class="nav-text">Objective-C 基础</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#声明变量"><span class="nav-number">1.1.</span> <span class="nav-text">声明变量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#property是什么"><span class="nav-number">1.1.1.</span> <span class="nav-text">@property是什么</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Selector基本概念"><span class="nav-number">1.2.</span> <span class="nav-text">Selector基本概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引入头文件关键字-Class-import"><span class="nav-number">1.3.</span> <span class="nav-text">引入头文件关键字@Class/#import</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ivar是什么意思"><span class="nav-number">1.4.</span> <span class="nav-text">ivar是什么意思</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Objective-C限定词"><span class="nav-number">1.5.</span> <span class="nav-text">Objective-C限定词</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shepard</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow noopener noreferrer">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow noopener noreferrer">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://shepard-blog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://51azxc.github.io/ios-base/';
+          this.page.identifier = 'ios-base/';
+          this.page.title = 'Objective-C 基础知识';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://shepard-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

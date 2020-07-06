@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Ruthie:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="photo,WebView,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="收集一些平时在iOS开发中碰到的问题解决方法">
+<meta name="keywords" content="photo,WebView">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS零散知识收集">
+<meta property="og:url" content="https://51azxc.github.io/ios-background/index.html">
+<meta property="og:site_name" content="Shepard&#39;s Blog">
+<meta property="og:description" content="收集一些平时在iOS开发中碰到的问题解决方法">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-06T10:57:41.908Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS零散知识收集">
+<meta name="twitter:description" content="收集一些平时在iOS开发中碰到的问题解决方法">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://51azxc.github.io/ios-background/">
+
+
+
+
+
+  <title>iOS零散知识收集 | Shepard's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shepard's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Nothing is true everything is permitted</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://51azxc.github.io/ios-background/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shepard">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shepard's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">iOS零散知识收集</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-04-03T16:43:35+00:00">
+                2015-04-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/Objective-C/" itemprop="url" rel="index">
+                    <span itemprop="name">Objective-C</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/ios-background/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="ios-background/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>收集一些平时在iOS开发中碰到的问题解决方法</p>
+<a id="more"></a>
+<h3 id="WKWebView中的Javascript交互"><a href="#WKWebView中的Javascript交互" class="headerlink" title="WKWebView中的Javascript交互"></a>WKWebView中的Javascript交互</h3><p>在<strong>WKWebView</strong>中，Javascript与OC的交互变的十分简单。只需要通过<code>WKScriptMessageHandler</code>代理中的<code>userContentController:didReceiveScriptMessage:</code>即可在网页中让Javascript发送消息给OC。</p>
+<p>首先试着写一段js脚本<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> c=<span class="built_in">document</span>.createElement(<span class="string">'input'</span>);</span><br><span class="line">c.type=<span class="string">'checkbox'</span>; <span class="number">2.n</span>ame=<span class="string">'accept'</span>; c2.id=<span class="string">'accept'</span>;  c.checked=<span class="literal">true</span>;</span><br><span class="line"><span class="keyword">var</span> label = <span class="built_in">document</span>.createElement(<span class="string">'label'</span>);</span><br><span class="line">label.htmlFor = <span class="string">'accept'</span>;</span><br><span class="line">label.appendChild(<span class="built_in">document</span>.createTextNode(<span class="string">'accept'</span>));</span><br><span class="line"><span class="built_in">document</span>.getElementsByTagName(<span class="string">'body'</span>)[<span class="number">0</span>].appendChild(c);</span><br><span class="line"><span class="built_in">document</span>.getElementsByTagName(<span class="string">'body'</span>)[<span class="number">0</span>].appendChild(label);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">script.innerHTML = \<span class="string">"</span></span><br><span class="line"><span class="string">document.getElementById('accept').onclick = function toggle() &#123;</span></span><br><span class="line"><span class="string">    var obj = document.getElementById('accept');</span></span><br><span class="line"><span class="string">    window.webkit.messageHandlers.accept.postMessage(&#123;'accept':obj.checked&#125;);</span></span><br><span class="line"><span class="string">&#125;;</span></span><br><span class="line"><span class="string">\";</span></span><br><span class="line"><span class="string">document.getElementsByTagName('body')[0].appendChild(script);</span></span><br></pre></td></tr></table></figure></p>
+<p>这段js很简单，就是添加了一个<code>checkbox</code>元素，然后在点击事件中通过<code>postMessage</code>方法就可以在OC获取到js中传过来的对象。</p>
+<p>接下来则是配置<code>WKUSErContentController</code>:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">WKWebViewConfiguration</span> *configuration = [[<span class="built_in">WKWebViewConfiguration</span> alloc] init];</span><br><span class="line">configuration.userContentController = [<span class="built_in">WKUserContentController</span> new];</span><br><span class="line"><span class="comment">//在文档末尾追加javascript</span></span><br><span class="line"><span class="built_in">WKUserScript</span> *script = [[<span class="built_in">WKUserScript</span> alloc] initWithSource:scriptString injectionTime:<span class="built_in">WKUserScriptInjectionTimeAtDocumentEnd</span> forMainFrameOnly:<span class="literal">YES</span>];</span><br><span class="line">[configuration.userContentController addUserScript:script];</span><br><span class="line"><span class="comment">//添加需要用作连接的对象</span></span><br><span class="line">[configuration.userContentController addScriptMessageHandler:<span class="keyword">self</span> name:<span class="string">@"accept"</span>];</span><br><span class="line">        </span><br><span class="line"><span class="built_in">WKPreferences</span> *preferences = [[<span class="built_in">WKPreferences</span> alloc] init];</span><br><span class="line">preferences.javaScriptEnabled = <span class="literal">YES</span>;</span><br><span class="line">configuration.preferences = preferences;</span><br><span class="line"></span><br><span class="line"><span class="keyword">self</span>.webView =  [[<span class="built_in">WKWebView</span> alloc] initWithFrame:<span class="keyword">self</span>.view.frame configuration:configuration];</span><br></pre></td></tr></table></figure></p>
+<p>在这里通过<code>addScriptMEssageHandler</code>方法定义了一个js通知oc的对象accept，就是js中的<code>messageHandlers</code>后边声明的对象。</p>
+<p>最后ViewController实现<code>WKScriptMessageHandler</code>代理，通过下列方法即可获得传输过来的数据：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"># <span class="meta-keyword">pragma</span> mark - WKScriptMessageHandler</span></span><br><span class="line">- (<span class="keyword">void</span>)userContentController:(<span class="built_in">WKUserContentController</span> *)userContentController didReceiveScriptMessage:(<span class="built_in">WKScriptMessage</span> *)message &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"message name: %@, body: %@"</span>, message.name, message.body);</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里通过<code>message.name</code>可以获得传输对象的名称，就是上边定义的<code>accept</code>，而<code>message.body</code>则是获取到从js中传过来的数据</p>
+<hr>
+<h3 id="iOS应用内切换语言"><a href="#iOS应用内切换语言" class="headerlink" title="iOS应用内切换语言"></a>iOS应用内切换语言</h3><blockquote>
+<p><a href="http://stackoverflow.com/questions/1669645/how-to-force-nslocalizedstring-to-use-a-specific-language" rel="external nofollow noopener noreferrer" target="_blank">How to force NSLocalizedString to use a specific language</a><br><a href="http://www.cocoachina.com/bbs/read.php?tid=149950" rel="external nofollow noopener noreferrer" target="_blank">ios开发应用内实现多语言自由切换</a></p>
+</blockquote>
+<p>使用系统内置的<code>NSLocalizedString(key,comment)</code>函数即可获得对应的本地化语句。如果需要在应用内切换其他语言，可以自行添加一个定义<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> CustomLocalizedString(key, comment) \</span></span><br><span class="line">[[<span class="built_in">NSBundle</span> bundleWithPath: [[<span class="built_in">NSBundle</span> mainBundle] pathForResource: [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@"</span>,[[[<span class="built_in">NSUserDefaults</span> standardUserDefaults] objectForKey:<span class="string">@"AppleLanguages"</span>] firstObject]] ofType:<span class="string">@"lproj"</span>]] localizedStringForKey:(key) value:<span class="string">@""</span> table:<span class="literal">nil</span>]</span><br></pre></td></tr></table></figure></p>
+<p>然后切换语言需要修改<code>AppleLanguages</code>中的数组数据位置<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="built_in">NSUserDefaults</span> standardUserDefaults] setObject:[<span class="built_in">NSArray</span> arrayWithObjects:<span class="string">@"en-US"</span>, <span class="string">@"zh-Hant"</span>, <span class="string">@"zh-Hans"</span>, <span class="literal">nil</span>] forKey:<span class="string">@"AppleLanguages"</span>];</span><br><span class="line">[[<span class="built_in">NSUserDefaults</span> standardUserDefaults] synchronize];</span><br></pre></td></tr></table></figure></p>
+<p>将需要切换的语言放置到第一个元素中即可</p>
+<hr>
+<h3 id="页面组件自适应导航栏"><a href="#页面组件自适应导航栏" class="headerlink" title="页面组件自适应导航栏"></a>页面组件自适应导航栏</h3><blockquote>
+<p><a href="http://stackoverflow.com/questions/17074365/status-bar-and-navigation-bar-appear-over-my-views-bounds-in-ios-7" rel="external nofollow noopener noreferrer" target="_blank">Status bar and navigation bar appear over my view’s bounds in iOS 7</a></p>
+</blockquote>
+<p>当使用<strong>Interface Builder</strong>来构建页面的时候，如果是<code>UIScrollVIew</code>或者其子类<code>UITableView</code>的时候，当页面显示了<code>NavigationBar</code>的时候，<code>UIScrollVIew</code>部件会自动将坐标下移到<code>NavigationBar</code>下方，<br>这是因为<code>automaticallyAdjustsScrollViewInsets</code>属性为<code>YES</code>，如果不希望<code>scroll view</code>自动适应，将其设置为<code>NO</code>即可。</p>
+<p>如果是普通的页面，一般都会直接拖到最顶层，如果这个时候页面显示了<code>NavigationBar</code>时，会将页面布局的一部分遮挡掉，以往的做法是将布局下移64，但是<strong>iOS7</strong>之后可以利用<code>edgesForExtendedLayout</code>来设置：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    <span class="keyword">if</span> ([<span class="keyword">self</span> respondsToSelector:<span class="keyword">@selector</span>(edgesForExtendedLayout)]) &#123;</span><br><span class="line">        <span class="keyword">self</span>.edgesForExtendedLayout = <span class="built_in">UIRectEdgeLeft</span> | <span class="built_in">UIRectEdgeRight</span> | <span class="built_in">UIRectEdgeBottom</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="跳转页面之后背景半透明"><a href="#跳转页面之后背景半透明" class="headerlink" title="跳转页面之后背景半透明"></a>跳转页面之后背景半透明</h3><blockquote>
+<p><a href="http://www.cnblogs.com/oyhj/p/5120212.html" rel="external nofollow noopener noreferrer" target="_blank">用presentViewController一个背景颜色半透明的模态视图</a></p>
+</blockquote>
+<p>当使用<code>presentViewController</code>方法弹出下一个<code>UIViewController</code>的时候，如果需要这个视图背景半透明，需要设置如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">UIViewController *viewControllers = [UIViewController new];</span><br><span class="line">self.definesPresentationContext = YES;</span><br><span class="line">viewController.modalPresentationStyle = UIModalPresentationOverCurrentContext;</span><br><span class="line">viewController.backgroudColor = [UIColor colorWithWhite: 0.1 alpha: 0.5];</span><br><span class="line">//如果源视图不是NavigationController子视图，直接用self即可</span><br><span class="line">[self.navigationController presentViewController:viewController animated:NO completion:nil];</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="隐藏状态栏"><a href="#隐藏状态栏" class="headerlink" title="隐藏状态栏"></a>隐藏状态栏</h3><blockquote>
+<p><a href="http://www.cocoachina.com/bbs/read.php?tid-153922.html" rel="external nofollow noopener noreferrer" target="_blank">IOS7如何隐藏状态栏，貌似之前的没效果了</a><br><a href="http://stackoverflow.com/questions/24236912/how-do-i-hide-the-status-bar-in-a-swift-ios-app" rel="external nofollow noopener noreferrer" target="_blank">How do I hide the status bar in a Swift iOS app?</a></p>
+</blockquote>
+<p>在需要隐藏状态栏的<code>ViewController</code>中重写<code>prefersStatusBarHidden</code>方法<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)prefersStatusBarHidden &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后在需要更改隐藏状态的地方调用<code>setNeedsStatusBarAppearanceUpdate</code>方法<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">self</span> setNeedsStatusBarAppearanceUpdate]</span><br></pre></td></tr></table></figure></p>
+<p><code>swift</code>写法<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">prefersStatusBarHidden</span><span class="params">()</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="在应用中打开另一个应用"><a href="#在应用中打开另一个应用" class="headerlink" title="在应用中打开另一个应用"></a>在应用中打开另一个应用</h3><blockquote>
+<p><a href="http://blog.sina.com.cn/s/blog_a170e5c80101gsdj.html" rel="external nofollow noopener noreferrer" target="_blank">利用openURL，在IOS应用中打开另外一个应用</a><br><a href="http://stackoverflow.com/questions/32870393/canopenurl-this-app-is-not-allowed-to-query-for-scheme-instragram-ios9" rel="external nofollow noopener noreferrer" target="_blank">canOpenUrl - This app is not allowed to query for scheme instragram iOS9</a><br><a href="http://stackoverflow.com/questions/9530075/ios-access-app-info-plist-variables-in-code" rel="external nofollow noopener noreferrer" target="_blank">iOS: Access app-info.plist variables in code</a></p>
+</blockquote>
+<p>首先需要在<code>info.plist</code>注册自定义的<code>URL scheme</code><br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>CFBundleURLTypes<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">key</span>&gt;</span>CFBundleURLSchemes<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">string</span>&gt;</span>test1<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在<code>iOS9</code>以后，还需要添加以下属性:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>LSApplicationQueriesSchemes<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>test2<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>这里意为应用可以打开<code>scheme</code>为<code>test2</code>的应用。<br>然后在代码中可以使用<code>openUrl</code>函数打开应用：<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取scheme</span></span><br><span class="line">let prefix = (Bundle.main.object(forInfoDictionaryKey: <span class="string">"LSApplicationQueriesSchemes"</span>) as! <span class="built_in">NSArray</span>)[<span class="number">0</span>]</span><br><span class="line">let url = URL(string: <span class="string">"\(prefix):client_id=test1&amp;scoe=wopi&amp;platform=iOS&amp;app=test1&amp;action=12345"</span>)</span><br><span class="line"><span class="keyword">if</span> <span class="built_in">UIApplication</span>.shared.canOpenURL(url! as URL) &#123;   <span class="comment">//判断能否打开</span></span><br><span class="line">    <span class="comment">//打开应用</span></span><br><span class="line">    <span class="built_in">UIApplication</span>.shared.openURL(url! as URL)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    print(<span class="string">"can not go to this app!"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接下来应用可以在<code>AppDelegate</code>类中的<code>handleOpenUrl</code>方法中获取到传过来的参数:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func application(_ application: <span class="built_in">UIApplication</span>, handleOpen url: URL) -&gt; Bool &#123;</span><br><span class="line">    print(url)</span><br><span class="line">    </span><br><span class="line">    let viewController = <span class="keyword">self</span>.window?.rootViewController</span><br><span class="line">    let message = url.absoluteString</span><br><span class="line">    let alertController = <span class="built_in">UIAlertController</span>.init(title: <span class="string">"url"</span>, message: message, preferredStyle: .alert)</span><br><span class="line">    alertController.addAction(<span class="built_in">UIAlertAction</span>.init(title: <span class="string">"OK"</span>, style: .default, handler: <span class="literal">nil</span>))</span><br><span class="line">    viewController?.present(alertController, animated: <span class="literal">true</span>, completion: <span class="literal">nil</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="在网页中打开应用"><a href="#在网页中打开应用" class="headerlink" title="在网页中打开应用"></a>在网页中打开应用</h3><p>在网页<code>&lt;script&gt;</code>块中直接定义跳转的<code>scheme</code>为应用自定义的<code>scheme</code>即可</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果无法打开应用则跳转到AppStore中</span></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">window</span>.location = <span class="string">"https://itunes.apple.com/cn/app/microsoft-word/id586447913"</span></span><br><span class="line">&#125;, <span class="number">25</span>);</span><br><span class="line"><span class="built_in">window</span>.location = <span class="string">"test1://"</span>;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="UIButton-内容左对齐"><a href="#UIButton-内容左对齐" class="headerlink" title="UIButton 内容左对齐"></a>UIButton 内容左对齐</h3><blockquote>
+<p><a href="http://stackoverflow.com/questions/2765024/how-to-set-the-title-of-uibutton-as-left-alignment" rel="external nofollow noopener noreferrer" target="_blank">How to set the title of UIButton as left alignment?</a></p>
+</blockquote>
+<p>设置<code>contentHorizontalAlignment</code>属性<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[button setContentHorizontalAlignment: <span class="built_in">UIControlContentHorizontalAlignmentLeft</span>];</span><br></pre></td></tr></table></figure></p>
+<p>或者使用<code>UIEdgeInsetsMake(top, left, bottom, right)</code>方法来设置缩进，正数为缩进，负数为突出<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[button setContentEdgeInsets: <span class="built_in">UIEdgeInsetsMake</span>(<span class="number">0</span>, <span class="number">-20</span>, <span class="number">0</span>, <span class="number">0</span>)];</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="裁剪照片"><a href="#裁剪照片" class="headerlink" title="裁剪照片"></a>裁剪照片</h3><blockquote>
+<p><a href="http://stackoverflow.com/questions/15951746/how-to-crop-an-image-from-avcapture-to-a-rect-seen-on-the-display" rel="external nofollow noopener noreferrer" target="_blank">How to crop an image from AVCapture to a rect seen on the display</a></p>
+</blockquote>
+<p>通过<code>AVCaptureSession</code>以及<code>AVCaptureStillImageOuput</code>获取的照片默认填充整个屏幕，与自定义的显示屏幕并不相同，因此需要裁剪照片至所见区域</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">UIImage</span> *)cropImage: (<span class="built_in">UIImage</span> *)image &#123;</span><br><span class="line">    <span class="comment">//获取需要裁剪的矩形</span></span><br><span class="line">    <span class="built_in">CGRect</span> outputRect = [<span class="keyword">self</span>.captureVideoPreviewLayer metadataOutputRectOfInterestForRect:<span class="keyword">self</span>.captureVideoPreviewLayer.bounds];</span><br><span class="line">    <span class="built_in">CGImageRef</span> takenCGImage = image.CGImage;</span><br><span class="line">    size_t width = <span class="built_in">CGImageGetWidth</span>(takenCGImage);</span><br><span class="line">    size_t height = <span class="built_in">CGImageGetHeight</span>(takenCGImage);</span><br><span class="line">    <span class="built_in">CGRect</span> cropRect = <span class="built_in">CGRectMake</span>(outputRect.origin.x * width, outputRect.origin.y * height, outputRect.size.width * width, outputRect.size.height * height);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">CGImageRef</span> cropCGImage = <span class="built_in">CGImageCreateWithImageInRect</span>(takenCGImage, cropRect);</span><br><span class="line">    <span class="comment">//需要使用原图的朝向</span></span><br><span class="line">    <span class="built_in">UIImage</span> *croppedImage = [<span class="built_in">UIImage</span> imageWithCGImage:cropCGImage scale:image.scale orientation:image.imageOrientation];</span><br><span class="line">    <span class="built_in">CGImageRelease</span>(cropCGImage);</span><br><span class="line">    <span class="keyword">return</span> croppedImage;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="从照片文件夹中获取图像资源写入到临时文件夹"><a href="#从照片文件夹中获取图像资源写入到临时文件夹" class="headerlink" title="从照片文件夹中获取图像资源写入到临时文件夹"></a>从照片文件夹中获取图像资源写入到临时文件夹</h3><blockquote>
+<p><a href="http://stackoverflow.com/questions/6881923/alasset-send-a-photo-to-a-web-service-including-its-exif-data" rel="external nofollow noopener noreferrer" target="_blank">ALAsset , send a photo to a web service including its exif data</a></p>
+</blockquote>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">ALAsset *selectedAsset = [<span class="keyword">self</span>.selectAssets objectForKey:key];</span><br><span class="line"><span class="keyword">if</span> (selectedAsset) &#123;</span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> byteSize = selectedAsset.defaultRepresentation.size;</span><br><span class="line">    <span class="built_in">NSMutableData</span> *rawData = [[<span class="built_in">NSMutableData</span> alloc] initWithCapacity:byteSize];</span><br><span class="line">    <span class="keyword">void</span> *bufferPointer = [rawData mutableBytes];</span><br><span class="line">    <span class="built_in">NSError</span> *error = <span class="literal">nil</span>;</span><br><span class="line">    [selectedAsset.defaultRepresentation getBytes:bufferPointer fromOffset:<span class="number">0</span> length:byteSize error:&amp;error];</span><br><span class="line">    <span class="keyword">if</span> (error) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"get asset data error: %@"</span>,error);</span><br><span class="line">    &#125;</span><br><span class="line">    rawData = [<span class="built_in">NSMutableData</span> dataWithBytes:bufferPointer length:byteSize];</span><br><span class="line">    [cloudObject setFilesize:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%lld"</span>, byteSize]];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSString</span> *filePath = [<span class="built_in">NSTemporaryDirectory</span>() stringByAppendingPathComponent:fileName];</span><br><span class="line">    <span class="keyword">if</span> ([rawData writeToFile:filePath atomically:<span class="literal">YES</span>]) &#123;</span><br><span class="line">        [cloudObject setTempFilePath:filePath];</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"current file path: %@"</span>, filePath);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="通过PHAsset获取资源文件大小"><a href="#通过PHAsset获取资源文件大小" class="headerlink" title="通过PHAsset获取资源文件大小"></a>通过PHAsset获取资源文件大小</h3><blockquote>
+<p><a href="http://stackoverflow.com/questions/26549938/how-can-i-determine-file-size-on-disk-of-a-video-phasset-in-ios8" rel="external nofollow noopener noreferrer" target="_blank">How can I determine file size on disk of a video PHAsset in iOS8</a></p>
+</blockquote>
+<p><strong>iOS8</strong>之后，<code>ALAsset</code>被标记为不推荐，取而代之的是<code>PHAsset</code>。如果要获取文件大小，不能使用<code>asset.defaultRepresentation.size</code>了，需要用到以下方法:<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">PHAsset *asset = [[PHAsset fetchAssetsWithLocalIdentifiers:@[cloudObject.tempFilePath] options:<span class="literal">nil</span>] firstObject];</span><br><span class="line"><span class="keyword">if</span> (asset.mediaType == PHAssetMediaTypeImage) &#123;</span><br><span class="line">    PHImageRequestOptions *imageOptions = [[PHImageRequestOptions alloc] init];</span><br><span class="line">    imageOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;</span><br><span class="line">    imageOptions.resizeMode = PHImageRequestOptionsResizeModeExact;</span><br><span class="line">    imageOptions.synchronous = <span class="literal">YES</span>;</span><br><span class="line">    imageOptions.networkAccessAllowed = <span class="literal">NO</span>;</span><br><span class="line">    [[PHImageManager defaultManager] requestImageDataForAsset:asset options:imageOptions resultHandler:^(<span class="built_in">NSData</span> * _Nullable imageData, <span class="built_in">NSString</span> * _Nullable dataUTI, <span class="built_in">UIImageOrientation</span> orientation, <span class="built_in">NSDictionary</span> * _Nullable info) &#123;</span><br><span class="line">       <span class="built_in">NSLog</span>(<span class="string">@"length %f"</span>,imageData.length/(<span class="number">1024.0</span>*<span class="number">1024.0</span>));</span><br><span class="line">    &#125;];</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (asset.mediaType == PHAssetMediaTypeVideo) &#123;</span><br><span class="line">    PHVideoRequestOptions *videoOptions = [[PHVideoRequestOptions alloc] init];</span><br><span class="line">    videoOptions.version = PHVideoRequestOptionsVersionOriginal;</span><br><span class="line">    videoOptions.networkAccessAllowed = <span class="literal">NO</span>;</span><br><span class="line">    [[PHImageManager defaultManager] requestAVAssetForVideo:asset options:videoOptions resultHandler:^(<span class="built_in">AVAsset</span> * _Nullable asset, <span class="built_in">AVAudioMix</span> * _Nullable audioMix, <span class="built_in">NSDictionary</span> * _Nullable info) &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> ([asset isKindOfClass:[<span class="built_in">AVURLAsset</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">            <span class="built_in">AVURLAsset</span> *urlAsset = (<span class="built_in">AVURLAsset</span> *)asset;</span><br><span class="line">            <span class="built_in">NSNumber</span> *size;</span><br><span class="line">            [urlAsset.URL getResourceValue:&amp;size forKey:<span class="built_in">NSURLFileSizeKey</span> error:<span class="literal">nil</span>];</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"size is %f"</span>,[size floatValue]/(<span class="number">1024.0</span>*<span class="number">1024.0</span>));</span><br><span class="line">            <span class="built_in">NSData</span> *data = [<span class="built_in">NSData</span> dataWithContentsOfURL:urlAsset.URL];</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"length %f"</span>,[data length]/(<span class="number">1024.0</span>*<span class="number">1024.0</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不要忘了引入框架<code>@import Photos</code></p>
+<hr>
+<h3 id="CMTimeMake"><a href="#CMTimeMake" class="headerlink" title="CMTimeMake"></a>CMTimeMake</h3><blockquote>
+<p><a href="http://www.cnblogs.com/sell/archive/2013/01/29/2880832.html" rel="external nofollow noopener noreferrer" target="_blank">CMTimeMake和CMTimeMakeWithSeconds 详解</a></p>
+</blockquote>
+<p><code>CMTimeMake(a,b)</code> : a当前第几帧, b每秒钟多少帧.当前播放时间a/b<br><code>CMTimeMakeWithSeconds(a,b)</code> : a当前时间,b每秒钟多少帧</p>
+<h3 id="更新播放时间"><a href="#更新播放时间" class="headerlink" title="更新播放时间"></a>更新播放时间</h3><p>使用<code>addPeriodicTimeObserverForInterval:queue:usingBlock</code>方法可以监听到播放时间的变化</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">__<span class="keyword">weak</span> <span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;</span><br><span class="line"> <span class="keyword">id</span> playerObserver = [<span class="keyword">self</span>.player addPeriodicTimeObserverForInterval:<span class="built_in">CMTimeMakeWithSeconds</span>(<span class="number">1.0</span>, <span class="built_in">NSEC_PER_SEC</span>) queue:<span class="literal">NULL</span> usingBlock:^(<span class="built_in">CMTime</span> time) &#123;</span><br><span class="line">    Float64 interval = <span class="built_in">CMTimeGetSeconds</span>(time);</span><br><span class="line">    <span class="built_in">NSInteger</span> seconds = (<span class="built_in">NSInteger</span>)interval % <span class="number">60</span>;</span><br><span class="line">    <span class="built_in">NSInteger</span> minutes = ((<span class="built_in">NSInteger</span>)interval / <span class="number">60</span>) % <span class="number">60</span>;</span><br><span class="line">    <span class="built_in">NSInteger</span> hours = (<span class="built_in">NSInteger</span>)interval / <span class="number">3600</span>;</span><br><span class="line">    <span class="built_in">NSString</span> *currentTime = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%02ld:%02ld:%02ld"</span>, (<span class="keyword">long</span>)hours, (<span class="keyword">long</span>)minutes, (<span class="keyword">long</span>)seconds];</span><br><span class="line">    weakSelf.timeView.text = currentTime;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>使用完需要移除观察者<code>[self.player removeTimeObserver: playerObserver]</code></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/photo/" rel="tag"># photo</a>
+          
+            <a href="/tags/WebView/" rel="tag"># WebView</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/java-other/" rel="prev" title="Java知识点收集">
+                Java知识点收集 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" rel="external nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Shepard">
+            
+              <p class="site-author-name" itemprop="name">Shepard</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/51azxc" target="_blank" title="GitHub" rel="external nofollow noopener noreferrer">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#WKWebView中的Javascript交互"><span class="nav-number">1.</span> <span class="nav-text">WKWebView中的Javascript交互</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS应用内切换语言"><span class="nav-number">2.</span> <span class="nav-text">iOS应用内切换语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#页面组件自适应导航栏"><span class="nav-number">3.</span> <span class="nav-text">页面组件自适应导航栏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跳转页面之后背景半透明"><span class="nav-number">4.</span> <span class="nav-text">跳转页面之后背景半透明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#隐藏状态栏"><span class="nav-number">5.</span> <span class="nav-text">隐藏状态栏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在应用中打开另一个应用"><span class="nav-number">6.</span> <span class="nav-text">在应用中打开另一个应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在网页中打开应用"><span class="nav-number">7.</span> <span class="nav-text">在网页中打开应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UIButton-内容左对齐"><span class="nav-number">8.</span> <span class="nav-text">UIButton 内容左对齐</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#裁剪照片"><span class="nav-number">9.</span> <span class="nav-text">裁剪照片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从照片文件夹中获取图像资源写入到临时文件夹"><span class="nav-number">10.</span> <span class="nav-text">从照片文件夹中获取图像资源写入到临时文件夹</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过PHAsset获取资源文件大小"><span class="nav-number">11.</span> <span class="nav-text">通过PHAsset获取资源文件大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMTimeMake"><span class="nav-number">12.</span> <span class="nav-text">CMTimeMake</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更新播放时间"><span class="nav-number">13.</span> <span class="nav-text">更新播放时间</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shepard</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow noopener noreferrer">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow noopener noreferrer">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://shepard-blog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://51azxc.github.io/ios-background/';
+          this.page.identifier = 'ios-background/';
+          this.page.title = 'iOS零散知识收集';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://shepard-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

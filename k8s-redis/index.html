@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Ruthie:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="kubernetes,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最近看微服务相关的文章得知下一代微服务的王牌项目貌似是istio，而它现阶段又是构建于Kubernetes上的，那就想着来简单体验一下Kubernetes。">
+<meta name="keywords" content="kubernetes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes初体验：部署无状态服务Redis">
+<meta property="og:url" content="https://51azxc.github.io/k8s-redis/index.html">
+<meta property="og:site_name" content="Shepard&#39;s Blog">
+<meta property="og:description" content="最近看微服务相关的文章得知下一代微服务的王牌项目貌似是istio，而它现阶段又是构建于Kubernetes上的，那就想着来简单体验一下Kubernetes。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-06T10:57:41.908Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Kubernetes初体验：部署无状态服务Redis">
+<meta name="twitter:description" content="最近看微服务相关的文章得知下一代微服务的王牌项目貌似是istio，而它现阶段又是构建于Kubernetes上的，那就想着来简单体验一下Kubernetes。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://51azxc.github.io/k8s-redis/">
+
+
+
+
+
+  <title>Kubernetes初体验：部署无状态服务Redis | Shepard's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shepard's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Nothing is true everything is permitted</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://51azxc.github.io/k8s-redis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shepard">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shepard's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Kubernetes初体验：部署无状态服务Redis</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-13T17:18:02+00:00">
+                2018-04-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kubernetes/" itemprop="url" rel="index">
+                    <span itemprop="name">Kubernetes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/k8s-redis/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="k8s-redis/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近看微服务相关的文章得知下一代微服务的王牌项目貌似是<a href="https://istio.io/" rel="external nofollow noopener noreferrer" target="_blank">istio</a>，而它现阶段又是构建于<a href="https://kubernetes.io/" rel="external nofollow noopener noreferrer" target="_blank">Kubernetes</a>上的，那就想着来简单体验一下Kubernetes。</p>
+<a id="more"></a>
+<p><strong>Kubernetes</strong>又称<strong>k8s</strong>，根据官网的介绍，”<strong>Kubernetes is an open-source system for automating deployment, scaling, and management of containerized applications.</strong>“。这里主要使用官网提供的minikube及kubectl工具在<strong>Ubuntu16.04</strong>上部署一个Kubernetes集群，然后实现官网给出的例子<a href="https://github.com/kubernetes/kubernetes/tree/master/examples/storage/redis" rel="external nofollow noopener noreferrer" target="_blank">Reliable, Scalable Redis on Kubernetes</a></p>
+<h3 id="安装Kubernetes工具"><a href="#安装Kubernetes工具" class="headerlink" title="安装Kubernetes工具"></a>安装Kubernetes工具</h3><p>首先先安装相关工具<code>kubectl</code>，执行<a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/" rel="external nofollow noopener noreferrer" target="_blank">官网</a>提供的命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl &amp;&amp; chmod +x ./kubectl &amp;&amp; sudo mv ./kubectl /usr/<span class="built_in">local</span>/bin/kubectl</span><br></pre></td></tr></table></figure></p>
+<p>当然还有<strong>MacOS</strong>及<strong>Windows</strong>下的安装方法，可以去<a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/" rel="external nofollow noopener noreferrer" target="_blank">官网</a>查看。</p>
+<p>接下来是安装<code>minikube</code>，执行以下命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.25.2/minikube-linux-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube /usr/<span class="built_in">local</span>/bin/</span><br></pre></td></tr></table></figure></p>
+<p>需要<strong>MacOS/Windows</strong>版的可以找一下<a href="https://github.com/kubernetes/minikube/releases" rel="external nofollow noopener noreferrer" target="_blank">latest release</a></p>
+<p><code>minikube</code>在<strong>Linux</strong>平台上支持<code>--vm-driver=none</code>选项，这个选项可以运行Kubernetes组件在主机的Docker上而不是VM中。</p>
+<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><p>接下来就是启动<code>minikube</code>了：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo minikube start --vm-driver=none</span><br></pre></td></tr></table></figure></p>
+<p>如果是运行在VM中就不需要后边的选项了。最初运行的时候他会去自动下载所需镜像，等到下载完毕了出现下边的输出则说明启动成功了：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">Starting <span class="built_in">local</span> Kubernetes v1.9.4 cluster...</span><br><span class="line">Starting VM...</span><br><span class="line">Getting VM IP address...</span><br><span class="line">Moving files into cluster...</span><br><span class="line">Setting up certs...</span><br><span class="line">Connecting to cluster...</span><br><span class="line">Setting up kubeconfig...</span><br><span class="line">Starting cluster components...</span><br><span class="line">Kubectl is now configured to use the cluster.</span><br><span class="line">===================</span><br><span class="line">WARNING: IT IS RECOMMENDED NOT TO RUN THE NONE DRIVER ON PERSONAL WORKSTATIONS</span><br><span class="line">	The <span class="string">'none'</span> driver will run an insecure kubernetes apiserver as root that may leave the host vulnerable to CSRF attacks</span><br><span class="line"></span><br><span class="line">When using the none driver, the kubectl config and credentials generated will be root owned and will appear <span class="keyword">in</span> the root home directory.</span><br><span class="line">You will need to move the files to the appropriate location and <span class="keyword">then</span> <span class="built_in">set</span> the correct permissions.  An example of this is below:</span><br><span class="line"></span><br><span class="line">	sudo mv /root/.kube <span class="variable">$HOME</span>/.kube <span class="comment"># this will write over any previous configuration</span></span><br><span class="line">	sudo chown -R <span class="variable">$USER</span> <span class="variable">$HOME</span>/.kube</span><br><span class="line">	sudo chgrp -R <span class="variable">$USER</span> <span class="variable">$HOME</span>/.kube</span><br><span class="line">	</span><br><span class="line">	sudo mv /root/.minikube <span class="variable">$HOME</span>/.minikube <span class="comment"># this will write over any previous configuration</span></span><br><span class="line">	sudo chown -R <span class="variable">$USER</span> <span class="variable">$HOME</span>/.minikube</span><br><span class="line">	sudo chgrp -R <span class="variable">$USER</span> <span class="variable">$HOME</span>/.minikube </span><br><span class="line"></span><br><span class="line">This can also be <span class="keyword">done</span> automatically by setting the env var CHANGE_MINIKUBE_NONE_USER=<span class="literal">true</span></span><br><span class="line">Loading cached images from config file.</span><br></pre></td></tr></table></figure></p>
+<p>它给出的命令可以运行一下，影响的结果就是以后如果要执行<code>kubectl</code>的相关命令就无需在前边加<code>sudo</code>了。</p>
+<blockquote>
+<p>如果<strong>minikube</strong>是运行在<strong>VM</strong>中的话可以在开始的时候添加一个选项<code>--registry-mirror=&quot;https://registry.docker-cn.com&quot;</code>用来设置<strong>Docker</strong>的镜像加速地址,这里使用的是<a href="https://www.docker-cn.com/registry-mirror" rel="external nofollow noopener noreferrer" target="_blank">Docker中国镜像加速</a>。</p>
+</blockquote>
+<h4 id="发布一个应用"><a href="#发布一个应用" class="headerlink" title="发布一个应用"></a>发布一个应用</h4><p>接下来通过<a href="http://docs.kubernetes.org.cn/468.html" rel="external nofollow noopener noreferrer" target="_blank">run命令</a>来生成一个<a href="http://docs.kubernetes.org.cn/317.html" rel="external nofollow noopener noreferrer" target="_blank">Deployment</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl run nginx --image=&quot;index.tenxcloud.com/docker_library/nginx&quot; --port=80</span><br></pre></td></tr></table></figure></p>
+<p>运行成功将会生成一个<code>Deployment</code>，并且自动生成了对应的<a href="http://docs.kubernetes.org.cn/312.html" rel="external nofollow noopener noreferrer" target="_blank">Pod</a>。接下来运行命令可以查看到<code>Pod</code>的状态：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods</span><br><span class="line"></span><br><span class="line">NAME                    READY     STATUS              RESTARTS   AGE</span><br><span class="line">nginx-b5f754bc5-gnkls   0/1       ContainerCreating   0          1m</span><br></pre></td></tr></table></figure></p>
+<p>如果过了一会儿<code>Pod</code>的状态还是<code>ContainerCreating</code>，那八成是出问题了。由于没有创建成功，自然无法用<code>kubectl logs [POD_NAME]</code>命令查看，这时只能查看<code>minikube</code>日志:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo minikube logs</span><br></pre></td></tr></table></figure></p>
+<p>日志很长，不过其中如果可以看到<code>failed pulling image &quot;gcr.io/google_containers/pause-amd64:3.0&quot;</code>这类的信息那就是需要从官网拉取这依赖镜像失败所致。<em>由于<code>Kubernetes</code>的公司是一家在我这连主页都打不开的公司</em>，自然想要拉取镜像是得用点非常手段了。在这里可以通过<a href="https://dev.aliyun.com/search.html" rel="external nofollow noopener noreferrer" target="_blank">阿里云开发者平台</a>来获取对应的镜像，然后打标签为<code>gcr.io</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull registry.cn-hangzhou.aliyuncs.com/google-containers/pause-amd64:3.0 &amp;&amp; sudo docker tag registry.cn-hangzhou.aliyuncs.com/google-containers/pause-amd64:3.0 gcr.io/google_containers/pause-amd64:3.0</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>如果是运行在<strong>VirtualBox</strong>中，可以通过<code>minikube ssh</code>命令进入到<strong>minikue</strong>内部运行上边的命令</p>
+</blockquote>
+<p>接下来删除原有的<code>Deployment</code>再重新执行上边的命令等一会儿查看一下<code>Pod</code>状态:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete deployment nginx</span><br><span class="line">kubectl run nginx --image=<span class="string">"index.tenxcloud.com/docker_library/nginx"</span> --port=80</span><br><span class="line">kubectl get pods</span><br><span class="line"></span><br><span class="line">NAME                    READY     STATUS    RESTARTS   AGE</span><br><span class="line">nginx-b5f754bc5-gnkls   1/1       Running   0          16m</span><br></pre></td></tr></table></figure></p>
+<p>这下它已经成功运行起来了。</p>
+<p>接下来需要通过<a href="http://docs.kubernetes.org.cn/475.html" rel="external nofollow noopener noreferrer" target="_blank">expose命令</a>将创建好的<code>Deployment</code>暴露一个新的<a href="http://docs.kubernetes.org.cn/703.html" rel="external nofollow noopener noreferrer" target="_blank">服务</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl expose deployment nginx --name=nginx --<span class="built_in">type</span>=NodePort</span><br></pre></td></tr></table></figure></p>
+<p>然后通过命令查看服务：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kubectl get services</span><br><span class="line"></span><br><span class="line">NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE</span><br><span class="line">kubernetes   ClusterIP   10.96.0.1       &lt;none&gt;        443/TCP        40m</span><br><span class="line">nginx        NodePort    10.105.80.209   &lt;none&gt;        80:31156/TCP   5s</span><br></pre></td></tr></table></figure></p>
+<p>由于<code>TYPE</code>为<code>NodePort</code>，系统会随机分配一个端口给这项服务，这里分配的是31156，在终端可以使用<code>curl</code>工具来访问:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl $(sudo minikube ip):31156</span><br></pre></td></tr></table></figure></p>
+<p>如果能显示出nginx的首页源码则证明服务成功运行。</p>
+<hr>
+<h3 id="部署redis"><a href="#部署redis" class="headerlink" title="部署redis"></a>部署redis</h3><p>这里主要是使用了官网提供的例子<a href="https://github.com/kubernetes/kubernetes/tree/master/examples/storage/redis" rel="external nofollow noopener noreferrer" target="_blank">Reliable, Scalable Redis on Kubernetes</a>。官网给出的例子用的是<a href="http://docs.kubernetes.org.cn/437.html" rel="external nofollow noopener noreferrer" target="_blank">Replication Controller</a>,而现在使用的则是<a href="http://docs.kubernetes.org.cn/317.html" rel="external nofollow noopener noreferrer" target="_blank">Deployment</a>。</p>
+<blockquote>
+<p>如果是运行在<strong>VirtualBox</strong>中，默认给<strong>minikube</strong>分配了一个共享文件夹为<code>C:\Users</code>，在<strong>minikube</strong>内部的文件路径为<code>/c/Users</code>。如果是在主机上下载了这些文件，可以放到共享文件夹中。<a href="https://kubernetes.io/docs/getting-started-guides/minikube/" rel="external nofollow noopener noreferrer" target="_blank">官网参考</a></p>
+</blockquote>
+<h4 id="创建镜像"><a href="#创建镜像" class="headerlink" title="创建镜像"></a>创建镜像</h4><p>首先需要构建镜像，利用官网给出的<code>image</code>资源，先修改了<code>Dockerfile</code>文件:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">FROM registry.cn-hangzhou.aliyuncs.com/acs/alpine</span><br><span class="line"></span><br><span class="line">RUN apk update</span><br><span class="line">RUN apk upgrade</span><br><span class="line">RUN apk add --no-cache redis sed bash</span><br><span class="line"></span><br><span class="line">COPY redis-master.conf /redis-master/redis.conf</span><br><span class="line">COPY redis-slave.conf /redis-slave/redis.conf</span><br><span class="line">COPY run.sh /run.sh</span><br><span class="line"></span><br><span class="line">RUN chmod +x /run.sh</span><br><span class="line"></span><br><span class="line">CMD [ &quot;/run.sh&quot; ]</span><br><span class="line">ENTRYPOINT [ &quot;bash&quot;, &quot;-c&quot; ]</span><br></pre></td></tr></table></figure></p>
+<p><code>Dockerfile</code>文件主要用来创建<strong>Docker</strong>镜像的，部分标签含义如下：</p>
+<ul>
+<li><code>FROM</code>标签表示创建的镜像，这里用的是<code>alpine</code>，一个容量很小的<code>Linux</code>发行版。</li>
+<li><code>RUN</code>标签用于执行的命令。这里是在<code>alpine</code>里安装<code>redis</code>。</li>
+<li><code>CMD</code>标签用来指定容器启动时执行的命令，这里是需要运行<code>run.sh</code>脚本。</li>
+<li><code>ENTRYPOINT</code>标签用来配置容器启动后执行的命令。</li>
+</ul>
+<p>这里跟官方例子不同的地方最主要的是加了这句:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RUN chmod +x /run.sh</span><br></pre></td></tr></table></figure></p>
+<p>可能是由于我拉取的这个版本的<code>alpine</code>用户权限发生了变化，如果不加这句的话创建出来的容器都活不过三秒。<code>Pod</code>的状态也一直是<code>CrashLoopBackOff</code>。后来使用<code>kubectl logs POD_NAME</code>命令想入容器看一下发现说什么<code>/run.sh permission denied</code>之类的，大概就明白是权限问题了。加了这句就好了。</p>
+<p>然后还修改了<code>run.sh</code>脚本的部分：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function launchsentinel() &#123;</span><br><span class="line">  while true; do</span><br><span class="line">    ...</span><br><span class="line">    if [[ -n $&#123;master&#125; ]]; then</span><br><span class="line">      master=&quot;$&#123;master//\&quot;&#125;&quot;</span><br><span class="line">    else</span><br><span class="line">      master=$&#123;REDIS_MASTER_SERVICE_HOST&#125;</span><br><span class="line">    fi</span><br><span class="line">    ···</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里主要是在<code>redis</code>哨兵发现主机的判断部分有所修改，我通过将<code>redis-master</code>的服务暴露出来，然后获取到服务地址，通过哨兵的<code>sentinel monitor mymaster ${master} 6379 2</code>配置监听主机。</p>
+<p>接下来<code>cd</code>到<code>Dockerfile</code>文件目录下运行<code>docker build</code>命令创建镜像:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker build -t alpine .</span><br></pre></td></tr></table></figure></p>
+<p>等创建成功之后可以用<code>docker images</code>查看一下镜像:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">REPOSITORY  TAG     IMAGE ID     CREATED      SIZE</span><br><span class="line">alpine      latest  0b73a4ce0ac4 19 hours ago 11.76 MB</span><br></pre></td></tr></table></figure></p>
+<p>对比<strong>Ubuntu</strong>之类的镜像可以说是十分迷你了。</p>
+<h4 id="生成Kubernetes资源"><a href="#生成Kubernetes资源" class="headerlink" title="生成Kubernetes资源"></a>生成Kubernetes资源</h4><p>接下来是配置生成<code>redis-master</code>的文件:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: apps/v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: redis-master</span><br><span class="line">spec:</span><br><span class="line">  replicas: 1</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      redis-master: &quot;true&quot;</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        redis-master: &quot;true&quot;</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - name: redis-master</span><br><span class="line">        image: alpine</span><br><span class="line">        imagePullPolicy: IfNotPresent</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 6379</span><br><span class="line">        env:</span><br><span class="line">        - name: MASTER</span><br><span class="line">          value: &quot;true&quot;</span><br><span class="line">        volumeMounts:</span><br><span class="line">        - mountPath: /redis-master-data</span><br><span class="line">          name: data</span><br><span class="line">      volumes:</span><br><span class="line">      - name: data</span><br><span class="line">        emptyDir: &#123;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里生成了一个名为<code>redis-master</code>的<code>Deployment</code>，使用的镜像则是上边生成的<code>alpine</code>，暴露的端口则是<strong>redis</strong>默认的端口6379,这里传入的环境变量为<code>MASTER=true</code>，在<code>run.sh</code>中就会运行<code>launchmaster</code>方法,将<strong>redis</strong>角色设置为主服务器。运行以下命令创建<code>Deployment</code>：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f redis-master-deployment.yaml</span><br></pre></td></tr></table></figure></p>
+<p>然后查看一下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubectl get deployments</span><br><span class="line">NAME           DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">redis-master   1         1         1            1           5s</span><br></pre></td></tr></table></figure></p>
+<p>接下来将它发布成一个新的服务:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl expose deployment redis-master --name=redis-master --port=6379 --target-port=6379</span><br></pre></td></tr></table></figure></p>
+<p><strong>Redis-master</strong>创建成功之后，就可以来创建<strong>redis</strong>哨兵服务了。通过命令创建:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl run redis-sentinel --image=alpine --image-pull-policy=IfNotPresent --port=26379 --expose=<span class="literal">true</span> --replicas=3 --env=<span class="string">"SENTINEL=true"</span></span><br></pre></td></tr></table></figure></p>
+<p>通过<a href="http://docs.kubernetes.org.cn/468.html" rel="external nofollow noopener noreferrer" target="_blank">run命令</a>生成一个名为<code>redis-sentinel</code>的<code>Deployment</code>，部分参数含义:</p>
+<ul>
+<li><code>image</code>：指定镜像（<strong>alpine</strong>）</li>
+<li><code>image-pull-policy</code>：镜像拉取策略，<strong>IfNotPresent</strong>表示优先从本地获取</li>
+<li><code>env</code>：设置容器中的环境变量，<code>SENTINEL=true</code>则是让<code>alpine</code>的<code>run.sh</code>进入<code>launchsentinel</code>方法将<strong>redis</strong>的角色变为<code>sentinel</code></li>
+<li><code>expose</code>：将生成的<code>Deployment</code>自动生成一个服务</li>
+<li><code>port</code>: 指定端口,同样用于生成的服务端口。</li>
+<li><code>replicas</code>： 生成多少个副本</li>
+</ul>
+<p>接下来可以查看一下已经生成的服务:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kubectl get services</span><br><span class="line">NAME             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE</span><br><span class="line">redis-master     ClusterIP   10.98.123.202   &lt;none&gt;        6379/TCP       2h</span><br><span class="line">redis-sentinel   ClusterIP   10.109.167.66   &lt;none&gt;        26379/TCP      2h</span><br></pre></td></tr></table></figure></p>
+<p>然后查看一下生成的<code>pod</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods -o wide</span><br><span class="line"></span><br><span class="line">NAME                              READY     STATUS    RESTARTS   AGE       IP</span><br><span class="line">nginx-b5f754bc5-gnkls             1/1       Running   0          3h        172.17.0.4</span><br><span class="line">redis-master-8485d87c4c-kpbfd     1/1       Running   0          2h        172.17.0.5</span><br><span class="line">redis-sentinel-5655765c58-n455l   1/1       Running   0          2h        172.17.0.8</span><br><span class="line">redis-sentinel-5655765c58-scrgw   1/1       Running   0          2h        172.17.0.7</span><br><span class="line">redis-sentinel-5655765c58-zdqxx   1/1       Running   0          2h        172.17.0.6</span><br></pre></td></tr></table></figure></p>
+<p><strong>Kubernetes</strong>的服务发现支持两种方式：环境变量与DNS，这里使用的是环境变量的方式。<br>随机查看一个<strong>redis-sentinel</strong>容器的环境变量:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">kubectl <span class="built_in">exec</span> -it redis-sentinel-5655765c58-n455l env|grep REDIS</span><br><span class="line"></span><br><span class="line">REDIS_MASTER_PORT_6379_TCP_ADDR=10.98.123.202</span><br><span class="line">REDIS_MASTER_PORT_6379_TCP_PROTO=tcp</span><br><span class="line">REDIS_MASTER_PORT_6379_TCP_PORT=6379</span><br><span class="line">REDIS_SENTINEL_SERVICE_HOST=10.109.167.66</span><br><span class="line">REDIS_MASTER_SERVICE_PORT=6379</span><br><span class="line">REDIS_SENTINEL_PORT=tcp://10.109.167.66:26379</span><br><span class="line">REDIS_SENTINEL_PORT_26379_TCP=tcp://10.109.167.66:26379</span><br><span class="line">REDIS_MASTER_SERVICE_HOST=10.98.123.202</span><br><span class="line">REDIS_MASTER_PORT_6379_TCP=tcp://10.98.123.202:6379</span><br><span class="line">REDIS_SENTINEL_SERVICE_PORT=26379</span><br><span class="line">REDIS_SENTINEL_PORT_26379_TCP_PROTO=tcp</span><br><span class="line">REDIS_SENTINEL_PORT_26379_TCP_ADDR=10.109.167.66</span><br><span class="line">REDIS_SENTINEL_PORT_26379_TCP_PORT=26379</span><br><span class="line">REDIS_MASTER_PORT=tcp://10.98.123.202:6379</span><br></pre></td></tr></table></figure></p>
+<p>在这里我们可以看到生成的<strong>redis-master</strong>及<strong>redis-sentinel</strong>服务的<strong>IP</strong>及端口都已经写入到了容器中的环境变量中，分别是<code>REDIS_MASTER_SERVICE_HOST</code>及<code>REDIS_SENTINEL_SERVICE_HOST</code>。所以在<code>run.sh</code>中需要做对应的修改就明白怎么一回事了：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">launchsentinel</span></span>() &#123;</span><br><span class="line">  <span class="keyword">while</span> <span class="literal">true</span>; <span class="keyword">do</span></span><br><span class="line">    master=$(redis-cli -h <span class="variable">$&#123;REDIS_SENTINEL_SERVICE_HOST&#125;</span> -p <span class="variable">$&#123;REDIS_SENTINEL_SERVICE_PORT&#125;</span> --csv SENTINEL get-master-addr-by-name mymaster | tr <span class="string">','</span> <span class="string">' '</span> | cut -d<span class="string">' '</span> -f1)</span><br><span class="line">    <span class="keyword">if</span> [[ -n <span class="variable">$&#123;master&#125;</span> ]]; <span class="keyword">then</span></span><br><span class="line">      master=<span class="string">"<span class="variable">$&#123;master//\"&#125;</span>"</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      master=<span class="variable">$&#123;REDIS_MASTER_SERVICE_HOST&#125;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">    redis-cli -h <span class="variable">$&#123;master&#125;</span> INFO</span><br><span class="line">    <span class="keyword">if</span> [[ <span class="string">"$?"</span> == <span class="string">"0"</span> ]]; <span class="keyword">then</span></span><br><span class="line">      <span class="built_in">break</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"Connecting to master failed.  Waiting..."</span></span><br><span class="line">    sleep 10</span><br><span class="line">  <span class="keyword">done</span></span><br><span class="line"></span><br><span class="line">  sentinel_conf=sentinel.conf</span><br><span class="line"></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"sentinel monitor mymaster <span class="variable">$&#123;master&#125;</span> 6379 2"</span> &gt; <span class="variable">$&#123;sentinel_conf&#125;</span></span><br><span class="line">  ···</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里首先是通过连接<code>REDIS_SENTINEL_SERVICE_HOST</code>的<strong>redis-sentinel</strong>服务来获取对应的<strong>IP</strong>，由于一开始服务并没有运行，所以这里会连接超时。失败了之后就指定<code>REDIS_MASTER_SERVICE_HOST</code>为<strong>主Redis</strong>服务器，接着通过<code>sentinel monitor mymaster ${master} 6379 2</code>配置<strong>redis sentinel</strong>去监听主服务器，判断这个主服务器失效至少需要2个<strong>sentinel</strong>同意。</p>
+<blockquote>
+<p>这里如果是使用DNS的方式来访问服务可以通过<code>&lt;service name&gt;.&lt;namespace&gt;.svc.cluster.local</code>类似的地址来访问。</p>
+</blockquote>
+<p>接下来通过<code>logs</code>命令来查看<strong>sentinel</strong>有没有成功运行起来，这里需要等待一会儿:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kubectl logs redis-sentinel-5655765c58-n455l</span><br><span class="line"></span><br><span class="line">···</span><br><span class="line">···<span class="comment"># Sentinel ID is 2e8d3d57dbfe690e242a16397f5bcbcf6e3cfae1</span></span><br><span class="line">···<span class="comment"># +monitor master mymaster 10.98.123.202 6379 quorum 2</span></span><br><span class="line">···</span><br></pre></td></tr></table></figure></p>
+<p>如果没有错误日志输出则说明<strong>sentinel</strong>服务已成功运行，接下来就创建<strong>redis slave</strong>服务吧:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl run redis-slave --image=alpine --image-pull-policy=IfNotPresent --port=6379 --replicas=2</span><br></pre></td></tr></table></figure></p>
+<p>如果显示创建成功，可以查看一下<code>Pod</code>状态：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods -o wide</span><br><span class="line"></span><br><span class="line">NAME                              READY     STATUS    RESTARTS   AGE       IP</span><br><span class="line">redis-master-8485d87c4c-kpbfd     1/1       Running   0          2h        172.17.0.5</span><br><span class="line">redis-sentinel-5655765c58-n455l   1/1       Running   0          2h        172.17.0.8</span><br><span class="line">redis-sentinel-5655765c58-scrgw   1/1       Running   0          2h        172.17.0.7</span><br><span class="line">redis-sentinel-5655765c58-zdqxx   1/1       Running   0          2h        172.17.0.6</span><br><span class="line">redis-slave-d888d4974-m97wl       1/1       Running   0          3s        172.17.0.10</span><br><span class="line">redis-slave-d888d4974-nvh9h       1/1       Running   0          3s        172.17.0.9</span><br></pre></td></tr></table></figure></p>
+<p>看样子整个<strong>redis sentinel</strong>服务已经建立起来了，接下来就来测试一下能不能成功了。在<code>Ubuntu 16.04</code>中倒是自带了<code>Python</code>环境，就使用它来测试一下。<br>首先需要运行命令<code>pip install redis</code>下载依赖，如果提示没有<code>pip</code>就跟着提示使用<code>apt</code>下载一个吧。然后随便写个测试:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import redis</span><br><span class="line">&gt;&gt;&gt; from redis.sentinel import Sentinel</span><br><span class="line">&gt;&gt;&gt; sentinel = Sentinel([(&quot;10.109.167.66&quot;, 26379)], socket_timeout=0.1)</span><br><span class="line">&gt;&gt;&gt; print sentinel.discover_master(&apos;mymaster&apos;)</span><br><span class="line">(&apos;10.98.123.202&apos;, 6379)</span><br><span class="line">&gt;&gt;&gt; print sentinel.discover_slaves(&apos;mymaster&apos;)</span><br><span class="line">[(&apos;172.17.0.10&apos;, 6379), (&apos;172.17.0.9&apos;, 6379)]</span><br><span class="line">&gt;&gt;&gt; master = sentinel.master_for(&apos;mymaster&apos;, socket_timeout=0.1)</span><br><span class="line">&gt;&gt;&gt; slave = sentinel.slave_for(&apos;mymaster&apos;, socket_timeout=0.1)</span><br><span class="line">&gt;&gt;&gt; master.set(&apos;hello&apos;, &apos;world&apos;)</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; slave.get(&apos;hello&apos;)</span><br><span class="line">&apos;world&apos;</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>这里通过<strong>redis-sentinel服务</strong>提供的<strong>IP/端口</strong>连接，然后可以看到<strong>redis</strong>的主从服务器配置。这样看整个<strong>Redis Sentinel主从服务</strong>算是部署成功了吧。</p>
+<h4 id="删除资源"><a href="#删除资源" class="headerlink" title="删除资源"></a>删除资源</h4><p>最后如果需要删除上述创建的一切资源可以使用<code>delete</code>命令删除:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete services,deployments,pods --all</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="Kubernetes控制面板"><a href="#Kubernetes控制面板" class="headerlink" title="Kubernetes控制面板"></a>Kubernetes控制面板</h3><p>如果这家公司的另一个产品<strong>Tensorflow</strong>提供了一个<code>tensorboard</code>，<strong>Kubernetes</strong>也有一个可视化界面。通过以下命令运行:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo minikube dashboard</span><br></pre></td></tr></table></figure></p>
+<p>首次运行，我估计十有八九都不会成功，应该都是一直显示<code>Waiting, endpoint for service is not ready yet...</code>这句日志，查看一下日志当然又是跟<code>pause</code>镜像一样的问题<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo minikube logs</span><br></pre></td></tr></table></figure></p>
+<p>由于<strong>dashboard</strong>依赖的镜像比较多，可以使用以下命令列举出来:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo grep -r &apos;image:&apos; /etc/kubernetes/</span><br><span class="line"></span><br><span class="line">/etc/kubernetes/addons/storage-provisioner.yaml:    image: gcr.io/k8s-minikube/storage-provisioner:v1.8.1</span><br><span class="line">/etc/kubernetes/addons/kube-dns-controller.yaml:        image: k8s.gcr.io/k8s-dns-kube-dns-amd64:1.14.5</span><br><span class="line">/etc/kubernetes/addons/kube-dns-controller.yaml:        image: k8s.gcr.io/k8s-dns-dnsmasq-nanny-amd64:1.14.5</span><br><span class="line">/etc/kubernetes/addons/kube-dns-controller.yaml:        image: k8s.gcr.io/k8s-dns-sidecar-amd64:1.14.5</span><br><span class="line">/etc/kubernetes/addons/dashboard-dp.yaml:        image: k8s.gcr.io/kubernetes-dashboard-amd64:v1.8.1</span><br><span class="line">/etc/kubernetes/manifests/addon-manager.yaml:    image: gcr.io/google-containers/kube-addon-manager:v6.5</span><br></pre></td></tr></table></figure></p>
+<p>接下来还是得使用打标签大法将这些镜像自己拉取下来：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sudo docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/kube-addon-manager:v6.5 &amp;&amp; sudo docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/kube-addon-manager:v6.5 gcr.io/google-containers/kube-addon-manager:v6.5</span><br><span class="line"></span><br><span class="line">sudo docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/storage-provisioner:v1.8.1 &amp;&amp; sudo docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/storage-provisioner:v1.8.1 gcr.io/k8s-minikube/storage-provisioner:v1.8.1</span><br><span class="line"></span><br><span class="line">sudo docker pull registry.cn-hangzhou.aliyuncs.com/google-containers/kubernetes-dashboard-amd64:v1.7.1 &amp;&amp; sudo docker tag registry.cn-hangzhou.aliyuncs.com/google-containers/kubernetes-dashboard-amd64:v1.7.1 k8s.gcr.io/kubernetes-dashboard-amd64:v1.8.1</span><br><span class="line"></span><br><span class="line">sudo docker pull registry.cn-shenzhen.aliyuncs.com/gcrio/k8s-dns-kube-dns-amd64:latest &amp;&amp; sudo docker tag registry.cn-shenzhen.aliyuncs.com/gcrio/k8s-dns-kube-dns-amd64:latest k8s.gcr.io/k8s-dns-kube-dns-amd64:1.14.5</span><br><span class="line"></span><br><span class="line">sudo docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.5 &amp;&amp; sudo docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.5 k8s.gcr.io/k8s-dns-dnsmasq-nanny-amd64:1.14.5</span><br><span class="line"></span><br><span class="line">sudo docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/k8s-dns-sidecar-amd64:1.14.5 &amp;&amp; sudo docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/k8s-dns-sidecar-amd64:1.14.5 k8s.gcr.io/k8s-dns-sidecar-amd64:1.14.5</span><br></pre></td></tr></table></figure></p>
+<p>成功拉取下对应的镜像并且打好标签之后重新运行一下<strong>minikube</strong>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo minikube stop</span><br><span class="line">sudo minikube start --vm-driver=none</span><br></pre></td></tr></table></figure></p>
+<p>成功运行起来之后再次运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo minikube dashboard</span><br></pre></td></tr></table></figure></p>
+<p>如果运气好能够成功弹出浏览器，那就可以去看一下控制面板的内容了。<br>而我偏偏属于运气不好的，控制台还是一直在输出<code>Waiting, endpoint for service is not ready yet...</code>。只好去查看一下这些<strong>Pod</strong>的状态:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods --namespace=kube-system</span><br></pre></td></tr></table></figure></p>
+<p>发现那些什么<code>dashboard</code>、<code>storage-provisioner</code>的状态都是<code>CrashLoopBackOff</code>(已经见到它好几次了)，通过日志才发现估计是<code>secret</code>的问题，删除让系统自动生成就好了<a href="https://github.com/kubernetes/minikube/issues/288" rel="external nofollow noopener noreferrer" target="_blank">github issue</a>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kubectl delete secrets --namespace=kube-system --all</span><br><span class="line">kubectl delete pods --namespace=kube-system --all</span><br></pre></td></tr></table></figure></p>
+<p>然后通过命令重启一下<code>minikube</code>，这个时候首先看一下<strong>dashboard</strong>的那几个<strong>pod</strong>的状态:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">kubectl get pods --namespace=kube-system</span><br><span class="line"></span><br><span class="line">NAME                                    READY     STATUS    RESTARTS   AGE</span><br><span class="line">kube-addon-manager-ezio-virtualbox      1/1       Running   1          5h</span><br><span class="line">kube-dns-54cccfbdf8-gzrdg               3/3       Running   0          5h</span><br><span class="line">kubernetes-dashboard-77d8b98585-lgl54   1/1       Running   0          5h</span><br><span class="line">storage-provisioner                     1/1       Running   0          5h</span><br></pre></td></tr></table></figure></p>
+<p>看到他们都已经成功运行了，再运行一下<code>sudo minikube dashboard</code>命令，终于算是成功打开浏览器并且访问到<strong>Kubernetes</strong>的控制面板了。</p>
+<blockquote>
+<p>参考<br><a href="https://qii404.me/2018/01/06/minukube.html" rel="external nofollow noopener noreferrer" target="_blank">使用minikube在本机搭建kubernetes集群</a></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/spring-boot-security-database/" rel="next" title="Spring Boot security with database">
+                <i class="fa fa-chevron-left"></i> Spring Boot security with database
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/k8s-istio/" rel="prev" title="初探istio">
+                初探istio <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" rel="external nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Shepard">
+            
+              <p class="site-author-name" itemprop="name">Shepard</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/51azxc" target="_blank" title="GitHub" rel="external nofollow noopener noreferrer">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Kubernetes工具"><span class="nav-number">1.</span> <span class="nav-text">安装Kubernetes工具</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动"><span class="nav-number">1.1.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#发布一个应用"><span class="nav-number">1.2.</span> <span class="nav-text">发布一个应用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署redis"><span class="nav-number">2.</span> <span class="nav-text">部署redis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建镜像"><span class="nav-number">2.1.</span> <span class="nav-text">创建镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生成Kubernetes资源"><span class="nav-number">2.2.</span> <span class="nav-text">生成Kubernetes资源</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除资源"><span class="nav-number">2.3.</span> <span class="nav-text">删除资源</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Kubernetes控制面板"><span class="nav-number">3.</span> <span class="nav-text">Kubernetes控制面板</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shepard</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow noopener noreferrer">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow noopener noreferrer">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://shepard-blog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://51azxc.github.io/k8s-redis/';
+          this.page.identifier = 'k8s-redis/';
+          this.page.title = 'Kubernetes初体验：部署无状态服务Redis';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://shepard-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

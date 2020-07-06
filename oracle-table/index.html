@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Noto Sans TC:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Ruthie:300,300italic,400,400italic,700,700italic|Titillium Web:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="sql,tablespace,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="创建表时先判断是否已存在 oracle（PL/SQL）表操作：创建表时检查数据库是否存在该表，若存在删除再创建   使用sql 2005 来执行“创建表之前判断表是否存在 如果有就删除表，再创建”的操作语句非常简单1234if exists (select * from sysobjects where id = OBJECT_ID(&apos;STUDENTS]&apos;) and OBJECTPROPERTY(">
+<meta name="keywords" content="sql,tablespace">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle表">
+<meta property="og:url" content="https://51azxc.github.io/oracle-table/index.html">
+<meta property="og:site_name" content="Shepard&#39;s Blog">
+<meta property="og:description" content="创建表时先判断是否已存在 oracle（PL/SQL）表操作：创建表时检查数据库是否存在该表，若存在删除再创建   使用sql 2005 来执行“创建表之前判断表是否存在 如果有就删除表，再创建”的操作语句非常简单1234if exists (select * from sysobjects where id = OBJECT_ID(&apos;STUDENTS]&apos;) and OBJECTPROPERTY(">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-07-06T10:57:41.912Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle表">
+<meta name="twitter:description" content="创建表时先判断是否已存在 oracle（PL/SQL）表操作：创建表时检查数据库是否存在该表，若存在删除再创建   使用sql 2005 来执行“创建表之前判断表是否存在 如果有就删除表，再创建”的操作语句非常简单1234if exists (select * from sysobjects where id = OBJECT_ID(&apos;STUDENTS]&apos;) and OBJECTPROPERTY(">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://51azxc.github.io/oracle-table/">
+
+
+
+
+
+  <title>Oracle表 | Shepard's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shepard's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Nothing is true everything is permitted</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://51azxc.github.io/oracle-table/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shepard">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shepard's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Oracle表</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-04-21T20:38:41+00:00">
+                2015-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Database/" itemprop="url" rel="index">
+                    <span itemprop="name">Database</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Database/Oracle/" itemprop="url" rel="index">
+                    <span itemprop="name">Oracle</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/oracle-table/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="oracle-table/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="创建表时先判断是否已存在"><a href="#创建表时先判断是否已存在" class="headerlink" title="创建表时先判断是否已存在"></a>创建表时先判断是否已存在</h4><blockquote>
+<p><a href="http://blog.csdn.net/cnham/article/details/5388016" rel="external nofollow noopener noreferrer" target="_blank">oracle（PL/SQL）表操作：创建表时检查数据库是否存在该表，若存在删除再创建 </a></p>
+</blockquote>
+<p>使用sql 2005 来执行“创建表之前判断表是否存在 如果有就删除表，再创建”的操作语句非常简单<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if exists (</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> sysobjects </span><br><span class="line"><span class="keyword">where</span> <span class="keyword">id</span> = OBJECT_ID(<span class="string">'STUDENTS]'</span>) <span class="keyword">and</span> OBJECTPROPERTY(<span class="keyword">id</span>, <span class="string">'IsUserTable'</span>) = <span class="number">1</span>) </span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> [STUDENTS]</span><br></pre></td></tr></table></figure></p>
+<p>PL/SQL中<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">declare</span> </span><br><span class="line">  cnt <span class="built_in">number</span>;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line">  <span class="comment">--查询要创建的表是否存在</span></span><br><span class="line">  <span class="keyword">select</span> <span class="keyword">count</span>(*)<span class="keyword">into</span> cnt <span class="keyword">from</span> user_tables <span class="keyword">where</span> table_name=<span class="string">'STUDENTS'</span>;</span><br><span class="line">  if cnt&gt;0 then</span><br><span class="line">    <span class="keyword">execute</span> <span class="keyword">immediate</span> <span class="string">'drop table STUDENTS'</span>;</span><br><span class="line">    dbms_output.put_line('表存在，删除成功!');</span><br><span class="line">  <span class="keyword">end</span> <span class="keyword">if</span>;</span><br><span class="line">  <span class="comment">---删除之后再创建该表</span></span><br><span class="line">  <span class="keyword">execute</span> <span class="keyword">immediate</span> </span><br><span class="line">    <span class="string">'CREATE TABLE STUDENTS(SNAME CHAR (8) NOT NULL) tablespace Users'</span> ;</span><br><span class="line"><span class="keyword">end</span>;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<hr>
+<h4 id="Oracle临时表"><a href="#Oracle临时表" class="headerlink" title="Oracle临时表"></a>Oracle临时表</h4><blockquote>
+<p><a href="http://blog.sina.com.cn/s/blog_4b3c1f950102dwbn.html" rel="external nofollow noopener noreferrer" target="_blank">oracle 关于临时表 创建 删除 拷贝</a><br><a href="http://blog.csdn.net/wyzxg/article/details/1882347" rel="external nofollow noopener noreferrer" target="_blank">oracle临时表的用法总结</a></p>
+</blockquote>
+<p>临时表分为 <strong>会话级临时表</strong> 和 <strong>事务级临时表</strong></p>
+<ul>
+<li>会话级的临时表因为这这个临时表中的数据和你的当前会话有关系，当你当前SESSION不退出的情况下，临时表中的数据就还存在，而当你退出当前SESSION的时候，临时表中的数据就全部没有了，当然这个时候你如果以另外一个SESSION登陆的时候是看不到另外一个SESSION中插入到临时表中的数据的。即两个不同的SESSION所插入的数据是互不相干的。当某一个SESSION退出之后临时表中的数据就被截断（truncate table，即数据清空）了。</li>
+<li>事务级临时表是指该临时表与事务相关，当进行事务提交(<code>commit</code>)或者事务回滚(<code>rollback</code>)的时候，临时表中的数据将自行被截断，其他的内容和会话级的临时表的一致（包括退出SESSION的时候，事务级的临时表也会被自动截断）</li>
+</ul>
+<p>临时表创建后，除非 主动删除，是不会自动删除的（除非重启数据库）</p>
+<p>建立方法:</p>
+<ul>
+<li><p><code>ON COMMIT PRESERVE ROWS</code> 定义了创建会话级临时表的方法</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Create</span> <span class="keyword">Global</span> <span class="keyword">Temporary</span> <span class="keyword">Table</span> Table_Name</span><br><span class="line">(Col1 Type1,Col2 Type2...) <span class="keyword">On</span> <span class="keyword">Commit</span> <span class="keyword">Preserve</span> <span class="keyword">Rows</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>ON COMMIT DELETE ROWS</code> 定义了建立事务级临时表的方法</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Create</span> <span class="keyword">Global</span> <span class="keyword">Temporary</span> <span class="keyword">Table</span> Table_Name</span><br><span class="line">(Col1 Type1,Col2 Type2...) <span class="keyword">On</span> <span class="keyword">Commit</span> <span class="keyword">Delete</span> <span class="keyword">Rows</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>临时表的不足之处</p>
+<ol>
+<li>不支持lob对象</li>
+<li>不支持主外键关系</li>
+</ol>
+<p>ORACLE临时表和SQLSERVER临时表异同</p>
+<p>SQL SERVER临时表</p>
+<p>SQL SERVER也可以创建临时表。临时表与永久表相似，但临时表存储在 tempdb 中，当不再使用时会自动删除。<br>有本地和全局两种类型的临时表，二者在名称、可见性和可用性上均不相同。本地临时表的名称以单个数字符号 (#) 打头；它们仅对当前的用户连接是可见的；当用户从 Microsoft SQL Server 2000 实例断开连接时被删除。全局临时表的名称以数学符号 (##) 打头，创建后对任何用户都是可见的，当所有引用该表的用户从 SQL Server 断开连接时被删除。<br>例如，如果创建名为 employees 的表，则任何人只要在数据库中有使用该表的安全权限就可以使用该表，除非它已删除。如果创建名为 #employees 的本地临时表，只有您能对该表执行操作且在断开连接时该表删除。如果创建名为 ##employees 的全局临时表，数据表中的任何用户均可对该表执行操作。如果该表在您创建后没有其他用户使用，则当您断开连接时该表删除。如果该表在您创建后有其他用户使用，则 SQL Server在所有用户断开连接后删除该表。</p>
+<p>oracle临时表与sqlserver临时表的不同:</p>
+<ol>
+<li>SQL SERVER临时表是一种”内存表”,表是存储在内存中的.ORACLE临时表除非执行DROP TABLE,否则表定义会保留在数据字典中.</li>
+<li>SQL SERVER临时表不存在类似ORACLE临时表 事务级别 上的功能.</li>
+<li>SQL SERVER本地临时表(#) 与 ORACLE的会话级别临时表类似,但是在会话退出的时候,ORACLE不会删除表.</li>
+<li>SQL SERVER的全局临时表(##) 是指多个连接共享同一片内存.当没有指针引用该内存区域时,SQL SERVER自动释放全局临时表.</li>
+<li>由于ORACLE不是一种 内存中的数据库. 所以如果ORACLE类似SQL SERVER 频繁的对临时表进行建立和删除,必定会影响性能.所以ORACLE会保留临时表的定义直到用户DROP TABLE.</li>
+<li>在ORACLE中,如果需要多个用户共享一个表(类似SQL SERVER的全局临时表##).则可以利用永久表,并且在表中添加一些可以唯一标识用户的列.利用触发器和视图.当用户退出的时候,根据该登陆用户的唯一信息删除相应的表中的数据. 这种方法给ORACLE带来了一定量的负载. </li>
+</ol>
+<hr>
+<h4 id="创建表空间和分配权限"><a href="#创建表空间和分配权限" class="headerlink" title="创建表空间和分配权限"></a>创建表空间和分配权限</h4><blockquote>
+<p><a href="http://hi.baidu.com/lwyfly/item/52766e1085a830affeded59a" rel="external nofollow noopener noreferrer" target="_blank">oracle-创建表空间和分配权限-011</a></p>
+</blockquote>
+<h5 id="1-表空间创建"><a href="#1-表空间创建" class="headerlink" title="1. 表空间创建"></a>1. 表空间创建</h5><h6 id="1-1-查看表空间（sys用户下）"><a href="#1-1-查看表空间（sys用户下）" class="headerlink" title="1.1 查看表空间（sys用户下）"></a>1.1 查看表空间（sys用户下）</h6><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> v$<span class="keyword">tablespace</span>;</span><br></pre></td></tr></table></figure>
+<h6 id="1-2-创建表空间"><a href="#1-2-创建表空间" class="headerlink" title="1.2 创建表空间"></a>1.2 创建表空间</h6><p>ORACLE可以创建的表空间有三种类型:</p>
+<ol>
+<li>TEMPORARY: 临时表空间,用于临时数据的存放;</li>
+<li>UNDO : 还原表空间. 用于存入重做日志文件.</li>
+<li>用户表空间: 最重要,也是用于存放用户数据表空间<br><code>TEMPORARY</code> 和 <code>UNDO</code> 表空间是ORACLE 管理的特殊的表空间.只用于存放系统相关数据.<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//如果有重名的表空间会被覆盖。</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">tablespace</span> mytablespace <span class="keyword">datafile</span> <span class="string">'e:\dbf\mytablespace.dbf'</span> <span class="keyword">size</span> <span class="number">5</span>m</span><br><span class="line"><span class="keyword">autoextend</span> <span class="keyword">on</span> <span class="keyword">next</span>  <span class="number">100</span>k <span class="keyword">maxsize</span> <span class="number">10</span>m</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>创建表空间mytablespace 存放在e:\dbf 创建文件mytablespace.dbf 自动扩展增量100k最大文件10m</p>
+<h6 id="1-3-添加表空间的文件"><a href="#1-3-添加表空间的文件" class="headerlink" title="1.3 添加表空间的文件"></a>1.3 添加表空间的文件</h6><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLESPACE</span> <span class="string">"MYTABLESPACE"</span> <span class="keyword">ADD</span> <span class="keyword">DATAFILE</span> <span class="string">'E:\DBF\myts02'</span> <span class="keyword">SIZE</span> <span class="number">10</span>M <span class="keyword">AUTOEXTEND</span> <span class="keyword">ON</span> <span class="keyword">NEXT</span> <span class="number">100</span>K <span class="keyword">MAXSIZE</span> <span class="number">15</span>M</span><br></pre></td></tr></table></figure>
+<p>表空间mytablespace 增加添加文件myts02.dbf大小为10m 数据文件已满后自动扩展增量100kb，最大文件大小为15m</p>
+<h5 id="2-创建用户并分配表空间"><a href="#2-创建用户并分配表空间" class="headerlink" title="2. 创建用户并分配表空间"></a>2. 创建用户并分配表空间</h5><p>查看用户<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> dba_users;//所有用户</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> all_users;//所有用户</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> user_users;//仅自己的</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> fly <span class="keyword">identified</span> <span class="keyword">by</span> fly;//创建用户fly,密码fly</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">user</span> fly <span class="keyword">default</span> <span class="keyword">tablespace</span> mytablespace;//用户分配的表空间mytablespace</span><br></pre></td></tr></table></figure></p>
+<h5 id="3-分配权限"><a href="#3-分配权限" class="headerlink" title="3. 分配权限"></a>3. 分配权限</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="keyword">resource</span> <span class="keyword">to</span> fly;//给用户资源权限</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">connect</span> <span class="keyword">to</span> fly;//给用户连接权限</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">create</span> <span class="keyword">session</span> <span class="keyword">to</span> fly;//在mytablespace上分配给fly用户使用</span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">to</span> fly <span class="keyword">with</span> <span class="keyword">admin</span> <span class="keyword">option</span>; //给fly登录权限</span><br><span class="line"><span class="keyword">grant</span> dba <span class="keyword">to</span> fly;// dba将系统权限分配给fly</span><br></pre></td></tr></table></figure>
+<p>Oracle所有的系统权限</p>
+<p>alter cluster 修改拥有簇的权限<br>alter database 修改数据库的权限<br>alter procedure 修改拥有的存储过程权限<br>alter profile 修改资源限制简表的权限<br>alter resource cost 设置佳话资源开销的权限<br>alter rollback segment 修改回滚段的权限<br>alter sequence 修改拥有的序列权限<br>alter session 修改数据库会话的权限<br>alter sytem 修改数据库服务器设置的权限<br>alter table 修改拥有的表权限<br>alter tablespace 修改表空间的权限<br>alter user 修改用户的权限<br>analyze 使用analyze命令分析数据库中任意的表、索引和簇<br>audit any 为任意的数据库对象设置审计选项<br>audit system 允许系统操作审计<br>backup any table 备份任意表的权限<br>become user 切换用户状态的权限<br>commit any table 提交表的权限<br>create cluster 为用户创建簇的权限<br>create database link 为用户创建的权限<br>create procedure 为用户创建存储过程的权限<br>create profile 创建资源限制简表的权限<br>create public database link 创建公共数据库链路的权限<br>create public synonym 创建公共同义名的权限<br>create role 创建角色的权限<br>create rollback segment 创建回滚段的权限<br>create session 创建会话的权限<br>create sequence 为用户创建序列的权限<br>create snapshot 为用户创建快照的权限<br>create synonym 为用户创建同义名的权限<br>create table 为用户创建表的权限<br>create tablespace 创建表空间的权限<br>create user 创建用户的权限<br>create view 为用户创建视图的权限<br>delete snapshot 删除快照中行的权限<br>delete table 为用户删除表行的权限<br>delete view 为用户删除视图行的权限<br>drop profile 删除资源限制简表的权限<br>drop public cluster 删除公共簇的权限<br>drop public database link 删除公共数据链路的权限<br>drop public synonym 删除公共同义名的限<br>drop rollback segment 删除回滚段的权限<br>drop tablespace 删除表空间的权限<br>drop user 删除用户的权限<br>execute any procedure 执行任意存储过程的权限<br>execute function 执行存储函数的权限<br>execute package 执行存储包的权限<br>execute procedure 执行用户存储过程的权限<br>force any transaction 管理未提交的任意事务的输出权限<br>force transaction 管理未提交的用户事务的输出权限<br>grant any privilege 授予任意系统特权的权限<br>grant any role 授予任意角色的权限<br>index table 给表加索引的权限<br>insert any table 向任意表中插入行的权限<br>insert snapshot 向快照中插入行的权限<br>insert table 向用户表中插入行的权限<br>insert view 向用户视图中插行的权限<br>lock any table 给任意表加锁的权限<br>manager tablespace 管理（备份可用性）表空间的权限<br>references table 参考表的权限<br>restricted session 创建有限制的数据库会话的权限<br>select any sequence 使用任意序列的权限<br>select any table 使用任意表的权限<br>select snapshot 使用快照的权限<br>select sequence 使用用户序列的权限<br>select table 使用用户表的权限<br>select view 使用视图的权限<br>unlimited tablespace 对表空间大小不加限制的权限<br>update any table 修改任意表中行的权限<br>update snapshot 修改快照中行的权限<br>update table 修改用户表中的行的权限<br>update view 修改视图中行的权限</p>
+<hr>
+<h3 id="Windows下启动停止Oracle11g服务"><a href="#Windows下启动停止Oracle11g服务" class="headerlink" title="Windows下启动停止Oracle11g服务"></a>Windows下启动停止Oracle11g服务</h3><blockquote>
+<p><a href="http://hollenliu.blog.51cto.com/116553/280844" rel="external nofollow noopener noreferrer" target="_blank">Windows下启动停止Oracle11g服务</a></p>
+</blockquote>
+<p>启动Oracle 11g服务<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">@ ECHO 启动 Oracle 11g 服务</span><br><span class="line">net start <span class="string">"OracleDBConsoleorcl"</span></span><br><span class="line">net start <span class="string">"OracleOraDb11g_home1TNSListener"</span></span><br><span class="line">net start <span class="string">"OracleServiceORCL"</span></span><br><span class="line">@ ECHO 启动完毕 按任意键继续</span><br><span class="line">pause</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
+<p>停止Oracle 11g服务<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">@ ECHO 停止 Oracle 11g 服务</span><br><span class="line">net stop <span class="string">"OracleDBConsoleorcl"</span></span><br><span class="line">net stop <span class="string">"OracleOraDb11g_home1TNSListener"</span></span><br><span class="line">net stop <span class="string">"OracleServiceORCL"</span></span><br><span class="line">@ ECHO 停止完毕 按任意键继续</span><br><span class="line">pause</span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/sql/" rel="tag"># sql</a>
+          
+            <a href="/tags/tablespace/" rel="tag"># tablespace</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/ios-gcd/" rel="next" title="GCD相关知识">
+                <i class="fa fa-chevron-left"></i> GCD相关知识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/hibernate-status/" rel="prev" title="Hibernate中的实体状态">
+                Hibernate中的实体状态 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" rel="external nofollow noopener noreferrer" target="_blank">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Shepard">
+            
+              <p class="site-author-name" itemprop="name">Shepard</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/51azxc" target="_blank" title="GitHub" rel="external nofollow noopener noreferrer">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建表时先判断是否已存在"><span class="nav-number">1.</span> <span class="nav-text">创建表时先判断是否已存在</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Oracle临时表"><span class="nav-number">2.</span> <span class="nav-text">Oracle临时表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建表空间和分配权限"><span class="nav-number">3.</span> <span class="nav-text">创建表空间和分配权限</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-表空间创建"><span class="nav-number">3.1.</span> <span class="nav-text">1. 表空间创建</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-1-查看表空间（sys用户下）"><span class="nav-number">3.1.1.</span> <span class="nav-text">1.1 查看表空间（sys用户下）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#1-2-创建表空间"><span class="nav-number">3.1.2.</span> <span class="nav-text">1.2 创建表空间</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#1-3-添加表空间的文件"><span class="nav-number">3.1.3.</span> <span class="nav-text">1.3 添加表空间的文件</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-创建用户并分配表空间"><span class="nav-number">3.2.</span> <span class="nav-text">2. 创建用户并分配表空间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-分配权限"><span class="nav-number">3.3.</span> <span class="nav-text">3. 分配权限</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows下启动停止Oracle11g服务"><span class="nav-number"></span> <span class="nav-text">Windows下启动停止Oracle11g服务</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shepard</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io" rel="external nofollow noopener noreferrer">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow noopener noreferrer">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://shepard-blog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://51azxc.github.io/oracle-table/';
+          this.page.identifier = 'oracle-table/';
+          this.page.title = 'Oracle表';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://shepard-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
